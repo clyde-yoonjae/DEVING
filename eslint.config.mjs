@@ -1,12 +1,19 @@
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';
+import tsParser from '@typescript-eslint/parser';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import typescriptPlugin from '@typescript-eslint/eslint-plugin';
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import prettierPlugin from 'eslint-plugin-prettier';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
+  recommendedConfig: {},
 });
 
 const eslintConfig = [
@@ -20,12 +27,12 @@ const eslintConfig = [
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
-    'next/core-web-vitals'
+    'next/core-web-vitals',
   ),
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
-      parser: '@typescript-eslint/parser',
+      parser: tsParser,
       parserOptions: {
         ecmaVersion: 2023,
         sourceType: 'module',
@@ -36,11 +43,11 @@ const eslintConfig = [
       },
     },
     plugins: {
-      react: compat.plugins['react'],
-      'react-hooks': compat.plugins['react-hooks'],
-      '@typescript-eslint': compat.plugins['@typescript-eslint'],
-      'jsx-a11y': compat.plugins['jsx-a11y'],
-      prettier: compat.plugins['prettier'],
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      '@typescript-eslint': typescriptPlugin,
+      'jsx-a11y': jsxA11yPlugin,
+      prettier: prettierPlugin,
     },
     rules: {
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
