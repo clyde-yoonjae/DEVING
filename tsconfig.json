@@ -19,14 +19,15 @@
         "name": "next"
       }
     ],
-    "baseUrl": "./",
+    "baseUrl": "src",
     "paths": {
       "@/*": ["src/*"],
+      "@/app/*": ["app/*"],
       "@/components/*": ["components/*"],
       "@/hooks/*": ["hooks/*"],
       "@/lib/*": ["lib/*"],
       "@/styles/*": ["styles/*"],
-      "@/utill/*": ["utill/*"],
+      "@/util/*": ["util/*"],
       "@/assets/*": ["assets/*"]
     }
   },
