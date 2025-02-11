@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install",
     "test": "jest"
@@ -45,7 +45,7 @@
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "typescript": "~5.5.0"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
