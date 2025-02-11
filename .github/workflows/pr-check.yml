@@ -1,8 +1,12 @@
 name: PR Check
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   pull_request:
-    types: [opened, synchronize, reopened] # 모든 브랜치에 대한 PR 체크
+    types: [opened, synchronize, reopened]
 
 jobs:
   check:
@@ -21,31 +25,34 @@ jobs:
         run: npm ci
 
       - name: Lint check
-        run: npm run lint:fix # package.json의 script 사용
+        run: npm run lint:fix
 
       - name: Format check
-        run: npm run format # package.json의 script 사용
+        run: npm run format
 
       - name: Type check
         run: npx tsc --noEmit
 
       - name: Run tests
-        run: npm run test # package.json의 script 사용
+        run: npm run test
 
       - name: Build check
-        run: npm run build # package.json의 script 사용
+        run: npm run build
 
       - name: Report Status
         if: always()
         uses: actions/github-script@v6
         with:
           script: |
-            const status = ${{ job.status }};
-            const emoji = status === 'success' ? '✅' : '❌';
-            const body = `${emoji} CI Status: ${status}\n\n검사 항목:\n- Lint\n- Format\n- Type Check\n- Tests\n- Build`;
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            });
+            try {
+              const status = context.job.status;
+              const emoji = status === 'success' ? '✅' : '❌';
+              const body = `${emoji} CI Status: ${status}\n\n검사 항목:\n- Lint\n- Format\n- Type Check\n- Tests\n- Build`;
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            } catch (error) {
+              core.setFailed(`Action failed with error: ${error}`);
+            }
