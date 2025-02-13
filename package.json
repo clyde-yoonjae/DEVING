@@ -10,7 +10,7 @@
     "lint:fix": "eslint --fix \"**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "autoprefixer": "^10.4.20",
