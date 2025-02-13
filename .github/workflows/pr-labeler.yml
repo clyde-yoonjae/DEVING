@@ -27,13 +27,38 @@ jobs:
               const labels = new Set();
               commits.forEach(commit => {
                 const msg = commit.commit.message;
-                if (msg.startsWith('feat[')) labels.add('✨ feat');
-                if (msg.startsWith('fix[')) labels.add('🐛 fix');
-                if (msg.startsWith('style[')) labels.add('💄 style');
-                if (msg.startsWith('refactor[')) labels.add('♻️ refactor');
-                if (msg.startsWith('test[')) labels.add('✅ test');
-                if (msg.startsWith('docs[')) labels.add('📝 docs');
-                if (msg.startsWith('chore[')) labels.add('🔧 chore');
+                // Using regex to match your commit convention: type(issue) message
+                const typeMatch = msg.match(/^(feat|fix|style|refactor|test|docs|chore|setting)\(/i);
+                
+                if (typeMatch) {
+                  const type = typeMatch[1].toLowerCase();
+                  switch (type) {
+                    case 'feat':
+                      labels.add('✨ feat');
+                      break;
+                    case 'fix':
+                      labels.add('🐛 fix');
+                      break;
+                    case 'style':
+                      labels.add('💄 style');
+                      break;
+                    case 'refactor':
+                      labels.add('♻️ refactor');
+                      break;
+                    case 'test':
+                      labels.add('✅ test');
+                      break;
+                    case 'docs':
+                      labels.add('📝 docs');
+                      break;
+                    case 'chore':
+                      labels.add('🔧 chore');
+                      break;
+                    case 'setting':
+                      labels.add('⚙️ setting');
+                      break;
+                  }
+                }
               });
 
               if (labels.size > 0) {
