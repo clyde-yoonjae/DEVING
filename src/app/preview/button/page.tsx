@@ -1,23 +1,27 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
+import { FloatingButton } from '@/components/ui/FloatingButton';
 import {
+  ArrowUp,
   Download,
   Heart,
   LogOut,
   MessageCircle,
+  Plus,
   Settings,
   Share2,
   Star,
 } from 'lucide-react';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 export default function ButtonExamples() {
   const handleClick = () => {
     alert('hiii');
   };
+
   return (
-    <div className="flex flex-col gap-8 bg-gray-50 p-8">
+    <div className="flex flex-col gap-8 bg-gray-50 p-8 pb-32">
       {/* Default buttons with different variants */}
       <div className="space-y-4">
         <h2 className="mb-4 text-xl font-semibold">기본 버튼 스타일</h2>
@@ -36,7 +40,6 @@ export default function ButtonExamples() {
           </Button>
         </div>
       </div>
-
       {/* Small buttons row */}
       <div className="space-y-4">
         <h2 className="mb-4 text-xl font-semibold">작은 크기 버튼</h2>
@@ -52,7 +55,6 @@ export default function ButtonExamples() {
           </Button>
         </div>
       </div>
-
       {/* Disabled states */}
       <div className="space-y-4">
         <h2 className="mb-4 text-xl font-semibold">비활성화 상태</h2>
@@ -71,6 +73,40 @@ export default function ButtonExamples() {
           </Button>
         </div>
       </div>
+      {/* 찜 버튼 */}
+      <div className="space-y-4">
+        <h2 className="mb-4 text-xl font-semibold">찜 버튼</h2>
+        <LikeButton />
+        <LikeButton />
+        <LikeButton />
+      </div>
+      {/* 플로팅 버튼 섹션 */}
+      <h2 className="mb-4 text-xl font-semibold">플로팅 버튼</h2>
+      <FloatingButton icon={<ArrowUp />} className="bottom-24" />
+      <FloatingButton variant="text" icon={<Plus />}>
+        모임 만들기
+      </FloatingButton>
+      <FloatingButton
+        icon={<Plus />}
+        className="right-6 top-1/2 -translate-y-1/2" // 중간위치
+      />
     </div>
+  );
+}
+
+function LikeButton() {
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLikeClick = useCallback(() => {
+    setIsLiked((prev) => !prev);
+  }, []);
+
+  return (
+    <Button
+      variant="text"
+      size="sm"
+      onClick={handleLikeClick}
+      icon={<Heart className={isLiked ? 'fill-red-500 text-red-500' : ''} />}
+    ></Button>
   );
 }
