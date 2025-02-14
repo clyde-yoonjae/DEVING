@@ -1,7 +1,8 @@
 import Logo from '@/assets/icon/logo.svg';
-import Profile from '@/assets/icon/profile.svg';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import AfterLogin from './after-login';
 
 const BeforeLogin = () => {
   return (
@@ -18,19 +19,6 @@ const BeforeLogin = () => {
       >
         회원가입
       </Link>
-    </nav>
-  );
-};
-
-const AfterLogin = () => {
-  return (
-    <nav className="ml-auto flex">
-      <div className="flex items-center">
-        <Image src={Profile} width={40} height={40} alt="logo" />
-        <span className="typo-head3 m-auto w-[77px] text-center text-Cgray500">
-          김밥식
-        </span>
-      </div>
     </nav>
   );
 };
