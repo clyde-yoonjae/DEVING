@@ -10,12 +10,13 @@ import {
   Share2,
   Star,
 } from 'lucide-react';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 export default function ButtonExamples() {
   const handleClick = () => {
     alert('hiii');
   };
+
   return (
     <div className="flex flex-col gap-8 bg-gray-50 p-8">
       {/* Default buttons with different variants */}
@@ -71,6 +72,31 @@ export default function ButtonExamples() {
           </Button>
         </div>
       </div>
+
+      {/* 찜 버튼 */}
+      <div className="space-y-4">
+        <h2 className="mb-4 text-xl font-semibold">찜 버튼</h2>
+        <LikeButton />
+        <LikeButton />
+        <LikeButton />
+      </div>
     </div>
+  );
+}
+
+function LikeButton() {
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLikeClick = useCallback(() => {
+    setIsLiked((prev) => !prev);
+  }, []);
+
+  return (
+    <Button
+      variant="text"
+      size="sm"
+      onClick={handleLikeClick}
+      icon={<Heart className={isLiked ? 'fill-red-500 text-red-500' : ''} />}
+    ></Button>
   );
 }
