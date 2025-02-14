@@ -4,9 +4,39 @@ import { cn } from '@/util/cn';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import * as React from 'react';
 
+/**
+ * DropdownMenu 컴포넌트는 드롭다운 메뉴의 루트 요소입니다.
+ * @example
+ * <DropdownMenu>
+ *   <DropdownMenuTrigger>메뉴 열기</DropdownMenuTrigger>
+ *   <DropdownMenuContent>
+ *     <DropdownMenuItem>옵션 1</DropdownMenuItem>
+ *     <DropdownMenuItem>옵션 2</DropdownMenuItem>
+ *   </DropdownMenuContent>
+ * </DropdownMenu>
+ */
 const DropdownMenu = DropdownMenuPrimitive.Root;
+
+/**
+ * DropdownMenuTrigger 컴포넌트는 드롭다운 메뉴를 여는 트리거 버튼입니다.
+ * @example
+ * <DropdownMenuTrigger>
+ *   <button>클릭하여 메뉴 열기</button>
+ * </DropdownMenuTrigger>
+ */
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
 
+/**
+ * DropdownMenuContent 컴포넌트는 드롭다운 메뉴의 내용 영역을 정의합니다.
+ * @example
+ * <DropdownMenuContent sideOffset={8}>
+ *   <DropdownMenuItem>옵션 1</DropdownMenuItem>
+ *   <DropdownMenuItem>옵션 2</DropdownMenuItem>
+ * </DropdownMenuContent>
+ * @param {object} props
+ * @param {string} [props.className] - Tailwind CSS 클래스를 통한 커스텀 스타일링
+ * @param {number} [props.sideOffset=0] - 드롭다운이 트리거로부터 떨어지는 거리 (기본값: 0)
+ */
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
@@ -27,6 +57,17 @@ const DropdownMenuContent = React.forwardRef<
 ));
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
+/**
+ * DropdownMenuItem 컴포넌트는 드롭다운 메뉴의 개별 항목을 나타냅니다.
+ * @example
+ * <DropdownMenuItem size='s' onSelect={() => console.log('선택됨')}>
+ *   옵션 1
+ * </DropdownMenuItem>
+ * @param {object} props
+ * @param {string} [props.className] - Tailwind CSS 클래스를 통한 커스텀 스타일링
+ * @param {'s' | 'l'} [props.size='l'] - 아이템의 크기 ('s' 또는 'l')
+ * @param {() => void} [props.onSelect] - 아이템이 선택되었을 때 실행할 함수
+ */
 const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
