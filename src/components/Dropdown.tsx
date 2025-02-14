@@ -36,14 +36,19 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
     inset?: boolean;
+    size?: 's' | 'l';
   }
->(({ className, inset, ...props }, ref) => (
+>(({ className, inset, size = 'l', ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0',
+      'relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0',
       inset && 'pl-8',
       'text-Cgray400 hover:bg-Cgray300 hover:text-Cgray700 typo-body1 px-[12px] py-[8px] rounded-[10px] box-border w-[108px] h-[34px]',
+      {
+        s: 'typo-body2',
+        l: 'typo-body1',
+      }[size],
       className,
     )}
     {...props}

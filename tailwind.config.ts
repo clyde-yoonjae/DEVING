@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { PluginAPI } from 'tailwindcss/types/config';
 
 export default {
   content: [
@@ -30,5 +31,65 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addComponents }: PluginAPI) {
+      addComponents({
+        '.typo-head1': {
+          fontSize: '32px',
+          lineHeight: '41px',
+          fontWeight: '600',
+        },
+        '.typo-head2': {
+          fontSize: '22px',
+          lineHeight: '28px',
+          fontWeight: '600',
+        },
+        '.typo-head3': {
+          fontSize: '17px',
+          lineHeight: '22px',
+          fontWeight: '600',
+        },
+        '.typo-head4': {
+          fontSize: '15px',
+          lineHeight: '20px',
+          fontWeight: '500',
+        },
+        '.typo-button1': {
+          fontSize: '16px',
+          lineHeight: '22px',
+          fontWeight: '600',
+        },
+        '.typo-button2': {
+          fontSize: '14px',
+          lineHeight: '16px',
+          fontWeight: '500',
+        },
+        '.typo-caption1': {
+          fontSize: '12px',
+          lineHeight: '16px',
+          fontWeight: '500',
+        },
+        '.typo-caption2': {
+          fontSize: '11px',
+          lineHeight: '13px',
+          fontWeight: '500',
+        },
+        '.typo-body1': {
+          fontSize: '15px',
+          lineHeight: '20px',
+          fontWeight: '400',
+        },
+        '.typo-body2': {
+          fontSize: '13px',
+          lineHeight: '18px',
+          fontWeight: '400',
+        },
+        '.typo-small': {
+          fontSize: '11px',
+          lineHeight: '13px',
+          fontWeight: '400',
+        },
+      });
+    },
+  ],
 } satisfies Config;
