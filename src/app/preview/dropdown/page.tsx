@@ -73,7 +73,7 @@ export default function Home() {
             ? filterOptions.find((f) => f.value === selectedFilter)?.label
             : '필터 선택'}
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent sideOffset={8}>
           {filterOptions.map((filter) => (
             <DropdownMenuItem
               key={filter.value}
