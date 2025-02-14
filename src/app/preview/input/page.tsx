@@ -4,6 +4,19 @@ export default function ButtonExamples() {
   return (
     <div className="w-fill h-96 bg-BG p-10">
       <div className="mb-4 w-[460px]">
+        <Input placeholder="Default" inputSize="s" />
+      </div>
+
+      <div className="mb-4 w-[460px]">
+        <Input
+          placeholder="Default"
+          isValid={false}
+          errorMessage="필수 입력 사항입니다."
+          inputSize="s"
+        />
+      </div>
+
+      <div className="mb-4 w-[460px]">
         <Input placeholder="Default" isValid />
       </div>
 
