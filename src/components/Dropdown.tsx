@@ -37,10 +37,12 @@ const DropdownMenuItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
     inset?: boolean;
     size?: 's' | 'l';
+    onSelect?: () => void;
   }
->(({ className, inset, size = 'l', ...props }, ref) => (
+>(({ className, inset, size = 'l', onSelect, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
     ref={ref}
+    onSelect={onSelect} // Radix UI의 onSelect 이벤트 활용
     className={cn(
       'relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0',
       inset && 'pl-8',
