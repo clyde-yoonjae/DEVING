@@ -12,7 +12,7 @@ interface IInputProps
 }
 
 const inputVariants = cva(
-  'box-border flex w-full rounded-md border-input bg-Cgray200 px-3 px-[16px] py-1 py-[14px] text-base text-Cgray700 caret-Cgray500 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-Cgray400 placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:bg-disable disabled:text-disable_text md:text-sm',
+  'box-border flex w-full rounded-md border-input bg-Cgray200 px-3 px-[16px] py-1 py-[14px] text-base text-Cgray700 caret-Cgray500 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-Cgray400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:bg-disable disabled:text-disable_text md:text-sm',
   {
     variants: {
       isValid: {
@@ -47,7 +47,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
     const [isVisible, setIsVisible] = React.useState(false);
 
     return (
-      <div className="w-full">
+      <div className="w-full bg-Cgray200">
         <div className="relative focus-within:text-Cgray700">
           <input
             type={
