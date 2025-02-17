@@ -8,11 +8,13 @@ import * as React from 'react';
 interface IInputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {
+  isValid?: boolean;
+  inputSize?: 'l' | 's';
   errorMessage?: string;
 }
 
 const inputVariants = cva(
-  'box-border flex w-full rounded-md border-input bg-Cgray200 px-3 px-[16px] py-1 py-[14px] text-base text-Cgray700 caret-Cgray500 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-Cgray400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:bg-disable disabled:text-disable_text md:text-sm',
+  'box-border flex w-full rounded-md border-input bg-Cgray200 px-3 px-[16px] py-1 py-[14px] text-base text-Cgray700 caret-Cgray500 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-Cgray400 focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-disable disabled:text-disable_text md:text-sm',
   {
     variants: {
       isValid: {
@@ -43,17 +45,20 @@ const errorTextVariants = cva('px-[10px] text-warning', {
 });
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>(
-  ({ className, type, isValid, errorMessage, inputSize, ...props }, ref) => {
+  (
+    { className, type, isValid, errorMessage, inputSize = 'l', ...props },
+    ref,
+  ) => {
     const [isVisible, setIsVisible] = React.useState(false);
 
     return (
-      <div className="w-full bg-Cgray200">
+      <div className={`w-full ${className}`}>
         <div className="relative focus-within:text-Cgray700">
           <input
             type={
               type === 'password' ? (isVisible ? 'text' : 'password') : 'text'
             }
-            className={cn(inputVariants({ isValid, inputSize, className }))}
+            className={cn(inputVariants({ isValid, inputSize }))}
             ref={ref}
             {...props}
           />
