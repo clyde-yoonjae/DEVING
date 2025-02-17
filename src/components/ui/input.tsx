@@ -1,5 +1,8 @@
+'use client';
+
 import { cn } from '@/util/cn';
 import { VariantProps, cva } from 'class-variance-authority';
+import { Eye, EyeOff } from 'lucide-react';
 import * as React from 'react';
 
 interface IInputProps
@@ -41,14 +44,31 @@ const errorTextVariants = cva('px-[10px] text-warning', {
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>(
   ({ className, type, isValid, errorMessage, inputSize, ...props }, ref) => {
+    const [isVisible, setIsVisible] = React.useState(false);
+
     return (
       <div className="w-full">
-        <input
-          type={type}
-          className={cn(inputVariants({ isValid, inputSize, className }))}
-          ref={ref}
-          {...props}
-        />
+        <div className="relative focus-within:text-Cgray700">
+          <input
+            type={
+              type === 'password' ? (isVisible ? 'text' : 'password') : 'text'
+            }
+            className={cn(inputVariants({ isValid, inputSize, className }))}
+            ref={ref}
+            {...props}
+          />
+          <button
+            onClick={() => setIsVisible((prev) => !prev)}
+            className={`absolute right-[16px] top-1/2 -translate-y-1/2 focus-within:text-Cgray700 ${type !== 'password' && 'hidden'}
+`}
+          >
+            {!isVisible ? (
+              <EyeOff className="size-5 text-Cgray500" />
+            ) : (
+              <Eye className="size-5 text-Cgray500" />
+            )}
+          </button>
+        </div>
         {errorMessage && (
           <p className={cn(errorTextVariants({ inputSize, className }))}>
             {errorMessage}
