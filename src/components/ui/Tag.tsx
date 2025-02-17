@@ -4,7 +4,7 @@ import Image from 'next/image';
 import * as React from 'react';
 
 const tagVariants = cva(
-  'typo-caption1 inline-flex items-center rounded-[24px] px-2 py-1 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  'typo-caption1 inline-flex items-center rounded-[24px] px-2 py-1 font-semibold transition-colors focus:ring-offset-2',
   {
     variants: {
       variant: {
