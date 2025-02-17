@@ -60,7 +60,7 @@ const cardThumbnailVariants = cva(
     variants: {
       type: {
         vertical: ['mt-[12px] h-[252px] w-[432px]'],
-        horizon: ['ml-[24px] h-[208px] w-[252px]'],
+        horizon: ['h-[208px] w-[252px]'],
       },
     },
     defaultVariants: {
@@ -76,14 +76,17 @@ const CardThumbnail = ({
   className?: string;
 }) => {
   const { type, imgUrl } = useCardContext();
+  const fallbackSrc = '/thumbnail.jpg';
+  const [src, setSrc] = React.useState(imgUrl ? imgUrl : fallbackSrc);
 
   return (
     <Image
-      src={imgUrl}
+      src={src}
       alt="card_img"
       width={434}
       height={252}
       className={cn(cardThumbnailVariants({ type }), className)}
+      onError={() => setSrc(fallbackSrc)}
       {...props}
     />
   );
