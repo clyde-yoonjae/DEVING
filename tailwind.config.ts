@@ -31,7 +31,7 @@ export default {
         clear: '#00c48c',
         Cgray700: '#B4BBCE',
         Cgray800: '#D8DEE8',
-        BG: '#121212',
+        BG: '#0F0F0F',
         BG_2: '1B1B1D',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

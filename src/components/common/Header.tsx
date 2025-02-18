@@ -67,7 +67,7 @@ const MobileAfterLogin = () => {
     <div className="flex flex-col py-[24px]">
       <div className="flex justify-between">
         <Link
-          className="typo-head3 p-[16px] text-Cgray500 hover:opacity-5"
+          className="typo-head3 p-[16px] text-Cgray500 hover:text-Cgray700"
           href="/login"
         >
           로그아웃
@@ -79,10 +79,16 @@ const MobileAfterLogin = () => {
           </span>
         </div>
       </div>
-      <Link className="typo-head4 p-[16px] text-Cgray400" href="/signup">
+      <Link
+        className="typo-head4 p-[16px] text-Cgray400 hover:text-Cgray500"
+        href="/signup"
+      >
         마이페이지
       </Link>
-      <Link className="typo-head4 p-[16px] text-Cgray400" href="/signup">
+      <Link
+        className="typo-head4 p-[16px] text-Cgray400 hover:text-Cgray500"
+        href="/signup"
+      >
         나의 모임
       </Link>
     </div>
@@ -143,7 +149,7 @@ const Header = ({ isLogIn = false }) => {
             <Image src={Logo} width={40} height={40} alt="logo" />
           </Link>
           <NavLinks />
-          {!isLogIn ? <BeforeLogin /> : <AfterLogin />}
+          {isLogIn ? <BeforeLogin /> : <AfterLogin />}
           <Menu
             className="text-white lg:hidden"
             onClick={() => setIsOpen((prev) => !prev)}
@@ -157,7 +163,7 @@ const Header = ({ isLogIn = false }) => {
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } lg:hidden`}
       >
-        {!isLogIn ? <MobileBeforeLogin /> : <MobileAfterLogin />}
+        {isLogIn ? <MobileBeforeLogin /> : <MobileAfterLogin />}
         <NavLinks isMobile />
       </div>
     </div>
