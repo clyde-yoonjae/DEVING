@@ -11,7 +11,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        main: '#525FEE',
+        main: '#3853EA', // 이전 #525FEE
         default: '#C2C9FF',
         solid: '#E5e7fa',
         disable: '#30333e',
