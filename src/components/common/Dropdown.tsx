@@ -13,7 +13,7 @@ const Dropdown = ({
   className,
 }: {
   trigger: React.ReactNode;
-  items: { label: string; value: string; onSelect?: () => void }[];
+  items: { label: string; value?: string; onSelect?: () => void }[];
   size?: 's' | 'l';
   sideOffset?: number;
   className?: string;
