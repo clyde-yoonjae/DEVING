@@ -153,7 +153,7 @@ const Header = ({ isLogIn = false }) => {
 
       {/* mobile */}
       <div
-        className={`absolute right-0 h-screen w-screen transform bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } lg:hidden`}
       >
