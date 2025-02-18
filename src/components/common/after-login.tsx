@@ -13,7 +13,7 @@ const AfterLogin = () => {
     { label: '로그아웃' },
   ];
   return (
-    <nav className="ml-auto flex">
+    <nav className="ml-auto hidden lg:flex">
       <div className="flex items-center">
         <Dropdown
           items={menu}

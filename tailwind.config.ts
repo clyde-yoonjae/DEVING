@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        md: '376px',
+        lg: '745px',
+      },
       colors: {
         main: '#3853EA', // 이전 #525FEE
         default: '#C2C9FF',
