@@ -4,6 +4,7 @@ import Logo from '@/assets/icon/logo.svg';
 import Profile from '@/assets/icon/profile.svg';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import Dropdown from './Dropdown';
@@ -22,10 +23,11 @@ const BeforeLogin = () => {
 };
 
 const AfterLogin = () => {
+  const router = useRouter();
   const menu = [
-    { label: '내 모임' },
-    { label: '마이페이지' },
-    { label: '로그아웃' },
+    { label: '내 모임', onSelect: () => router.push('/my-meeting') },
+    { label: '마이페이지', onSelect: () => router.push('/my-page') },
+    { label: '로그아웃', onSelect: () => console.log('로그아웃') },
   ];
   return (
     <nav className="ml-auto hidden lg:flex">
@@ -62,12 +64,12 @@ const MobileAfterLogin = () => {
   return (
     <div className="flex flex-col py-[24px]">
       <div className="flex items-center justify-between">
-        <Link
+        <button
           className="typo-head3 p-[16px] text-Cgray500 hover:text-Cgray700"
-          href="/login"
+          onClick={() => console.log('로그아웃')}
         >
           로그아웃
-        </Link>
+        </button>
         <div className="flex">
           <Profile />
           <span className="typo-head3 m-auto w-[77px] text-center text-white">
@@ -77,13 +79,13 @@ const MobileAfterLogin = () => {
       </div>
       <Link
         className="typo-head4 p-[16px] text-Cgray400 hover:text-Cgray500"
-        href="/signup"
+        href="/my-page"
       >
         마이페이지
       </Link>
       <Link
         className="typo-head4 p-[16px] text-Cgray400 hover:text-Cgray500"
-        href="/signup"
+        href="/my-meeting"
       >
         나의 모임
       </Link>
