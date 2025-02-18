@@ -1,12 +1,11 @@
 'use client';
 
 import Logo from '@/assets/icon/logo.svg';
+import Profile from '@/assets/icon/profile.svg';
 import { Menu } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import Profile from '../../assets/icon/profile.svg';
 import Dropdown from './Dropdown';
 
 const BeforeLogin = () => {
@@ -31,10 +30,7 @@ const AfterLogin = () => {
   return (
     <nav className="ml-auto hidden lg:flex">
       <div className="flex items-center">
-        <Dropdown
-          items={menu}
-          trigger={<Image src={Profile} width={40} height={40} alt="profile" />}
-        />
+        <Dropdown items={menu} trigger={<Profile />} />
         <span className="typo-head3 m-auto w-[77px] text-center text-white">
           김밤식
         </span>
@@ -65,7 +61,7 @@ const MobileBeforeLogin = () => {
 const MobileAfterLogin = () => {
   return (
     <div className="flex flex-col py-[24px]">
-      <div className="flex justify-between">
+      <div className="flex items-center justify-between">
         <Link
           className="typo-head3 p-[16px] text-Cgray500 hover:text-Cgray700"
           href="/login"
@@ -73,7 +69,7 @@ const MobileAfterLogin = () => {
           로그아웃
         </Link>
         <div className="flex">
-          <Image src={Profile} width={40} height={40} alt="profile" />
+          <Profile />
           <span className="typo-head3 m-auto w-[77px] text-center text-white">
             김밤식
           </span>
@@ -146,7 +142,7 @@ const Header = ({ isLogIn = false }) => {
       >
         <div className="item-center mx-auto flex w-full max-w-[1340px] items-center justify-between">
           <Link href="/" className="mr-[40px] flex-shrink-0">
-            <Image src={Logo} width={40} height={40} alt="logo" />
+            <Logo />
           </Link>
           <NavLinks />
           {isLogIn ? <BeforeLogin /> : <AfterLogin />}
