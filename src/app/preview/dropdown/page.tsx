@@ -1,5 +1,6 @@
 'use client';
 
+import Dropdown from '@/components/common/Dropdown';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -85,6 +86,12 @@ export default function Home() {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+      <div className="h-20"></div>
+
+      <Dropdown
+        trigger={<div className="w-[200px] border">트리거</div>}
+        items={filterOptions}
+      />
     </div>
   );
 }
