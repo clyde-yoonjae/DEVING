@@ -15,7 +15,7 @@ export default {
         lg: '745px',
       },
       colors: {
-        main: '#3853EA', // 이전 #525FEE
+        main: '#3853EA', 
         default: '#C2C9FF',
         solid: '#E5e7fa',
         disable: '#30333e',
@@ -32,7 +32,7 @@ export default {
         Cgray700: '#B4BBCE',
         Cgray800: '#D8DEE8',
         BG: '#0F0F0F',
-        BG_2: '1B1B1D',
+        BG_2: '#1B1B1D',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
