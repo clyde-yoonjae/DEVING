@@ -2,7 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 
 import { Button } from '../../../components/ui/Button';
-import Modal from '../../../components/ui/modal/alert/Modal';
+import Modal from '../../../components/ui/modal/Modal';
 
 interface UserData {
   id: number;
