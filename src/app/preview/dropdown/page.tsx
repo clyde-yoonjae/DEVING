@@ -1,11 +1,10 @@
 'use client';
 
 import Dropdown from '@/components/common/Dropdown';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Home() {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [selectedFilter] = useState<string | null>(null);
   const filterOptions = [
     { value: 'all', label: '전체' },
     { value: 'completed', label: '완료됨' },
