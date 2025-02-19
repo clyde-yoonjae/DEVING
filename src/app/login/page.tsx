@@ -2,12 +2,15 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { basicAPI } from '@/lib/axios/basicApi';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface ILoginFormData {
-  id: string;
-  pw: string;
+  email: string;
+  password: string;
 }
 
 export default function Login() {
@@ -19,9 +22,42 @@ export default function Login() {
   } = useForm<ILoginFormData>({
     mode: 'onBlur',
   });
-  const onSubmit = (data: ILoginFormData) => {
-    console.log('로그인 데이터: ', data);
+  const router = useRouter();
+
+  const getAccessTokenFromCookie = () => {
+    const cookies = document.cookie.split('; ');
+    const accessTokenCookie = cookies.find((row) =>
+      row.startsWith('accessToken='),
+    );
+    return accessTokenCookie ? accessTokenCookie.split('=')[1] : null;
   };
+
+  // 로그인 이미 됐다면 메인페이지로 이동
+  // useEffect(() => {
+  //   const accessToken = getAccessTokenFromCookie();
+  //   if (accessToken) {
+  //     router.push('/');
+  //   }
+  // }, []);
+
+  const onSubmit = async (data: ILoginFormData) => {
+    console.log('로그인 데이터: ', data);
+    const res = await basicAPI.post(`/api/v1/auths/login`, data);
+    console.log('res: ', res);
+
+    const accessToken = res.headers.token;
+    if (accessToken) {
+      document.cookie = `accessToken=${accessToken}`;
+    }
+    router.push('/');
+  };
+
+  console.log(
+    'watch email',
+    errors.email?.message,
+    'boolean: ',
+    !!errors.email?.message,
+  );
   return (
     <div className="flex min-h-screen items-center justify-center">
       <form
@@ -33,32 +69,44 @@ export default function Login() {
             로그인
           </h2>
           <div>
-            <label htmlFor="id" className="typo-head3 text-Cgray700">
+            <label htmlFor="email" className="typo-head3 text-Cgray700">
               아이디
             </label>
             <Input
-              id="id"
+              id="email"
               className="mb-[20px] mt-[8px]"
               placeholder="아이디를 입력해주세요."
-              {...register('id', { required: '아이디를 입력해주세요.' })}
-              errorMessage={errors.id?.message}
+              state={`${errors.email?.message ? 'error' : 'default'}`}
+              {...register('email', {
+                required: '아이디를 입력해주세요.',
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: '올바른 이메일 형식이 아닙니다.',
+                },
+              })}
+              errorMessage={errors.email?.message}
             />
             <label htmlFor="pw" className="typo-head3 text-Cgray700">
               비밀번호
             </label>
             <Input
-              id="pw"
+              id="password"
               type="password"
               className="mb-[20px] mt-[8px]"
               placeholder="비밀번호를 입력해주세요."
-              {...register('pw', {
+              state={`${errors.password?.message ? 'error' : 'default'}`}
+              {...register('password', {
                 required: '비밀번호를 입력해주세요.',
                 minLength: {
                   value: 6,
                   message: '비밀번호는 최소 6자 이상이어야 합니다.',
                 },
+                pattern: {
+                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                  message: '비밀번호는 영문과 숫자를 포함해야 합니다.',
+                },
               })}
-              errorMessage={errors.pw?.message}
+              errorMessage={errors.password?.message}
             />
 
             <div className="flex justify-between">

@@ -8,18 +8,19 @@ import * as React from 'react';
 interface IInputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
     VariantProps<typeof inputVariants> {
-  isValid?: boolean;
+  state?: 'default' | 'success' | 'error';
   inputSize?: 'l' | 's';
   errorMessage?: string;
 }
 
 const inputVariants = cva(
-  'box-border flex w-full rounded-md border-input bg-Cgray200 px-3 px-[16px] py-1 py-[14px] text-base text-Cgray700 caret-Cgray500 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-Cgray400 focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-disable disabled:text-disable_text md:text-sm',
+  'box-border flex w-full rounded-md border-transparent bg-Cgray200 px-3 px-[16px] py-1 py-[14px] text-base text-Cgray700 caret-Cgray500 shadow-sm transition-colors placeholder:text-Cgray400 focus:outline-none focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-disable disabled:text-disable_text md:text-sm',
   {
     variants: {
-      isValid: {
-        true: 'border border-main',
-        false: 'border border-warning text-warning caret-warning',
+      state: {
+        default: '',
+        success: 'border border-main',
+        error: 'border border-warning text-warning caret-warning',
       },
       inputSize: {
         s: 'typo-button2 h-[36px]',
@@ -46,7 +47,7 @@ const errorTextVariants = cva('px-[10px] text-warning', {
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>(
   (
-    { className, type, isValid, errorMessage, inputSize = 'l', ...props },
+    { className, type, state, errorMessage, inputSize = 'l', ...props },
     ref,
   ) => {
     const [isVisible, setIsVisible] = React.useState(false);
@@ -58,7 +59,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             type={
               type === 'password' ? (isVisible ? 'text' : 'password') : 'text'
             }
-            className={cn(inputVariants({ isValid, inputSize }))}
+            className={cn(inputVariants({ state, inputSize }))}
             ref={ref}
             {...props}
           />
