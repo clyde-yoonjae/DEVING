@@ -1,0 +1,37 @@
+import { useEffect, useState } from 'react';
+
+/**
+ * 특정 값이 변경된 후 지정된 시간이 지나면 콜백 함수를 실행하는 Debounce 훅
+ *
+ * @param {T} value - 감지할 값
+ * @param {number} delay - 딜레이(ms) (기본값: 1000ms)
+ * @param {Function} callback - 딜레이 후 실행할 콜백 함수
+ */
+const useDebounce = <T>({
+  value,
+  delay = 1000,
+  callBack,
+}: {
+  value: T;
+  delay?: number;
+  callBack?: () => void;
+}) => {
+  const [debounceValue, setDebounceValue] = useState(value);
+
+  useEffect(() => {
+    if (value === null) return;
+    const timer = setTimeout(() => {
+      setDebounceValue(value);
+      if (callBack) {
+        callBack();
+      }
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay, callBack]);
+
+  return debounceValue;
+};
+export default useDebounce;

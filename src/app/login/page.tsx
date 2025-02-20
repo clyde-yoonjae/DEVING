@@ -2,10 +2,11 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import useDebounce from '@/hooks/useDebounde';
 import { basicAPI } from '@/lib/axios/basicApi';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface ILoginFormData {
@@ -18,11 +19,37 @@ export default function Login() {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    trigger,
+    formState: { errors, isDirty, dirtyFields },
   } = useForm<ILoginFormData>({
     mode: 'onBlur',
   });
   const router = useRouter();
+  const [focusedField, setFocusedField] = useState<'email' | 'password' | null>(
+    null,
+  );
+
+  // 이메일 포커스 1초 뒤 유효성 검사
+  useDebounce({
+    value: watch('email'),
+    delay: 1000,
+    callBack: () => {
+      if (focusedField) {
+        trigger(focusedField);
+      }
+    },
+  });
+
+  // 비밀번호 포커스 1초 뒤 유효성 검사
+  useDebounce({
+    value: watch('password'),
+    delay: 1000,
+    callBack: () => {
+      if (focusedField) {
+        trigger(focusedField);
+      }
+    },
+  });
 
   const getAccessTokenFromCookie = () => {
     const cookies = document.cookie.split('; ');
@@ -52,12 +79,6 @@ export default function Login() {
     router.push('/');
   };
 
-  console.log(
-    'watch email',
-    errors.email?.message,
-    'boolean: ',
-    !!errors.email?.message,
-  );
   return (
     <div className="flex min-h-screen items-center justify-center">
       <form
@@ -76,7 +97,6 @@ export default function Login() {
               id="email"
               className="mb-[20px] mt-[8px]"
               placeholder="아이디를 입력해주세요."
-              state={`${errors.email?.message ? 'error' : 'default'}`}
               {...register('email', {
                 required: '아이디를 입력해주세요.',
                 pattern: {
@@ -85,6 +105,7 @@ export default function Login() {
                 },
               })}
               errorMessage={errors.email?.message}
+              onFocus={() => setFocusedField('email')}
             />
             <label htmlFor="pw" className="typo-head3 text-Cgray700">
               비밀번호
@@ -94,7 +115,6 @@ export default function Login() {
               type="password"
               className="mb-[20px] mt-[8px]"
               placeholder="비밀번호를 입력해주세요."
-              state={`${errors.password?.message ? 'error' : 'default'}`}
               {...register('password', {
                 required: '비밀번호를 입력해주세요.',
                 minLength: {
@@ -107,6 +127,7 @@ export default function Login() {
                 },
               })}
               errorMessage={errors.password?.message}
+              onFocus={() => setFocusedField('password')}
             />
 
             <div className="flex justify-between">
