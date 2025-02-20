@@ -1,4 +1,5 @@
 import Header from '@/components/common/Header';
+import ReactQueryProviders from '@/hooks/useReactQuery';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -24,8 +25,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
-        <Header />
-        {children}
+        <ReactQueryProviders>
+          <Header />
+          {children}
+        </ReactQueryProviders>
       </body>
     </html>
   );
