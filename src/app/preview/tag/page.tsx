@@ -1,19 +1,34 @@
-import { Tag } from '@/components/ui/Tag';
+import { Tag, UserStatus } from '@/components/ui/Tag';
+
+interface User {
+  id: number;
+  status: UserStatus;
+}
+
+const userData: User[] = [
+  {
+    id: 0,
+    status: 'APPROVED',
+  },
+  {
+    id: 1,
+    status: 'REJECTED',
+  },
+  {
+    id: 2,
+    status: 'PENDING',
+  },
+  {
+    id: 3,
+    status: 'EXPEL',
+  },
+];
 
 export default function ButtonExamples() {
-  const skills = ['React', 'Next.js', 'Typescript'];
-  const skillVariants = ['blue', 'purple', 'green'] as const;
-
   return (
-    <div className="flex gap-1">
-      {skills.map((skill, idx) => (
-        <Tag
-          key={`${skill}_idx`}
-          variant={skillVariants[idx]}
-          iconUrl={`/${skill}.png`}
-        >
-          {skill}
-        </Tag>
+    <div className="m-3 flex gap-2">
+      {userData.map((user) => (
+        <Tag key={user.id} variant={user.status} />
       ))}
     </div>
   );

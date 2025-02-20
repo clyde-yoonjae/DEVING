@@ -1,20 +1,29 @@
 import { cn } from '@/util/cn';
 import { type VariantProps, cva } from 'class-variance-authority';
-import Image from 'next/image';
 import * as React from 'react';
 
+export const userStatusKeys = {
+  APPROVED: '참여',
+  REJECTED: '거절',
+  PENDING: '대기',
+  EXPEL: '강퇴',
+} as const;
+
+export type UserStatus = keyof typeof userStatusKeys;
+
 const tagVariants = cva(
-  'typo-caption1 inline-flex items-center rounded-[24px] px-2 py-1 font-semibold transition-colors focus:ring-offset-2',
+  'typo-caption1 inline-flex items-center rounded-[10px] px-3 py-3 font-semibold transition-colors focus:ring-offset-2',
   {
     variants: {
       variant: {
-        blue: ['bg-main', 'text-white'],
-        purple: ['bg-default', 'text-main'],
-        green: ['bg-green', 'text-clear'],
+        APPROVED: ['bg-blue', 'text-main'],
+        REJECTED: ['bg-gray', 'text-white'],
+        PENDING: ['bg-green', 'text-clear'],
+        EXPEL: ['bg-red', 'text-warning'],
       },
     },
     defaultVariants: {
-      variant: 'blue',
+      variant: 'APPROVED',
     },
   },
 );
@@ -22,40 +31,28 @@ const tagVariants = cva(
 export interface TagProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof tagVariants> {
-  iconUrl?: string;
+  variant: UserStatus;
 }
 
 /**
  * 기본적인 태그 컴포넌트입니다.
  * @example
- * // 기본 사용법
- * <Tag>텍스트</Tag>
- *
- * // 아이콘과 함께 사용
- * <Tag iconUrl='/React.png'>텍스트</Tag>
  *
  * // variant 사용
- * <Tag variant="grreen">텍스트</Tag>
+ * <Tag variant="APPROVED"/>
  *
  * @param {object} props
  * @param {string} [props.className] - Tailwind CSS 클래스를 통한 커스텀 스타일
- * @param {'blue' | 'purple' | 'green'} [props.variant='blue'] - 태그의 시각적 스타일 variant (기본 blue)
+ * @param {'APPROVED' | 'REJECTED' | 'PENDING' | 'EXPEL'} [props.variant='APPROVED'] - 태그의 시각적 스타일 variant (기본 APPROVED)
  * @param {React.ReactNode} [props.iconUrl] - 태그 텍스트 좌측에 위치할 아이콘 이미지 경로
  */
 
-function Tag({ className, variant, iconUrl, children, ...props }: TagProps) {
+function Tag({ className, variant, children, ...props }: TagProps) {
+  const statusText = children ?? userStatusKeys[variant];
+
   return (
     <div className={cn(tagVariants({ variant }), className)} {...props}>
-      {iconUrl && (
-        <Image
-          src={iconUrl}
-          alt="tag_icon"
-          className="mr-1"
-          width="15"
-          height="15"
-        />
-      )}
-      {children}
+      {statusText}
     </div>
   );
 }
