@@ -3,7 +3,6 @@
 import Person from '@/assets/icon/person.svg';
 import { cn } from '@/util/cn';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
-import Image from 'next/image';
 import * as React from 'react';
 
 /**
@@ -30,13 +29,10 @@ const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   ProgressProps
 >(({ className, total, value, ...props }, ref) => (
-  <>
+  <div className={className}>
     <ProgressPrimitive.Root
       ref={ref}
-      className={cn(
-        'relative h-[6px] w-full overflow-hidden rounded-full bg-Cgray200',
-        className,
-      )}
+      className={cn('relative h-[6px] w-full rounded-full bg-Cgray200')}
       {...props}
     >
       <ProgressPrimitive.Indicator
@@ -44,13 +40,13 @@ const Progress = React.forwardRef<
         style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
       />
     </ProgressPrimitive.Root>
-    <div className="mt-2 flex justify-end">
-      <Image src={Person} alt="person_icon" width={16} height={16} />
+    <div className="relative mt-2 flex items-center justify-end">
+      <Person />
       <span className="typo-button1 ml-1 text-Cgray500">
         {value}/{total}
       </span>
     </div>
-  </>
+  </div>
 ));
 Progress.displayName = ProgressPrimitive.Root.displayName;
 

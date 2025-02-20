@@ -5,8 +5,9 @@ import React from 'react';
 
 export default function ProgressExamples() {
   return (
-    <div className="w-40">
-      <Progress total={50} value={33} />
+    <div className="mt-3 flex flex-col">
+      <Progress className="w-40" total={50} value={33} />
+      <Progress total={100} value={70} />
     </div>
   );
 }
