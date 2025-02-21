@@ -5,7 +5,7 @@ export const ChipContainer = ({
   setPosition,
 }: {
   position: string;
-  setPosition: (value: React.SetStateAction<string>) => void;
+  setPosition: (value: string) => void;
 }) => {
   return (
     <div className="flex w-full gap-[8px]">

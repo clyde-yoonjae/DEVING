@@ -25,18 +25,16 @@ export default function Signup() {
     register,
     handleSubmit,
     watch,
+    trigger,
     setError,
+    setValue,
     formState: { errors, dirtyFields },
   } = useForm<ISignupFormData>({
     mode: 'onBlur',
+    defaultValues: {
+      position: '',
+    },
   });
-  const [position, setPosition] = useState('');
-
-  console.log(watch('name'));
-  const onSubmit = (data: ISignupFormData) => {
-    const formData = { ...data, position };
-    console.log('회원가입 데이터: ', formData);
-  };
 
   /**
    * TODO
@@ -65,17 +63,23 @@ export default function Signup() {
   const [isNameCheck, setIsNameCheck] = useState(false);
   const [isEmailCheck, setIsEmailCheck] = useState(false);
 
+  // 회원가입 버튼 활성화 여부
+  const [isActiveBtn, setIsActiveBtn] = useState(false);
+
   // 2. 입력이 있다면 중복확인 버튼 활성화
-  console.log('dirtyFields: ', dirtyFields?.name);
+  console.log('dirtyFields: ', dirtyFields);
 
   useEffect(() => {
     if (dirtyFields?.name) {
       setIsNameCheck(false);
     }
+  }, [watch('name')]);
+
+  useEffect(() => {
     if (dirtyFields?.email) {
       setIsEmailCheck(false);
     }
-  }, [dirtyFields, watch('name'), watch('email')]);
+  }, [watch('email')]);
 
   // 3. 중복확인 로직 수행
   const { mutate: nameCheckMutate } = useNameCheckMutation({
@@ -100,13 +104,60 @@ export default function Signup() {
     const name = watch('name');
     console.log('name: ', name);
     nameCheckMutate(name);
+    trigger('name');
   };
 
   const handleEmailCheck = () => {
     const email = watch('email');
     emailCheckMutate(email);
+    trigger('email');
   };
 
+  const onSubmit = (data: ISignupFormData) => {
+    // const formData = { ...data, position };
+    console.log('회원가입 데이터: ', data);
+
+    /**
+     * TODO
+     * - 닉네임 중복검사 했는지 확인
+     * - 이메일 중복검사 했는지 확인
+     * - position 선택했는지 확인
+     * - 비밀번호 입력했는지 확인
+     * - 비밀번호 확인 입력했는지 확인
+     */
+
+    if (!isNameCheck) {
+      setError('name', {
+        type: 'nameCheck',
+        message: '닉네임 중복확인이 필요합니다.',
+      });
+    }
+    if (!isEmailCheck) {
+      setError('email', {
+        type: 'emailCheck',
+        message: '이메일 중복확인이 필요합니다.',
+      });
+    }
+    if (watch('position') === '') {
+      setError('position', {
+        type: 'positionCheck',
+        message: '포지션을 선택해 주세요.',
+      });
+    }
+    if (errors) {
+      return;
+    }
+  };
+
+  // 포지션 클릭
+  const handleClickPosition = (value: string) => {
+    setValue('position', value);
+    trigger('position');
+    console.log('position watch: ', watch('position'));
+  };
+
+  console.log('error: ', errors);
+  console.log('all watch: ', watch());
   return (
     <div className="flex min-h-screen items-center justify-center">
       <form
@@ -180,7 +231,21 @@ export default function Signup() {
               <label htmlFor="id" className="typo-head3 text-Cgray700">
                 포지션
               </label>
-              <ChipContainer position={position} setPosition={setPosition} />
+              <ChipContainer
+                position={watch('position')}
+                setPosition={handleClickPosition}
+              />
+              {errors.position?.message && (
+                <p className="typo-caption1 mt-[10px] px-[10px] text-warning">
+                  포지션을 선택해 주세요.
+                </p>
+              )}
+              <input
+                type="hidden"
+                {...register('position', {
+                  required: '포지션을 선택해 주세요.',
+                })}
+              />
             </div>
 
             <div className="flex flex-col gap-[8px]">
@@ -203,6 +268,7 @@ export default function Signup() {
                       '비밀번호는 영어와 숫자 포함 6자 이상이어야 합니다.',
                   },
                 })}
+                state={dirtyFields.password ? 'success' : 'default'}
                 errorMessage={errors.password?.message}
               />
             </div>
@@ -221,13 +287,14 @@ export default function Signup() {
                     value === watch('password') ||
                     '비밀번호가 일치하지 않습니다.',
                 })}
+                state={dirtyFields.passwordCheck ? 'success' : 'default'}
                 errorMessage={errors.passwordCheck?.message}
               />
             </div>
           </div>
         </div>
         <div className="mb-[20px] mt-[48px] flex flex-col">
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isActiveBtn}>
             회원가입
           </Button>
         </div>
