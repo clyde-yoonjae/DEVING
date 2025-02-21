@@ -34,7 +34,8 @@ export default function Signup() {
 
   console.log(watch('name'));
   const onSubmit = (data: ISignupFormData) => {
-    console.log('로그인 데이터: ', data);
+    const formData = { ...data, position };
+    console.log('회원가입 데이터: ', formData);
   };
 
   /**
@@ -179,17 +180,6 @@ export default function Signup() {
               <label htmlFor="id" className="typo-head3 text-Cgray700">
                 포지션
               </label>
-              {/* <div className="flex gap-[8px]">
-                <Button type="button" variant={'default'}>
-                  프론트
-                </Button>
-                <Button type="button" variant={'outline'}>
-                  백엔드
-                </Button>
-                <Button type="button" variant={'outline'}>
-                  디자이너
-                </Button>
-              </div> */}
               <ChipContainer position={position} setPosition={setPosition} />
             </div>
 
@@ -207,6 +197,11 @@ export default function Signup() {
                     value: 6,
                     message: '비밀번호는 최소 6자 이상이어야 합니다.',
                   },
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                    message:
+                      '비밀번호는 영어와 숫자 포함 6자 이상이어야 합니다.',
+                  },
                 })}
                 errorMessage={errors.password?.message}
               />
@@ -222,10 +217,9 @@ export default function Signup() {
                 placeholder="비밀번호를 입력해주세요."
                 {...register('passwordCheck', {
                   required: '비밀번호를 입력해주세요.',
-                  minLength: {
-                    value: 6,
-                    message: '비밀번호는 최소 6자 이상이어야 합니다.',
-                  },
+                  validate: (value) =>
+                    value === watch('password') ||
+                    '비밀번호가 일치하지 않습니다.',
                 })}
                 errorMessage={errors.passwordCheck?.message}
               />
@@ -238,9 +232,9 @@ export default function Signup() {
           </Button>
         </div>
         <div className="flex justify-between">
-          <p className="text-Cgray700">비밀번호를 잊으셨나요?</p>
-          <Link href="/" className="text-main underline">
-            비밀번호 수정
+          <p className="text-Cgray700">이미 회원이신가요?</p>
+          <Link href="/login" className="text-main underline">
+            로그인
           </Link>
         </div>
       </form>
