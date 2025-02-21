@@ -15,7 +15,7 @@ export default {
         lg: '745px',
       },
       colors: {
-        main: '#3853EA', 
+        main: '#3853EA',
         default: '#C2C9FF',
         solid: '#E5e7fa',
         disable: '#30333e',
