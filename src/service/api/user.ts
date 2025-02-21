@@ -1,3 +1,4 @@
+import { ISignupFormData } from '@/app/signup/page';
 import { basicAPI } from '@/lib/axios/basicApi';
 
 const postLogin = async ({
@@ -22,4 +23,9 @@ const getEmailCheck = async (email: string) => {
   return res;
 };
 
-export { postLogin, getNameCheck, getEmailCheck };
+const postSignup = async (data: ISignupFormData) => {
+  const res = await basicAPI.post('/api/v1/auths/signup', data);
+  return res;
+};
+
+export { postLogin, getNameCheck, getEmailCheck, postSignup };

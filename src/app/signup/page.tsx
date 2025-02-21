@@ -5,14 +5,16 @@ import { Input } from '@/components/ui/Input';
 import {
   useEmailCheckMutation,
   useNameCheckMutation,
+  useSignupMutation,
 } from '@/hooks/mutations/useUserMutation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { ChipContainer } from './components/ChipContainer';
 
-interface ISignupFormData {
+export interface ISignupFormData {
   name: string;
   email: string;
   position: string;
@@ -64,21 +66,15 @@ export default function Signup() {
   const [isEmailCheck, setIsEmailCheck] = useState(false);
 
   // 회원가입 버튼 활성화 여부
-  const [isActiveBtn, setIsActiveBtn] = useState(false);
+  const router = useRouter();
 
   // 2. 입력이 있다면 중복확인 버튼 활성화
-  console.log('dirtyFields: ', dirtyFields);
-
   useEffect(() => {
-    if (dirtyFields?.name) {
-      setIsNameCheck(false);
-    }
+    setIsNameCheck(false);
   }, [watch('name')]);
 
   useEffect(() => {
-    if (dirtyFields?.email) {
-      setIsEmailCheck(false);
-    }
+    setIsEmailCheck(false);
   }, [watch('email')]);
 
   // 3. 중복확인 로직 수행
@@ -102,7 +98,6 @@ export default function Signup() {
 
   const handleNameCheck = () => {
     const name = watch('name');
-    console.log('name: ', name);
     nameCheckMutate(name);
     trigger('name');
   };
@@ -113,8 +108,11 @@ export default function Signup() {
     trigger('email');
   };
 
+  const { mutate: singupMutate } = useSignupMutation({
+    onSuccessCallback: () => router.push('/login'),
+  });
+
   const onSubmit = (data: ISignupFormData) => {
-    // const formData = { ...data, position };
     console.log('회원가입 데이터: ', data);
 
     /**
@@ -144,20 +142,19 @@ export default function Signup() {
         message: '포지션을 선택해 주세요.',
       });
     }
-    if (errors) {
+
+    if (Object.keys(errors).length) {
       return;
     }
+    singupMutate(data);
   };
 
   // 포지션 클릭
   const handleClickPosition = (value: string) => {
     setValue('position', value);
     trigger('position');
-    console.log('position watch: ', watch('position'));
   };
 
-  console.log('error: ', errors);
-  console.log('all watch: ', watch());
   return (
     <div className="flex min-h-screen items-center justify-center">
       <form
@@ -294,7 +291,7 @@ export default function Signup() {
           </div>
         </div>
         <div className="mb-[20px] mt-[48px] flex flex-col">
-          <Button type="submit" className="w-full" disabled={isActiveBtn}>
+          <Button type="submit" className="w-full">
             회원가입
           </Button>
         </div>

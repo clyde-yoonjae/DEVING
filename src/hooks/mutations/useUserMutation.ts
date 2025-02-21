@@ -1,6 +1,12 @@
+import { ISignupFormData } from '@/app/signup/page';
 import { setAccessToken } from '@/lib/serverActions';
 import { useMutation } from '@tanstack/react-query';
-import { getEmailCheck, getNameCheck, postLogin } from 'service/api/user';
+import {
+  getEmailCheck,
+  getNameCheck,
+  postLogin,
+  postSignup,
+} from 'service/api/user';
 
 const useLoginMutation = ({
   onSuccessCallback,
@@ -76,4 +82,28 @@ const useEmailCheckMutation = ({
   });
 };
 
-export { useLoginMutation, useNameCheckMutation, useEmailCheckMutation };
+// 회원가입
+const useSignupMutation = ({
+  onSuccessCallback,
+}: {
+  onSuccessCallback: () => void;
+}) => {
+  return useMutation({
+    mutationFn: (data: ISignupFormData) => postSignup(data),
+    onSuccess: () => {
+      /**
+       * TODO
+       * - 로그인 페이지로 리다이렉트
+       * - 회원가입 성공 토스트바
+       */
+      onSuccessCallback();
+    },
+  });
+};
+
+export {
+  useLoginMutation,
+  useNameCheckMutation,
+  useEmailCheckMutation,
+  useSignupMutation,
+};
