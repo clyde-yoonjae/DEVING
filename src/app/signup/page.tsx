@@ -2,7 +2,10 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { useNameCheckMutation } from '@/hooks/mutations/useUserMutation';
+import {
+  useEmailCheckMutation,
+  useNameCheckMutation,
+} from '@/hooks/mutations/useUserMutation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -59,6 +62,7 @@ export default function Signup() {
   // 닉네임 중복 체크 확인.
   // 1. 처음에는 중복확인 버튼 비활성화
   const [isNameCheck, setIsNameCheck] = useState(false);
+  const [isEmailCheck, setIsEmailCheck] = useState(false);
 
   // 2. 입력이 있다면 중복확인 버튼 활성화
   console.log('dirtyFields: ', dirtyFields?.name);
@@ -67,22 +71,39 @@ export default function Signup() {
     if (dirtyFields?.name) {
       setIsNameCheck(false);
     }
-  }, [dirtyFields, watch('name')]);
+    if (dirtyFields?.email) {
+      setIsEmailCheck(false);
+    }
+  }, [dirtyFields, watch('name'), watch('email')]);
 
   // 3. 중복확인 로직 수행
-  const { mutate } = useNameCheckMutation({
+  const { mutate: nameCheckMutate } = useNameCheckMutation({
     onSuccessCallback: () => setIsNameCheck(true),
     onErrorCallback: () =>
       setError('name', {
-        type: 'checkFaile',
+        type: 'checkFail',
         message: '이미 존재하는 닉네임입니다.',
+      }),
+  });
+
+  const { mutate: emailCheckMutate } = useEmailCheckMutation({
+    onSuccessCallback: () => setIsEmailCheck(true),
+    onErrorCallback: () =>
+      setError('email', {
+        type: 'checkFail',
+        message: '이미 존재하는 이메일입니다.',
       }),
   });
 
   const handleNameCheck = () => {
     const name = watch('name');
     console.log('name: ', name);
-    mutate(name);
+    nameCheckMutate(name);
+  };
+
+  const handleEmailCheck = () => {
+    const email = watch('email');
+    emailCheckMutate(email);
   };
 
   return (
@@ -124,23 +145,31 @@ export default function Signup() {
 
             <div className="flex flex-col gap-[8px]">
               <label htmlFor="id" className="typo-head3 text-Cgray700">
-                아이디
+                이메일
               </label>
               <div className="flex flex-row  gap-[8px]">
                 <Input
                   id="email"
                   className=" h-full"
-                  placeholder="아이디를 입력해주세요."
+                  placeholder="이메일을 입력해주세요."
                   {...register('email', {
-                    required: '아이디를 입력해주세요.',
+                    required: '이메일을 입력해주세요.',
                     pattern: {
                       value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                       message: '올바른 이메일 형식이 아닙니다.',
                     },
                   })}
+                  state={isEmailCheck ? 'success' : 'default'}
                   errorMessage={errors.email?.message}
                 />
-                <Button variant={'outline'} size={'sm'} className="h-[50px]">
+                <Button
+                  disabled={isEmailCheck}
+                  variant={'outline'}
+                  size={'sm'}
+                  className="h-[50px]"
+                  onClick={handleEmailCheck}
+                  type="button"
+                >
                   중복확인
                 </Button>
               </div>
