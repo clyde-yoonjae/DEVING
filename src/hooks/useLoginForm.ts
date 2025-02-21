@@ -11,7 +11,7 @@ interface ILoginFormData {
   password: string;
 }
 
-export function useLoginForm() {
+const useLoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -80,4 +80,6 @@ export function useLoginForm() {
     setFocusedField,
     onSubmit,
   };
-}
+};
+
+export default useLoginForm;

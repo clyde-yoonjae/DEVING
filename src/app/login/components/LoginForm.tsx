@@ -2,12 +2,15 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { useLoginForm } from '@/hooks/useLoginForm';
+import useLoginForm from '@/hooks/useLoginForm';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
+  const router = useRouter();
   const { register, handleSubmit, onSubmit, errors, setFocusedField } =
     useLoginForm();
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -68,7 +71,12 @@ const LoginForm = () => {
         <Button type="submit" className="w-full">
           로그인
         </Button>
-        <Button type="button" className="w-full" variant={'outline'}>
+        <Button
+          type="button"
+          className="w-full"
+          variant={'outline'}
+          onClick={() => router.push('/signup')}
+        >
           회원가입
         </Button>
       </div>
