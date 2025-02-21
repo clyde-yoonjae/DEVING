@@ -2,12 +2,19 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { useNameCheckMutation } from '@/hooks/mutations/useUserMutation';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { ChipContainer } from './components/ChipContainer';
+
 interface ISignupFormData {
-  id: string;
-  pw: string;
+  name: string;
+  email: string;
+  position: string;
+  password: string;
+  passwordCheck: string;
 }
 
 export default function Signup() {
@@ -15,13 +22,69 @@ export default function Signup() {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    setError,
+    formState: { errors, dirtyFields },
   } = useForm<ISignupFormData>({
     mode: 'onBlur',
   });
+  const [position, setPosition] = useState('');
+
+  console.log(watch('name'));
   const onSubmit = (data: ISignupFormData) => {
     console.log('로그인 데이터: ', data);
   };
+
+  /**
+   * TODO
+   * 포커스 1초 되 유효성 검사 - 닉네임, 이메일, 비밀번호, 비밀번호 확인
+   */
+
+  /**
+   * TODO
+   * 중복확인 플로우 체크
+   * 1. 처음에는 중복확인 버튼 비활성화(''인 경우)
+   * 2. 입력이 있다면 중복확인 버튼 활성화
+   *  - 입력 중에는 비활성화
+   * 3. 중복확인 성공시
+   *  - 해당 인풋 성공 표시(보더 색 변경), disabled 없이 그대로 유지
+   *  - 중복확인 버튼 비활성화
+   * 3.1. 중복확인 성공 후 다시 입력 시
+   *  - 중복확인 버튼 활성화
+   *  - 해당 인풋 성공 처리 취소
+   * 4. 중복확인 실패시
+   *  - 해당 인풋 에러메시지 표시
+   *  - 중복확인 버튼은 계속 활성화
+   */
+
+  // 닉네임 중복 체크 확인.
+  // 1. 처음에는 중복확인 버튼 비활성화
+  const [isNameCheck, setIsNameCheck] = useState(false);
+
+  // 2. 입력이 있다면 중복확인 버튼 활성화
+  console.log('dirtyFields: ', dirtyFields?.name);
+
+  useEffect(() => {
+    if (dirtyFields?.name) {
+      setIsNameCheck(false);
+    }
+  }, [dirtyFields, watch('name')]);
+
+  // 3. 중복확인 로직 수행
+  const { mutate } = useNameCheckMutation({
+    onSuccessCallback: () => setIsNameCheck(true),
+    onErrorCallback: () =>
+      setError('name', {
+        type: 'checkFaile',
+        message: '이미 존재하는 닉네임입니다.',
+      }),
+  });
+
+  const handleNameCheck = () => {
+    const name = watch('name');
+    console.log('name: ', name);
+    mutate(name);
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <form
@@ -34,18 +97,26 @@ export default function Signup() {
           </h2>
           <div className="flex flex-col gap-[24px]">
             <div className="flex flex-col gap-[8px]">
-              <label htmlFor="id" className="typo-head3 text-Cgray700">
+              <label htmlFor="name" className="typo-head3 text-Cgray700">
                 닉네임
               </label>
               <div className="flex flex-row  gap-[8px]">
                 <Input
-                  id="id"
-                  className=" h-full"
-                  placeholder="아이디를 입력해주세요."
-                  {...register('id', { required: '아이디를 입력해주세요.' })}
-                  errorMessage={errors.id?.message}
+                  id="name"
+                  className="h-full"
+                  placeholder="닉네임을 입력해주세요."
+                  {...register('name', { required: '닉네임을 입력해주세요.' })}
+                  errorMessage={errors.name?.message}
+                  state={isNameCheck ? 'success' : 'default'}
                 />
-                <Button variant={'outline'} size={'sm'} className="h-[50px]">
+                <Button
+                  disabled={isNameCheck}
+                  variant={'outline'}
+                  size={'sm'}
+                  className="h-[50px]"
+                  type="button"
+                  onClick={handleNameCheck}
+                >
                   중복확인
                 </Button>
               </div>
@@ -57,11 +128,17 @@ export default function Signup() {
               </label>
               <div className="flex flex-row  gap-[8px]">
                 <Input
-                  id="id"
+                  id="email"
                   className=" h-full"
                   placeholder="아이디를 입력해주세요."
-                  {...register('id', { required: '아이디를 입력해주세요.' })}
-                  errorMessage={errors.id?.message}
+                  {...register('email', {
+                    required: '아이디를 입력해주세요.',
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: '올바른 이메일 형식이 아닙니다.',
+                    },
+                  })}
+                  errorMessage={errors.email?.message}
                 />
                 <Button variant={'outline'} size={'sm'} className="h-[50px]">
                   중복확인
@@ -73,7 +150,7 @@ export default function Signup() {
               <label htmlFor="id" className="typo-head3 text-Cgray700">
                 포지션
               </label>
-              <div className="flex gap-[8px]">
+              {/* <div className="flex gap-[8px]">
                 <Button type="button" variant={'default'}>
                   프론트
                 </Button>
@@ -83,25 +160,26 @@ export default function Signup() {
                 <Button type="button" variant={'outline'}>
                   디자이너
                 </Button>
-              </div>
+              </div> */}
+              <ChipContainer position={position} setPosition={setPosition} />
             </div>
 
             <div className="flex flex-col gap-[8px]">
-              <label htmlFor="pw" className="typo-head3 text-Cgray700">
+              <label htmlFor="password" className="typo-head3 text-Cgray700">
                 비밀번호
               </label>
               <Input
-                id="pw"
+                id="password"
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
-                {...register('pw', {
+                {...register('password', {
                   required: '비밀번호를 입력해주세요.',
                   minLength: {
                     value: 6,
                     message: '비밀번호는 최소 6자 이상이어야 합니다.',
                   },
                 })}
-                errorMessage={errors.pw?.message}
+                errorMessage={errors.password?.message}
               />
             </div>
 
@@ -110,17 +188,17 @@ export default function Signup() {
                 비밀번호 확인
               </label>
               <Input
-                id="pw"
+                id="passwordCheck"
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
-                {...register('pw', {
+                {...register('passwordCheck', {
                   required: '비밀번호를 입력해주세요.',
                   minLength: {
                     value: 6,
                     message: '비밀번호는 최소 6자 이상이어야 합니다.',
                   },
                 })}
-                errorMessage={errors.pw?.message}
+                errorMessage={errors.passwordCheck?.message}
               />
             </div>
           </div>

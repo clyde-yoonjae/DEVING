@@ -11,4 +11,9 @@ const postLogin = async ({
 
   return res;
 };
-export { postLogin };
+
+const postNameCheck = async (name: string) => {
+  const res = await basicAPI.get(`/api/v1/auths/signup/name?name=${name}`);
+  return res;
+};
+export { postLogin, postNameCheck };

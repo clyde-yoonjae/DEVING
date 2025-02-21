@@ -1,6 +1,6 @@
 import { setAccessToken } from '@/lib/serverActions';
 import { useMutation } from '@tanstack/react-query';
-import { postLogin } from 'service/api/user';
+import { postLogin, postNameCheck } from 'service/api/user';
 
 const useLoginMutation = ({
   onSuccessCallback,
@@ -26,4 +26,29 @@ const useLoginMutation = ({
   });
 };
 
-export { useLoginMutation };
+// 닉네임 중복 검사
+const useNameCheckMutation = ({
+  onSuccessCallback,
+  onErrorCallback,
+}: {
+  onSuccessCallback: () => void;
+  onErrorCallback: () => void;
+}) => {
+  return useMutation({
+    mutationFn: (name: string) => postNameCheck(name),
+    onSuccess: () => {
+      // 중복 검사 성공
+      /**
+       * TODO
+       * - 중복확인 버튼 비활성화
+       */
+      onSuccessCallback();
+    },
+    onError: () => {
+      // 중복 검사 실패
+      onErrorCallback();
+    },
+  });
+};
+
+export { useLoginMutation, useNameCheckMutation };
