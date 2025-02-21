@@ -1,10 +1,8 @@
 import { createElement } from 'react';
 
-import { BaseIcon } from './BaseIcon';
+import { BaseIcon, BaseIconProps } from './BaseIcon';
 import { ICON_LIST, IconConfig } from './IconData';
 
-// BaseIcon의 props 타입을 가져와서 path를 제외한 타입 생성
-type BaseIconProps = Parameters<typeof BaseIcon>[0];
 type IconProps = Omit<BaseIconProps, 'path'>;
 
 function createIconComponent(config: IconConfig) {
