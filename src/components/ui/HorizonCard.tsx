@@ -1,7 +1,9 @@
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 
-interface VerticalCardProps {
+import { Progress } from './Progress';
+
+interface HorizonCardProps {
   children?: React.ReactElement;
   className?: string;
   thumbnailUrl?: string;
@@ -11,17 +13,25 @@ interface VerticalCardProps {
   location: string;
 }
 
-const VerticalCard = ({
+const HorizonCard = ({
   children,
   className = '',
   thumbnailUrl = '',
-  thumbnailHeight = 252,
-  thumbnailWidth = 303,
+  thumbnailHeight = 208,
+  thumbnailWidth = 252,
   title,
   location,
-}: VerticalCardProps) => {
+}: HorizonCardProps) => {
   return (
-    <div className={`h-[410px] w-[335px] bg-BG p-4 ${className}`}>
+    <div
+      className={`relative flex h-[240px] w-full flex-shrink-0 bg-BG p-4 ${className}`}
+    >
+      <Heart
+        className="absolute right-4 top-4 cursor-pointer"
+        width={24}
+        height={24}
+        color="#626675"
+      />
       <div
         className={'relative'}
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
@@ -42,21 +52,16 @@ const VerticalCard = ({
           />
         )}
       </div>
-      <div className="mt-4">
+      <div className="flex-1 px-[40px]">
         <div className="typo-head2 flex justify-between text-Cgray800">
           {title}
-          <Heart
-            className="cursor-pointer"
-            width={24}
-            height={24}
-            color="#626675"
-          />
         </div>
         <div className="mt-3 text-Cgray500">{location}</div>
+        <Progress className="mt-4 overflow-hidden" value={33} total={100} />
       </div>
       {children}
     </div>
   );
 };
 
-export default VerticalCard;
+export default HorizonCard;

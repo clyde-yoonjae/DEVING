@@ -1,5 +1,6 @@
 'use client';
 
+import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 
 export const popularMeetings = [
@@ -75,6 +76,16 @@ function CardExamples() {
             thumbnailUrl={meeting.imageUrl}
             location={meeting.location}
           />
+        ))}
+      </div>
+      <div className="flex w-full flex-col gap-3">
+        {popularMeetings.map((meeting, idx) => (
+          <HorizonCard
+            key={idx}
+            title={meeting.title}
+            thumbnailUrl={meeting.imageUrl}
+            location={meeting.location}
+          ></HorizonCard>
         ))}
       </div>
     </div>
