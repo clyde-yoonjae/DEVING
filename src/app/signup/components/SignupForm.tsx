@@ -20,6 +20,7 @@ const SignupForm = () => {
     watch,
     handleClickPosition,
     dirtyFields,
+    setFocusedField,
   } = useSignUpForm();
   return (
     <form
@@ -40,9 +41,24 @@ const SignupForm = () => {
                 id="name"
                 className="h-full"
                 placeholder="닉네임을 입력해주세요."
-                {...register('name', { required: '닉네임을 입력해주세요.' })}
+                {...register('name', {
+                  required: '닉네임을 입력해주세요.',
+                  minLength: {
+                    value: 2,
+                    message: '최소 2자 이상 입력해 주세요.',
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: '최대 10자 이하로 입력해 주세요.',
+                  },
+                  pattern: {
+                    value: /^[가-힣a-zA-Z0-9]+$/,
+                    message: '한글(완성형), 영어, 숫자만 입력할 수 있습니다.',
+                  },
+                })}
                 errorMessage={errors.name?.message}
                 state={isNameCheck ? 'success' : 'default'}
+                onFocus={() => setFocusedField('name')}
               />
               <Button
                 disabled={isNameCheck}
@@ -75,6 +91,7 @@ const SignupForm = () => {
                 })}
                 state={isEmailCheck ? 'success' : 'default'}
                 errorMessage={errors.email?.message}
+                onFocus={() => setFocusedField('email')}
               />
               <Button
                 disabled={isEmailCheck}
@@ -131,6 +148,7 @@ const SignupForm = () => {
               })}
               state={dirtyFields.password ? 'success' : 'default'}
               errorMessage={errors.password?.message}
+              onFocus={() => setFocusedField('password')}
             />
           </div>
 
@@ -150,6 +168,7 @@ const SignupForm = () => {
               })}
               state={dirtyFields.passwordCheck ? 'success' : 'default'}
               errorMessage={errors.passwordCheck?.message}
+              onFocus={() => setFocusedField('passwordCheck')}
             />
           </div>
         </div>

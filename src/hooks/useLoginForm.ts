@@ -27,19 +27,9 @@ const useLoginForm = () => {
     null,
   );
 
-  // 이메일 포커스 1초 뒤 유효성 검사
+  // 입력창 포커스 1초 뒤 유효성 검사
   useDebounce({
-    value: watch('email'),
-    callBack: () => {
-      if (focusedField) {
-        trigger(focusedField);
-      }
-    },
-  });
-
-  // 비밀번호 포커스 1초 뒤 유효성 검사
-  useDebounce({
-    value: watch('password'),
+    value: watch(focusedField!),
     callBack: () => {
       if (focusedField) {
         trigger(focusedField);
