@@ -9,7 +9,7 @@ interface VerticalCardProps {
   thumbnailHeight?: number;
   title: string;
   location: string;
-  onClickLike: () => void;
+  onClickLike?: () => void;
 }
 
 const VerticalCard = ({
@@ -23,7 +23,7 @@ const VerticalCard = ({
   onClickLike,
 }: VerticalCardProps) => {
   const handleLikeButton = () => {
-    onClickLike();
+    if (onClickLike) onClickLike();
   };
 
   return (

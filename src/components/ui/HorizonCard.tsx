@@ -11,7 +11,7 @@ interface HorizonCardProps {
   thumbnailHeight?: number;
   title: string;
   location: string;
-  onClickLike: () => void;
+  onClickLike?: () => void;
 }
 
 const HorizonCard = ({
@@ -25,7 +25,7 @@ const HorizonCard = ({
   onClickLike,
 }: HorizonCardProps) => {
   const handleLikeButton = () => {
-    onClickLike();
+    if (onClickLike) onClickLike();
   };
 
   return (
