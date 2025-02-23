@@ -9,6 +9,7 @@ interface VerticalCardProps {
   thumbnailHeight?: number;
   title: string;
   location: string;
+  onClickLike: () => void;
 }
 
 const VerticalCard = ({
@@ -19,7 +20,12 @@ const VerticalCard = ({
   thumbnailWidth = 303,
   title,
   location,
+  onClickLike,
 }: VerticalCardProps) => {
+  const handleLikeButton = () => {
+    onClickLike();
+  };
+
   return (
     <div className={`h-[410px] w-[335px] bg-BG p-4 ${className}`}>
       <div
@@ -50,6 +56,7 @@ const VerticalCard = ({
             width={24}
             height={24}
             color="#626675"
+            onClick={handleLikeButton}
           />
         </div>
         <div className="mt-3 text-Cgray500">{location}</div>

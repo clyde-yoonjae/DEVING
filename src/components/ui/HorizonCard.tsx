@@ -11,6 +11,7 @@ interface HorizonCardProps {
   thumbnailHeight?: number;
   title: string;
   location: string;
+  onClickLike: () => void;
 }
 
 const HorizonCard = ({
@@ -21,7 +22,12 @@ const HorizonCard = ({
   thumbnailWidth = 252,
   title,
   location,
+  onClickLike,
 }: HorizonCardProps) => {
+  const handleLikeButton = () => {
+    onClickLike();
+  };
+
   return (
     <div
       className={`relative flex h-[240px] w-full flex-shrink-0 bg-BG p-4 ${className}`}
@@ -31,6 +37,7 @@ const HorizonCard = ({
         width={24}
         height={24}
         color="#626675"
+        onClick={handleLikeButton}
       />
       <div
         className={'relative'}
