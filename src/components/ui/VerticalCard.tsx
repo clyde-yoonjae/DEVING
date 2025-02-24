@@ -1,6 +1,7 @@
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 
+import { Button } from './Button';
 import { Progress } from './Progress';
 
 interface VerticalCardProps {
@@ -12,17 +13,23 @@ interface VerticalCardProps {
   title: string;
   location: string;
   onClickLike?: () => void;
+  isLike?: boolean;
+  value: number;
+  total: number;
 }
 
 const VerticalCard = ({
   children,
   className = '',
-  thumbnailUrl = '',
+  thumbnailUrl = '/thumbnail.jpg',
   thumbnailHeight = 252,
   thumbnailWidth = 303,
   title,
   location,
   onClickLike,
+  isLike = false,
+  value,
+  total = 100,
 }: VerticalCardProps) => {
   const handleLikeButton = () => {
     if (onClickLike) onClickLike();
@@ -34,35 +41,41 @@ const VerticalCard = ({
         className={'relative'}
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
-        {thumbnailUrl === '' ? (
-          <Image
-            className="rounded-[20px] object-cover"
-            alt="card_thumbnail"
-            fill
-            src="/thumbnail.jpg"
-          />
-        ) : (
-          <Image
-            className="rounded-[20px] object-cover"
-            alt="card_thumbnail"
-            fill
-            src={thumbnailUrl}
-          />
-        )}
+        <Image
+          className="rounded-[20px] object-cover"
+          alt="card_thumbnail"
+          fill
+          src={thumbnailUrl === '' ? '/thumbnail.jpg' : thumbnailUrl}
+        />
       </div>
       <div className="mt-4">
-        <div className="typo-head2 flex justify-between text-Cgray800">
-          {title}
-          <Heart
-            className="cursor-pointer"
-            width={24}
-            height={24}
-            color="#626675"
+        <div className="typo-head2 flex justify-between truncate text-Cgray800 ">
+          <span className="max-w-[270px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
+            {title}
+          </span>
+          <Button
+            className=" h-auto w-auto"
+            variant="text"
+            size="sm"
             onClick={handleLikeButton}
-          />
+            icon={
+              <Heart
+                style={{ width: '24px', height: '24px' }}
+                className={isLike ? 'fill-main' : 'stroke-Cgray500'}
+              />
+            }
+          ></Button>
         </div>
-        <div className="mt-3 text-Cgray500">{location}</div>
-        <Progress className="mt-4 overflow-hidden" value={33} total={100} />
+        <div className="mt-3 truncate text-Cgray500">
+          <span className="max-w-[270px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
+            {location}
+          </span>
+        </div>
+        <Progress
+          className="mt-4 overflow-hidden"
+          value={value}
+          total={total}
+        />
       </div>
       {children}
     </div>

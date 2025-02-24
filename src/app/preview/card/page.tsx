@@ -3,65 +3,47 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 
-const popularMeetings = [
+const meetingDummyData = [
   {
-    id: 1,
-    title: '코드잇 스프린트',
-    location: '서울 성동구 서울숲길 17 공원',
-    category: '스터디', // 추가: "취미", "모각코", "스터디", "프로젝트" 중 하나
-    badges: [
-      { type: 'status', label: '개설중' },
-      { type: 'date', label: '2025년 2월 11일' },
-      { type: 'time', label: '17:30' },
-    ],
-    currentPeople: 18,
-    maxPeople: 20,
-    imageUrl: '',
+    meetingId: 1,
+    title: 'JavaScript Study Group',
+    thumbnail:
+      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
+    location:
+      'Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul ',
+    memberCount: 5,
+    maxMember: 10,
+    isLike: true,
   },
   {
-    id: 2,
-    title: '주말 러닝 모임',
-    location: '부산 수영구 광안리해변로',
-    category: '취미',
-    badges: [
-      { type: 'status', label: '신청가능' },
-      { type: 'date', label: '2025년 3월 2일' },
-      { type: 'time', label: '09:00' },
-    ],
-    currentPeople: 5,
-    maxPeople: 10,
-    imageUrl:
+    meetingId: 2,
+    title: 'React Dev Meetup',
+    thumbnail:
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
+    location: 'Busan',
+    memberCount: 8,
+    maxMember: 15,
+    isLike: false,
   },
   {
-    id: 3,
-    title: '디자인 스터디',
-    location: '서울 강남구 테헤란로 427',
-    category: '스터디',
-    badges: [
-      { type: 'status', label: '마감임박' },
-      { type: 'date', label: '2025년 3월 5일' },
-      { type: 'time', label: '19:00' },
-    ],
-    currentPeople: 19,
-    maxPeople: 20,
-    imageUrl:
+    meetingId: 3,
+    title: 'Next.js Workshop',
+    thumbnail:
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
+    location: 'Incheon',
+    memberCount: 3,
+    maxMember: 8,
+    isLike: true,
   },
   {
-    id: 4,
-    title: 'React 모각코',
-    location: '온라인',
-    category: '모각코',
-    badges: [
-      { type: 'status', label: '개설중' },
-      { type: 'date', label: '2025년 4월 10일' },
-      { type: 'time', label: '21:00' },
-    ],
-    currentPeople: 3,
-    maxPeople: 10,
-    imageUrl:
-      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
+    meetingId: 4,
+    title:
+      'Frontend Performance Optimization Frontend Performance Optimization Frontend Performance Optimization ',
+    thumbnail: '',
+    location: 'Daejeon',
+    memberCount: 6,
+    maxMember: 12,
+    isLike: false,
   },
 ];
 
@@ -69,22 +51,28 @@ function CardExamples() {
   return (
     <div className="overflow-x-auto lg:overflow-x-hidden">
       <div className="flex w-full">
-        {popularMeetings.map((meeting, idx) => (
+        {meetingDummyData.map((meeting) => (
           <VerticalCard
-            key={idx}
+            key={meeting.meetingId}
             title={meeting.title}
-            thumbnailUrl={meeting.imageUrl}
+            thumbnailUrl={meeting.thumbnail}
             location={meeting.location}
+            isLike={meeting.isLike}
+            total={meeting.maxMember}
+            value={meeting.memberCount}
           />
         ))}
       </div>
       <div className="flex w-full flex-col gap-3">
-        {popularMeetings.map((meeting, idx) => (
+        {meetingDummyData.map((meeting) => (
           <HorizonCard
-            key={idx}
+            key={meeting.meetingId}
             title={meeting.title}
-            thumbnailUrl={meeting.imageUrl}
+            thumbnailUrl={meeting.thumbnail}
             location={meeting.location}
+            isLike={meeting.isLike}
+            total={meeting.maxMember}
+            value={meeting.memberCount}
           ></HorizonCard>
         ))}
       </div>

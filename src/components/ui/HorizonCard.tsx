@@ -1,28 +1,35 @@
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
 
+import { Button } from './Button';
 import { Progress } from './Progress';
 
 interface HorizonCardProps {
+  title: string;
+  location: string;
+  value: number;
+  total: number;
   children?: React.ReactElement;
   className?: string;
   thumbnailUrl?: string;
   thumbnailWidth?: number;
   thumbnailHeight?: number;
-  title: string;
-  location: string;
   onClickLike?: () => void;
+  isLike?: boolean;
 }
 
 const HorizonCard = ({
   children,
   className = '',
-  thumbnailUrl = '',
+  thumbnailUrl = '/thumbnail.jpg',
   thumbnailHeight = 208,
   thumbnailWidth = 252,
   title,
   location,
   onClickLike,
+  isLike = false,
+  value,
+  total = 100,
 }: HorizonCardProps) => {
   const handleLikeButton = () => {
     if (onClickLike) onClickLike();
@@ -32,39 +39,46 @@ const HorizonCard = ({
     <div
       className={`relative flex h-[240px] w-full flex-shrink-0 bg-BG p-4 ${className}`}
     >
-      <Heart
-        className="absolute right-4 top-4 cursor-pointer"
-        width={24}
-        height={24}
-        color="#626675"
+      <Button
+        className="absolute right-4 top-4 h-auto w-auto"
+        variant="text"
+        size="sm"
         onClick={handleLikeButton}
-      />
+        icon={
+          <Heart
+            style={{ width: '24px', height: '24px' }}
+            className={isLike ? 'fill-main' : ''}
+          />
+        }
+      ></Button>
+
       <div
-        className={'relative'}
+        className="relative"
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
-        {thumbnailUrl === '' ? (
-          <Image
-            className="rounded-[20px] object-cover"
-            alt="card_thumbnail"
-            fill
-            src="/thumbnail.jpg"
-          />
-        ) : (
-          <Image
-            className="rounded-[20px] object-cover"
-            alt="card_thumbnail"
-            fill
-            src={thumbnailUrl}
-          />
-        )}
+        <Image
+          className="rounded-[20px] object-cover"
+          alt="card_thumbnail"
+          fill
+          src={thumbnailUrl === '' ? '/thumbnail.jpg' : thumbnailUrl}
+        />
       </div>
       <div className="flex-1 px-[40px]">
         <div className="typo-head2 flex justify-between text-Cgray800">
-          {title}
+          <span className="max-w-[950px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
+            {title}
+          </span>
         </div>
-        <div className="mt-3 text-Cgray500">{location}</div>
-        <Progress className="mt-4 overflow-hidden" value={33} total={100} />
+        <div className="mt-3 flex truncate text-Cgray500">
+          <span className="max-w-[950px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
+            {location}
+          </span>
+        </div>
+        <Progress
+          className="mt-4 overflow-hidden"
+          value={value}
+          total={total}
+        />
       </div>
       {children}
     </div>
