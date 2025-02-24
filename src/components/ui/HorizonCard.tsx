@@ -47,13 +47,13 @@ const HorizonCard = ({
         icon={
           <Heart
             style={{ width: '24px', height: '24px' }}
-            className={isLike ? 'fill-main' : ''}
+            className={`${isLike ? 'fill-main' : ''} h-4 w-4 md:h-6 md:w-6`}
           />
         }
       ></Button>
 
       <div
-        className="relative"
+        className="relative flex-shrink-0"
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
         <Image
@@ -63,13 +63,13 @@ const HorizonCard = ({
           src={thumbnailUrl === '' ? '/thumbnail.jpg' : thumbnailUrl}
         />
       </div>
-      <div className="flex-1 px-[40px]">
-        <div className="typo-head2 flex justify-between text-Cgray800">
-          <span className="max-w-[950px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
+      <div className="min-w-0 flex-1 px-[10px] md:px-[30px] lg:px-[40px]">
+        <div className="type-button2 flex justify-between text-Cgray800 md:typo-head2 lg:typo-head2">
+          <span className="mr-4 max-w-[950px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {title}
           </span>
         </div>
-        <div className="mt-3 flex truncate text-Cgray500">
+        <div className="md:typo-button typo-body2 mt-3 flex truncate text-Cgray500 lg:typo-button1">
           <span className="max-w-[950px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {location}
           </span>
@@ -78,6 +78,7 @@ const HorizonCard = ({
           className="mt-4 overflow-hidden"
           value={value}
           total={total}
+          showCounter={true}
         />
       </div>
       {children}
