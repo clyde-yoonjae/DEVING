@@ -12,7 +12,7 @@ export const userStatusKeys = {
 export type UserStatus = keyof typeof userStatusKeys;
 
 const tagVariants = cva(
-  'typo-caption1 inline-flex items-center rounded-[10px] px-3 py-3 font-semibold transition-colors focus:ring-offset-2',
+  'typo-caption1 inline-flex items-center rounded-[10px] p-3 font-semibold transition-colors focus:ring-offset-2',
   {
     variants: {
       variant: {
