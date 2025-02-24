@@ -37,7 +37,7 @@ const ReviewAvgCard = ({ count }: ReviewAvgCardProps) => {
   ];
 
   return (
-    <div className="w-full rounded-2xl border-4 border-Cgray300 p-8">
+    <div className="w-full rounded-[24px] bg-Cgray200 p-8">
       <div className="flex h-full w-full flex-col gap-8 lg:flex-row">
         <div className="flex flex-col items-center justify-center gap-4 lg:w-1/2">
           <div className="typo-head1 flex items-center justify-center gap-1">

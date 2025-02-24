@@ -35,7 +35,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     return (
       <div className={cn('w-full', className)} ref={ref}>
         <ProgressPrimitive.Root
-          className="relative h-[6px] w-full overflow-hidden rounded-full bg-Cgray200"
+          className="relative h-[6px] w-full overflow-hidden rounded-full bg-Cgray100"
           {...props}
         >
           <ProgressPrimitive.Indicator
