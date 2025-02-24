@@ -63,7 +63,7 @@ export function useLoginForm() {
     };
 
     checkLoginStatus();
-  }, []);
+  }, [router]);
 
   const { mutate } = useLoginMutation({
     onSuccessCallback: () => router.push('/'),
