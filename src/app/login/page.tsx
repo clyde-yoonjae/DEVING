@@ -1,5 +1,7 @@
+import { Button } from '@/components/ui/Button';
 import { baseURL } from '@/lib/axios/defaultConfig';
 
+import DummyUser from './components/DummyUser';
 import LoginForm from './components/LoginForm';
 
 export const metadata = {
@@ -17,8 +19,9 @@ export const metadata = {
 
 export default function Login() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-screen flex-col items-center justify-center">
       <LoginForm />
+      <DummyUser />
     </div>
   );
 }
