@@ -1,4 +1,5 @@
 import RatingStars from '@/components/common/review/RatingStars';
+import { formatDate, getRelativeTime } from '@/util/date';
 import Image from 'next/image';
 import { Comment } from 'service/api/comment';
 
@@ -19,14 +20,15 @@ const ReviewItem = ({ comment }: { comment: Comment }) => {
           />
           <h3 className="typo-head3 text-Cgray800">{comment.userName}</h3>
         </div>
-        {/* <p className="text-Cgray500">별점</p> */}
         <RatingStars rating={Number(comment.score)} size={24} />
       </div>
       <div className="h-[100px]">
         <p className="text-Cgray500">{comment.content}</p>
       </div>
       <div className="flex justify-end">
-        <p className="typo-body2 text-Cgray500">{comment.createdAt}</p>
+        <p className="typo-body2 text-Cgray500">
+          {getRelativeTime(comment.createdAt)}
+        </p>
       </div>
     </div>
   );

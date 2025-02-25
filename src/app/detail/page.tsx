@@ -1,10 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 
-import CardWarpper from './components/CardWrapper';
-import MeetingInfo from './components/MeetingInfo';
 import MeetingTotalInfo from './components/MeetingTotalInfo';
 import Review from './components/Review';
-import UserInfo from './components/UserInfo';
 
 export default function Detail() {
   return (

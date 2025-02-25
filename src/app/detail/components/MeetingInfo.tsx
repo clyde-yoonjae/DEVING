@@ -1,3 +1,4 @@
+import { formatDate } from '@/util/date';
 import { MeetingDetail } from 'service/api/meeting';
 
 const MeetingInfo = ({ meeting }: { meeting: MeetingDetail }) => {
@@ -15,14 +16,16 @@ const MeetingInfo = ({ meeting }: { meeting: MeetingDetail }) => {
           </div>
           <div className="flex gap-[8px]">
             <p className="typo-head4 w-[56px] text-main">날짜</p>
-            <p className="typo-body1 text-Cgray700">{meeting.startdate}</p>
+            <p className="typo-body1 text-Cgray700">
+              {formatDate(meeting.startdate)}
+            </p>
           </div>
           <div className="flex gap-[8px]">
             <p className="typo-head4 w-[56px] text-main">모집정원</p>
             <p className="typo-body1 text-Cgray700">{meeting.maxMember}명</p>
           </div>
         </div>
-        <p className="typo-body1 text-Cgray800">{meeting.content}</p>
+        <p className="typo-body1 h-[200px] text-Cgray800">{meeting.content}</p>
       </div>
     </div>
   );

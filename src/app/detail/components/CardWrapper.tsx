@@ -2,27 +2,22 @@
 
 import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
-import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
+import { getDDay } from '@/util/date';
 import { MeetingDetail } from 'service/api/meeting';
 
 const CardWarpper = ({ meeting }: { meeting: MeetingDetail }) => {
-  //   const meeting = {
-  //     meetingId: 1,
-  //     title: 'JavaScript Study Group',
-  //     thumbnail:
-  //       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
-  //     location: 'Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul ',
-  //     memberCount: 5,
-  //     maxMember: 10,
-  //     isLike: true,
-  //   };
   // 신청 전
   const beforeSubmit = () => {
     return (
       <div className="flex h-[208px] w-[318px] flex-col justify-end gap-[24px]">
         <div>
-          <p className="typo-head3 text-Cgray500">남은 시간</p>
-          <p className="typo-head1 text-Cgray800">2일 14시간</p>
+          <p className="typo-head3 text-Cgray500">모임 시작</p>
+          <div className="flex items-end">
+            <p className="typo-head1 text-Cgray800">
+              {getDDay(meeting.startdate)}
+            </p>
+            <p className="typo-button1 mb-2 ml-1 text-Cgray800">일</p>
+          </div>
         </div>
         <Button className="w-full">신청하기</Button>
       </div>

@@ -27,6 +27,10 @@ const Review = () => {
 
   return (
     <div className="flex flex-col gap-[48px] px-[48px] py-[16px]">
+      <div className="mb-[-24px] flex items-center gap-[8px]">
+        <div className="h-[14px] w-[2px] bg-Cgray700" />
+        <h3 className="typo-head3 text-Cgray700">리뷰</h3>
+      </div>
       <ReviewAvgCard count={count} />
       <ReviewInput />
       <ReviewList comments={comments.content} />
