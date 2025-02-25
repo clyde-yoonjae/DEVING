@@ -37,7 +37,7 @@ const HorizonCard = ({
 
   return (
     <div
-      className={`relative flex h-[240px] w-full flex-shrink-0 bg-BG p-4 ${className}`}
+      className={`relative flex h-auto w-full flex-shrink-0 bg-BG p-4 ${className}`}
     >
       <Button
         className="absolute right-4 top-4 h-auto w-auto"

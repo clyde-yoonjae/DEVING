@@ -120,7 +120,7 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
     >
       <li className="typo-head4 p-[16px]">
         <Link
-          href="/Mogakco"
+          href="/mogakco"
           className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
         >
           모각코
