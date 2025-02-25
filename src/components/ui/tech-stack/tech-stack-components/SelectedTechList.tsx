@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SelectedTechButton } from './SelectedTechButton';
+import SelectedTechButton from './SelectedTechButton';
 
 interface SelectedTechListProps {
   selectedNames: string[];
@@ -8,11 +8,11 @@ interface SelectedTechListProps {
   onRemove: (name: string) => void;
 }
 
-export function SelectedTechList({
+const SelectedTechList = ({
   selectedNames,
   getIconColor,
   onRemove,
-}: SelectedTechListProps): JSX.Element {
+}: SelectedTechListProps): JSX.Element => {
   if (selectedNames.length === 0) {
     return <div className="min-h-8"></div>;
   }
@@ -33,4 +33,6 @@ export function SelectedTechList({
       </div>
     </div>
   );
-}
+};
+
+export default SelectedTechList;

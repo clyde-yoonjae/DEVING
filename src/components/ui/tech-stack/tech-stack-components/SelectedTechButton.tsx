@@ -8,11 +8,11 @@ interface SelectedTechButtonProps {
   onRemove: (name: string) => void;
 }
 
-export function SelectedTechButton({
+const SelectedTechButton = ({
   name,
   color,
   onRemove,
-}: SelectedTechButtonProps): JSX.Element {
+}: SelectedTechButtonProps): JSX.Element => {
   // 현재 기술의 아이콘 컴포넌트
   const TechIcon = getIconComponent(name);
 
@@ -38,4 +38,6 @@ export function SelectedTechButton({
       </button>
     </div>
   );
-}
+};
+
+export default SelectedTechButton;

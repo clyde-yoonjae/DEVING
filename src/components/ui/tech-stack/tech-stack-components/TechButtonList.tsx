@@ -11,13 +11,13 @@ interface TechButtonListProps {
   onButtonClick: (name: string) => void;
 }
 
-export function TechButtonList({
+const TechButtonList = ({
   icons,
   clickedButtons,
   selectedCount,
   maxSelections,
   onButtonClick,
-}: TechButtonListProps): JSX.Element {
+}: TechButtonListProps): JSX.Element => {
   return (
     <div className="mt-4 rounded-md bg-Cgray200 p-4">
       <div
@@ -60,4 +60,6 @@ export function TechButtonList({
       </div>
     </div>
   );
-}
+};
+
+export default TechButtonList;

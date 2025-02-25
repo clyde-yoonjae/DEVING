@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { CategoryType } from 'types/techStack';
 
 import CategoryTabs from './tech-stack-components/CategoryTabs';
-import { SelectedTechList } from './tech-stack-components/SelectedTechList';
-import { TechButtonList } from './tech-stack-components/TechButtonList';
+import SelectedTechList from './tech-stack-components/SelectedTechList';
+import TechButtonList from './tech-stack-components/TechButtonList';
 
 interface TechSelectorProps {
   maxSelections?: number;
