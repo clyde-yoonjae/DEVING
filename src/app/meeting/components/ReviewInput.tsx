@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { useCommentMutation } from '@/hooks/mutations/useCommentMutation';
 import { useState } from 'react';
 
-const ReviewInput = () => {
+const ReviewInput = ({ meetingId }: { meetingId: number }) => {
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [review, setReview] = useState('');
 
@@ -14,7 +14,7 @@ const ReviewInput = () => {
       score: selectedRating,
       content: review,
     };
-    mutate({ meetingId: 2, req });
+    mutate({ meetingId, req });
 
     // 초기화
     setSelectedRating(0);

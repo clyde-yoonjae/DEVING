@@ -6,8 +6,8 @@ import CardWarpper from './CardWrapper';
 import MeetingInfo from './MeetingInfo';
 import UserInfo from './UserInfo';
 
-const MeetingTotalInfo = () => {
-  const { data: meeting, error, isLoading } = useDetailQueries(1);
+const MeetingTotalInfo = ({ meetingId }: { meetingId: number }) => {
+  const { data: meeting, error, isLoading } = useDetailQueries(meetingId);
 
   console.log('data: ', meeting);
 
