@@ -1,3 +1,4 @@
+import { authAPI } from '@/lib/axios/authApi';
 import { basicAPI } from '@/lib/axios/basicApi';
 
 export interface ICommentsCount {
@@ -55,8 +56,15 @@ const getCommentsMeeting = async (meetingId: number): Promise<Comments> => {
   const res = await basicAPI.get(
     `/api/v1/comments/${meetingId}?lastCommentId=0&size=3`,
   );
-  console.log('api 댓글: ', res.data.data);
   return res.data.data;
 };
 
-export { getCommentsCount, getCommentsMeeting };
+const postComment = async (
+  meetingId: number,
+  req: { score: number; content: string },
+) => {
+  const res = await authAPI.post(`/api/v1/comments/${meetingId}`, req);
+  return res.data.data;
+};
+
+export { getCommentsCount, getCommentsMeeting, postComment };
