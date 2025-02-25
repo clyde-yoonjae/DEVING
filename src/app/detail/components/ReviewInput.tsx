@@ -1,10 +1,15 @@
+import RatingStars from '@/components/common/review/RatingStars';
 import { Button } from '@/components/ui/Button';
 
 const ReviewInput = () => {
   return (
     <div className="rounded-[24px] border border-Cgray300 px-[24px] py-[32px]">
       <h3 className="typo-head3 text-Cgray800">리뷰 작성</h3>
-      <div>별점</div>
+      <RatingStars
+        rating={Number(0)}
+        size={24}
+        className="mb-[16px] mt-[24px]"
+      />
       <div className="flex h-[100px] gap-[16px]">
         <textarea
           className="typo-button1 h-full flex-1 resize-none rounded-[12px] bg-Cgray200 px-[16px] py-[14px] text-Cgray500 placeholder:text-Cgray400"

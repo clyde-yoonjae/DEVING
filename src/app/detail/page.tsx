@@ -13,11 +13,7 @@ export default function Detail() {
         <ArrowLeft className="h-[24px] w-[24px] text-Cgray700" />
       </div>
       <MeetingTotalInfo />
-      {/* <CardWarpper />
-      <UserInfo />
-      <MeetingInfo /> */}
       <Review />
-      <div>리뷰 리스트</div>
     </div>
   );
 }

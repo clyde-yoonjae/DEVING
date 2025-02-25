@@ -1,3 +1,4 @@
+import RatingStars from '@/components/common/review/RatingStars';
 import Image from 'next/image';
 import { Comment } from 'service/api/comment';
 
@@ -10,7 +11,7 @@ const ReviewItem = ({ comment }: { comment: Comment }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-[8px]">
           <Image
-            src={thumbnail}
+            src={comment.profilePic}
             width={40}
             height={40}
             className="rounded-[9.92px]"
@@ -18,7 +19,8 @@ const ReviewItem = ({ comment }: { comment: Comment }) => {
           />
           <h3 className="typo-head3 text-Cgray800">{comment.userName}</h3>
         </div>
-        <p className="text-Cgray500">별점</p>
+        {/* <p className="text-Cgray500">별점</p> */}
+        <RatingStars rating={Number(comment.score)} size={24} />
       </div>
       <div className="h-[100px]">
         <p className="text-Cgray500">{comment.content}</p>

@@ -1,16 +1,15 @@
 'use client';
 
+import ReviewAvgCard from '@/components/common/review/ReviewAvgCard';
 import {
   useCommentsCountQueries,
   useCommentsMeetingQueires,
 } from '@/hooks/queries/useCommentQueries';
 
-import ReviewAvg from './ReviewAvg';
 import ReviewInput from './ReviewInput';
 import ReviewList from './ReviewList';
 
 const Review = () => {
-  // Review 가져오기
   const {
     data: count,
     error: countError,
@@ -28,7 +27,7 @@ const Review = () => {
 
   return (
     <div className="flex flex-col gap-[48px] px-[48px] py-[16px]">
-      <ReviewAvg count={count} />
+      <ReviewAvgCard count={count} />
       <ReviewInput />
       <ReviewList comments={comments.content} />
     </div>

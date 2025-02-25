@@ -19,8 +19,8 @@ export function StarIcon({
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill={variant === 'filled' ? 'currentColor' : 'var(--Cgray100)'}
-      stroke="currentColor"
+      fill={variant === 'filled' ? 'currentColor' : '#30333E'}
+      stroke="none"
       strokeWidth="1"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -31,8 +31,8 @@ export function StarIcon({
           <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="currentColor" />
             <stop offset="50%" stopColor="currentColor" />
-            <stop offset="50%" stopColor="var(--Cgray100)" />
-            <stop offset="100%" stopColor="var(--Cgray100)" />
+            <stop offset="50%" stopColor="#30333E" />
+            <stop offset="100%" stopColor="#30333E" />
           </linearGradient>
         </defs>
       )}

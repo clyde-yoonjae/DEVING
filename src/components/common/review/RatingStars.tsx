@@ -24,7 +24,14 @@ const RatingStars = ({ rating, size = 24, className }: RatingStarsProps) => {
           variant = 'half';
         }
 
-        return <StarIcon key={index} variant={variant} size={size} />;
+        return (
+          <StarIcon
+            key={index}
+            variant={variant}
+            size={size}
+            // className="text-Cgray300"
+          />
+        );
       })}
     </div>
   );
