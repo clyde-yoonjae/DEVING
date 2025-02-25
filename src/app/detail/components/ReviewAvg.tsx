@@ -1,6 +1,7 @@
 import ReviewAvgCard from '@/components/common/review/ReviewAvgCard';
+import { ICommentsCount } from 'service/api/comment';
 
-const ReviewAvg = () => {
+const ReviewAvg = ({ count }: { count: ICommentsCount }) => {
   const reviewData = {
     average: 4.7,
     count: {
@@ -11,7 +12,7 @@ const ReviewAvg = () => {
       ones: 3,
     },
   };
-  return <ReviewAvgCard count={reviewData.count} />;
+  return <ReviewAvgCard count={count} />;
 };
 
 export default ReviewAvg;

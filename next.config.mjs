@@ -2,7 +2,10 @@
 const nextConfig = {
   images: {
     // TODO: 서버 이미지 도메인으로 수정
-    domains: ['helpx.adobe.com'],
+    domains: [
+      'helpx.adobe.com',
+      'deving-bucket.s3.ap-northeast-2.amazonaws.com',
+    ],
   },
 
   webpack(config) {

@@ -2,6 +2,7 @@ import { ArrowLeft } from 'lucide-react';
 
 import CardWarpper from './components/CardWrapper';
 import MeetingInfo from './components/MeetingInfo';
+import MeetingTotalInfo from './components/MeetingTotalInfo';
 import Review from './components/Review';
 import UserInfo from './components/UserInfo';
 
@@ -11,9 +12,10 @@ export default function Detail() {
       <div className="mt-[40px]">
         <ArrowLeft className="h-[24px] w-[24px] text-Cgray700" />
       </div>
-      <CardWarpper />
+      <MeetingTotalInfo />
+      {/* <CardWarpper />
       <UserInfo />
-      <MeetingInfo />
+      <MeetingInfo /> */}
       <Review />
       <div>리뷰 리스트</div>
     </div>

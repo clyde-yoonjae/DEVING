@@ -2,18 +2,20 @@
 
 import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
+import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
+import { MeetingDetail } from 'service/api/meeting';
 
-const CardWarpper = () => {
-  const meeting = {
-    meetingId: 1,
-    title: 'JavaScript Study Group',
-    thumbnail:
-      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
-    location: 'Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul ',
-    memberCount: 5,
-    maxMember: 10,
-    isLike: true,
-  };
+const CardWarpper = ({ meeting }: { meeting: MeetingDetail }) => {
+  //   const meeting = {
+  //     meetingId: 1,
+  //     title: 'JavaScript Study Group',
+  //     thumbnail:
+  //       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
+  //     location: 'Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul ',
+  //     memberCount: 5,
+  //     maxMember: 10,
+  //     isLike: true,
+  //   };
   // 신청 전
   const beforeSubmit = () => {
     return (

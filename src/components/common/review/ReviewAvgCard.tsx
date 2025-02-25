@@ -1,16 +1,11 @@
 import { Progress } from '@/components/ui/Progress';
 import React from 'react';
+import { ICommentsCount } from 'service/api/comment';
 
 import RatingStars from './RatingStars';
 
 interface ReviewAvgCardProps {
-  count: {
-    fives: number;
-    fours: number;
-    threes: number;
-    twos: number;
-    ones: number;
-  };
+  count: ICommentsCount;
 }
 
 const ReviewAvgCard = ({ count }: ReviewAvgCardProps) => {

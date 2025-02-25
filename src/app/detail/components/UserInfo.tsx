@@ -1,8 +1,18 @@
+'use client';
+
+import { useDetailUserQueries } from '@/hooks/queries/useMeetingQueries';
 import Image from 'next/image';
 
 import thumbnail from '../../../assets/thumbnail.png';
 
 const UserInfo = () => {
+  const { data, error, isLoading } = useDetailUserQueries(2);
+
+  if (isLoading) return <div>로딩중</div>;
+  if (error) return <div>에러</div>;
+  if (!data) return <div>loading...</div>;
+
+  console.log('userinfo: ', data);
   return (
     <div className="flex flex-col gap-[16px] p-[16px] px-[32px]">
       <div className="flex items-center gap-[16px]">
@@ -15,21 +25,19 @@ const UserInfo = () => {
           />
         </div>
         <div className="flex flex-col gap-[12px]">
-          <h3 className="typo-head3 text-Cgray800">김데빙</h3>
-          <p className="typo-body1 text-Cgray700">
-            안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~
-          </p>
+          <h3 className="typo-head3 text-Cgray800">{data.name}</h3>
+          <p className="typo-body1 text-Cgray700">{data.intro}</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-[8px] px-[8px]">
         <div className="flex gap-[8px]">
           <p className="typo-head4 w-[56px] text-main">Email</p>
-          <p className="typo-body1 text-Cgray700">codeit@codeit.com</p>
+          <p className="typo-body1 text-Cgray700">{data.email}</p>
         </div>
         <div className="flex gap-[8px]">
           <p className="typo-head4 w-[56px] text-main">연락처</p>
-          <p className="typo-body1 text-Cgray700">010-1234-1234</p>
+          <p className="typo-body1 text-Cgray700">{data.phone}</p>
         </div>
       </div>
       <div className="ml-[8px] flex gap-[6px] text-Cgray500">
