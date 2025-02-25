@@ -31,7 +31,7 @@ export function SelectedTechButton({
       {/* 삭제 버튼 */}
       <button
         onClick={() => onRemove(name)}
-        className="hover:bg-gray-200 ml-1 cursor-pointer rounded-full p-0.5"
+        className="hover:bg-gray-200 ml-1 cursor-pointer rounded-full p-1"
         aria-label={`${name} 선택 해제`}
       >
         <X size={12} className="text-white" />
