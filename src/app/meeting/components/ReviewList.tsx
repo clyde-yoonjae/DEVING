@@ -1,8 +1,21 @@
-import { Comment } from 'service/api/comment';
+'use client';
+
+import { useCommentsMeetingQueires } from '@/hooks/queries/useCommentQueries';
 
 import ReviewItem from './ReviewItem';
+import SkeletonReviewList from './skeletons/SkeletonReviewList';
 
-const ReviewList = ({ comments }: { comments: Comment[] }) => {
+const ReviewList = ({ meetingId }: { meetingId: number }) => {
+  const {
+    data: commentsData,
+    isLoading,
+    error,
+  } = useCommentsMeetingQueires(meetingId);
+  if (isLoading || !commentsData) {
+    return <SkeletonReviewList />;
+  }
+  const comments = commentsData.content;
+
   console.log('comments: ', comments);
   return (
     <div className="flex flex-col gap-[8px]">

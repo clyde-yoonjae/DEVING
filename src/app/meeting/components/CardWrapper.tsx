@@ -2,11 +2,18 @@
 
 import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
+import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
 import { getDDay } from '@/util/date';
-import { MeetingDetail } from 'service/api/meeting';
 
-const CardWarpper = ({ meeting }: { meeting: MeetingDetail }) => {
+import SkeletonMeetingTotalInfo from './skeletons/SkeletonMeetingTotalInfo';
+
+const CardWarpper = ({ meetingId }: { meetingId: number }) => {
+  const { data: meeting, isLoading, error } = useDetailQueries(meetingId);
+
   // 신청 전
+  if (isLoading || !meeting) {
+    return <SkeletonMeetingTotalInfo />;
+  }
   const beforeSubmit = () => {
     return (
       <div className="flex h-[208px] w-[318px] flex-col justify-end gap-[24px]">

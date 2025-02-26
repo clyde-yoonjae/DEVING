@@ -1,7 +1,18 @@
-import { formatDate } from '@/util/date';
-import { MeetingDetail } from 'service/api/meeting';
+'use client';
 
-const MeetingInfo = ({ meeting }: { meeting: MeetingDetail }) => {
+import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
+import { formatDate } from '@/util/date';
+
+import SkeletonMeetingInfo from './skeletons/SkeletonMeetingInfo';
+import SkeletonUserInfo from './skeletons/SkeletonUserInfo';
+
+const MeetingInfo = ({ meetingId }: { meetingId: number }) => {
+  const { data: meeting, isLoading, error } = useDetailQueries(meetingId);
+
+  if (isLoading || !meeting) {
+    return <SkeletonMeetingInfo />;
+  }
+
   return (
     <div className="px-[32px] py-[16px]">
       <div className="flex flex-col gap-[24px] px-[16px]">

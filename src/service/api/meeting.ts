@@ -1,4 +1,5 @@
 import { authAPI } from '@/lib/axios/authApi';
+import { basicAPI } from '@/lib/axios/basicApi';
 
 export interface MeetingDetail {
   meetingId: number;
@@ -29,7 +30,7 @@ const getMeetingDetail = async (id: number): Promise<MeetingDetail> => {
 };
 
 const getMeetingDetailManager = async (id: number): Promise<MeetingManager> => {
-  const res = await authAPI.get(`/api/v1/meetings/detail/manager/${id}`);
+  const res = await basicAPI.get(`/api/v1/meetings/detail/manager/${id}`);
   return res.data.data;
 };
 

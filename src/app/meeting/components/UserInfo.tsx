@@ -4,13 +4,14 @@ import { useDetailUserQueries } from '@/hooks/queries/useMeetingQueries';
 import Image from 'next/image';
 
 import thumbnail from '../../../assets/thumbnail.png';
+import SkeletonUserInfo from './skeletons/SkeletonUserInfo';
 
-const UserInfo = () => {
-  const { data, error, isLoading } = useDetailUserQueries(2);
+const UserInfo = ({ meetingId }: { meetingId: number }) => {
+  const { data, isLoading, error } = useDetailUserQueries(meetingId);
 
-  if (isLoading) return <div>로딩중</div>;
-  if (error) return <div>에러</div>;
-  if (!data) return <div>loading...</div>;
+  if (isLoading || !data) {
+    return <SkeletonUserInfo />;
+  }
 
   console.log('userinfo: ', data);
   return (

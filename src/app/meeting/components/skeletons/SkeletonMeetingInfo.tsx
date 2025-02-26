@@ -1,0 +1,22 @@
+import SkeletonBasic from '../../../../components/ui/SkeletonBasic';
+
+const SkeletonMeetingInfo = () => {
+  return (
+    <div className="px-[32px] py-[16px]">
+      <div className="flex flex-col gap-[24px] px-[16px]">
+        <div className="flex items-center gap-[8px]">
+          <div className="h-[14px] w-[2px] bg-Cgray700" />
+          <h3 className="typo-head3 text-Cgray700">모임 설명</h3>
+        </div>
+        <div className="flex flex-col gap-[8px]">
+          <SkeletonBasic className="w-[150px]" />
+          <SkeletonBasic className="w-[250px]" />
+          <SkeletonBasic />
+        </div>
+        <SkeletonBasic className="h-[200px] w-full" />
+      </div>
+    </div>
+  );
+};
+
+export default SkeletonMeetingInfo;

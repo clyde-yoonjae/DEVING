@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getMeetingDetail, getMeetingDetailManager } from 'service/api/meeting';
 
 // query key
-const meetingKeys = {
+export const meetingKeys = {
   all: ['meeting'] as const,
   detailInfo: (id: number) => [...meetingKeys.all, id, 'detail'] as const,
   detailInfoUser: (id: number) => [...meetingKeys.all, id, 'manager'] as const,

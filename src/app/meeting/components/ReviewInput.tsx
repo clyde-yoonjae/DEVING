@@ -1,3 +1,5 @@
+'use client';
+
 import RatingStarsEdit from '@/components/common/review/RatingStarsEdit';
 import { Button } from '@/components/ui/Button';
 import { useCommentMutation } from '@/hooks/mutations/useCommentMutation';
