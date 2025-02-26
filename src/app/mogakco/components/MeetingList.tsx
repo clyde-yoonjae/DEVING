@@ -6,7 +6,10 @@ import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
 import { SearchInput } from '@/components/ui/SearchInput';
 import VerticalCard from '@/components/ui/VerticalCard';
+import { useInfiniteSearchMeetings } from '@/hooks/queries/useMeetingQueries';
 import { useState } from 'react';
+
+import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
 
 const filterOptions = [
   {
@@ -78,6 +81,13 @@ const meetingDummyData = [
 
 const MeetingList = () => {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  //   const {} = useInfiniteSearchMeetings('모각코', {
+  //     keyword: '',
+  //     skillArray: [],
+  //     sortField: '',
+  //     lastMeetingId: 0,
+  //     size: 4,
+  //   });
 
   return (
     <div className="mt-[126px]">
@@ -85,7 +95,7 @@ const MeetingList = () => {
       <SearchInput />
 
       {/* 드롭다운 */}
-      <div className="my-4 flex w-full justify-end">
+      <div className="my-4 flex w-full justify-end px-4">
         <Dropdown
           className="w-full md:w-[122px] lg:w-[122px]"
           options={filterOptions}

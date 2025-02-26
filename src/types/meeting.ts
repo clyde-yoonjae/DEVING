@@ -10,4 +10,12 @@ interface IMeeting {
   title: string;
 }
 
-export type { CategoryTitle, IMeeting };
+interface IMeetingSearchCondition {
+  keyword: string;
+  skillArray: string[];
+  sortField: string;
+  lastMeetingId: number;
+  size: number;
+}
+
+export type { CategoryTitle, IMeeting, IMeetingSearchCondition };
