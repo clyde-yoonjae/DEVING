@@ -2,13 +2,23 @@
 
 import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
+import Modal from '@/components/ui/modal/Modal';
 import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
 import { getDDay } from '@/util/date';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import SkeletonMeetingTotalInfo from './skeletons/SkeletonMeetingTotalInfo';
 
 const CardWarpper = ({ meetingId }: { meetingId: number }) => {
   const { data: meeting, isLoading, error } = useDetailQueries(meetingId);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleConfirm = () => {
+    setIsModalOpen(false);
+    router.push('/login');
+  };
 
   // 신청 전
   if (isLoading || !meeting) {
@@ -26,7 +36,21 @@ const CardWarpper = ({ meetingId }: { meetingId: number }) => {
             <p className="typo-button1 mb-2 ml-1 text-Cgray800">일</p>
           </div>
         </div>
-        <Button className="w-full">신청하기</Button>
+        <Button className="w-full" onClick={() => setIsModalOpen(true)}>
+          신청하기
+        </Button>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={handleConfirm}
+          confirmText="로그인"
+          cancelText="취소"
+          modalClassName="w-96"
+        >
+          <div className="text-cg8 typo-head3 flex w-full justify-center">
+            <p className="text-white">로그인이 필요한 서비스입니다.</p>
+          </div>
+        </Modal>
       </div>
     );
   };
