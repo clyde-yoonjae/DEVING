@@ -1,4 +1,5 @@
 import Header from '@/components/common/Header';
+import { ToastProvider } from '@/components/common/ToastContext';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import { authAPI } from '@/lib/axios/authApi';
 import type { Metadata } from 'next';
@@ -38,8 +39,10 @@ export default async function RootLayout({
     <html lang="ko" className={pretendard.variable}>
       <body className="bg-BG">
         <ReactQueryProviders>
-          <Header userInfo={userInfo} />
-          <div className="m-auto max-w-[1340px]">{children}</div>
+          <ToastProvider>
+            <Header userInfo={userInfo} />
+            <div className="m-auto max-w-[1340px]">{children}</div>
+          </ToastProvider>
         </ReactQueryProviders>
       </body>
     </html>
