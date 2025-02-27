@@ -1,6 +1,6 @@
 type CategoryTitle = '모각코' | '스터디' | '사이드프로젝트' | '취미';
 
-interface IMeeting {
+interface ITopMeeting {
   meetingId: number;
   isLike: boolean;
   location: string;
@@ -10,12 +10,31 @@ interface IMeeting {
   title: string;
 }
 
+// TODO: 변경 예정
+interface Skill {
+  skillTitle: string;
+}
+
+interface IMeeting {
+  meetingId: number;
+  isLike: boolean;
+  location: string;
+  maxMember: number;
+  memberCount: number;
+  thumbnail: string;
+  meetingTitle: string;
+  startDate: string;
+  name: string;
+  profilePic: string;
+  meetingSkillResponse: Skill[];
+}
+
 interface IMeetingSearchCondition {
   keyword: string;
   skillArray: string[];
   sortField: string;
-  lastMeetingId: number;
+  lastMeetingId: number | null;
   size: number;
 }
 
-export type { CategoryTitle, IMeeting, IMeetingSearchCondition };
+export type { CategoryTitle, ITopMeeting, IMeetingSearchCondition, IMeeting };

@@ -6,8 +6,12 @@ import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
 import { SearchInput } from '@/components/ui/SearchInput';
 import VerticalCard from '@/components/ui/VerticalCard';
+import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
+import useMediaQuery from '@/hooks/common/useMediaQuery';
 import { useInfiniteSearchMeetings } from '@/hooks/queries/useMeetingQueries';
+import { getDDay } from '@/util/date';
 import { useState } from 'react';
+import { IMeeting } from 'types/meeting';
 
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
 
@@ -35,59 +39,38 @@ const filterOptions = [
   },
 ];
 
-const meetingDummyData = [
-  {
-    meetingId: 1,
-    title: 'JavaScript Study Group',
-    thumbnail:
-      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
-    location:
-      'Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul Seoul ',
-    memberCount: 5,
-    maxMember: 10,
-    isLike: true,
-  },
-  {
-    meetingId: 2,
-    title: 'React Dev Meetup',
-    thumbnail:
-      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
-    location: 'Busan',
-    memberCount: 8,
-    maxMember: 15,
-    isLike: false,
-  },
-  {
-    meetingId: 3,
-    title: 'Next.js Workshop',
-    thumbnail:
-      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
-    location: 'Incheon',
-    memberCount: 3,
-    maxMember: 8,
-    isLike: true,
-  },
-  {
-    meetingId: 4,
-    title:
-      'Frontend Performance Optimization Frontend Performance Optimization Frontend Performance Optimization ',
-    thumbnail: '',
-    location: 'Daejeon',
-    memberCount: 6,
-    maxMember: 12,
-    isLike: false,
-  },
-];
-
 const MeetingList = () => {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  //   const {} = useInfiniteSearchMeetings('모각코', {
-  //     keyword: '',
-  //     skillArray: [],
-  //     sortField: '',
-  //     lastMeetingId: 0,
-  //     size: 4,
-  //   });
+  const {
+    data,
+    isLoading,
+    isError,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useInfiniteSearchMeetings('모각코', {
+    keyword: '',
+    skillArray: [],
+    sortField: 'NEW',
+    lastMeetingId: 0,
+    size: 4,
+  });
+
+  const lastMeetingRef = useInfiniteScroll({
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  });
+
+  const breakpoint = useMediaQuery();
+
+  if (isLoading) {
+    return <MeetingListSkeleton />;
+  }
+
+  if (isError) {
+    return <div className="typo text-white">에러 발생</div>;
+  }
 
   return (
     <div className="mt-[126px]">
@@ -107,110 +90,177 @@ const MeetingList = () => {
       </div>
 
       {/* 모임 리스트 웹뷰 */}
-      <div className="hidden flex-col md:hidden lg:flex">
-        {meetingDummyData.map((meeting) => (
-          <HorizonCard
-            key={meeting.meetingId}
-            title={meeting.title}
-            thumbnailUrl={meeting.thumbnail}
-            location={meeting.location}
-            isLike={meeting.isLike}
-            total={meeting.maxMember}
-            value={meeting.memberCount}
-          >
-            <div className="mt-5 md:w-[180px] lg:w-[318px]">
-              <div className="hidden flex-col md:flex lg:flex lg:flex-row">
-                <div className="mr-6 flex w-[147px] flex-col">
-                  <div className="typo-head3 text-Cgray500">모임장</div>
-                  <div className="typo-head2 mt-1 flex items-center text-Cgray700">
-                    <Profile className="mr-2 h-10 w-10" />
-                    <span className="text-ellipsi truncate">김밤식김밤식</span>
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="typo-head3 text-Cgray500">모임시작</div>
-                  <div className="typo-head1 mt-1 text-Cgray700">D+14</div>
-                </div>
-              </div>
-              <Button className="mt-6 md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]">
-                신청하기
-              </Button>
+      {breakpoint === 'desktop' && (
+        <div className="hidden flex-col md:hidden lg:flex">
+          {data?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.content.map((meeting: IMeeting) => {
+                return (
+                  <HorizonCard
+                    key={meeting.meetingId}
+                    title={meeting.meetingTitle}
+                    thumbnailUrl={meeting.thumbnail}
+                    location={meeting.location}
+                    isLike={meeting.isLike}
+                    total={meeting.maxMember}
+                    value={meeting.memberCount}
+                  >
+                    <div
+                      ref={
+                        page.nextCursor === meeting.meetingId
+                          ? lastMeetingRef
+                          : null
+                      }
+                      className="mt-5 md:w-[180px] lg:w-[318px]"
+                    >
+                      <div className="hidden flex-col md:flex lg:flex lg:flex-row">
+                        <div className="mr-6 flex w-[147px] flex-col">
+                          <div className="typo-head3 text-Cgray500">모임장</div>
+                          <div className="typo-head2 mt-1 flex items-center text-Cgray700">
+                            <Profile className="mr-2 h-10 w-10" />
+                            <span className="text-ellipsi truncate">
+                              {meeting.name}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="typo-head3 text-Cgray500">
+                            모임시작
+                          </div>
+                          <div className="typo-head1 mt-1 text-Cgray700">
+                            {getDDay(meeting.startDate)}
+                          </div>
+                        </div>
+                      </div>
+                      <Button className="mt-6 md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]">
+                        신청하기
+                      </Button>
+                    </div>
+                  </HorizonCard>
+                );
+              })}
             </div>
-          </HorizonCard>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* 모임 리스트 테블릿뷰 */}
-      <div className="hidden flex-col md:flex lg:hidden">
-        {meetingDummyData.map((meeting) => (
-          <HorizonCard
-            className="items-center"
-            key={meeting.meetingId}
-            title={meeting.title}
-            thumbnailUrl={meeting.thumbnail}
-            thumbnailHeight={160}
-            thumbnailWidth={160}
-            location={meeting.location}
-            isLike={meeting.isLike}
-            total={meeting.maxMember}
-            value={meeting.memberCount}
-          >
-            <div className="mt-5 md:w-[180px] lg:w-[318px]">
-              <div className="hidden flex-col md:flex lg:flex lg:flex-row">
-                <div className="mr-6 flex w-[147px] flex-col">
-                  <div className="typo-caption1 text-Cgray500">모임장</div>
-                  <div className="typo-button2 mt-1 flex items-center text-Cgray700">
-                    <Profile className="mr-2 h-10 w-10" />
-                    <span className="text-ellipsi truncate">김밤식김밤식</span>
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="typo-caption1 text-Cgray500">모임시작</div>
-                  <div className="typo-button2 mt-1 text-Cgray700">D+14</div>
-                </div>
-              </div>
-              <Button className="typo-button2 mt-[7px] md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]">
-                신청하기
-              </Button>
+      {breakpoint === 'tablet' && (
+        <div className="hidden flex-col md:flex lg:hidden">
+          {data?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.content.map((meeting: IMeeting) => {
+                return (
+                  <HorizonCard
+                    className="items-center"
+                    key={meeting.meetingId}
+                    title={meeting.meetingTitle}
+                    thumbnailUrl={meeting.thumbnail}
+                    thumbnailHeight={160}
+                    thumbnailWidth={160}
+                    location={meeting.location}
+                    isLike={meeting.isLike}
+                    total={meeting.maxMember}
+                    value={meeting.memberCount}
+                  >
+                    <div
+                      ref={
+                        page.nextCursor === meeting.meetingId
+                          ? lastMeetingRef
+                          : null
+                      }
+                      className="mt-5 md:w-[180px] lg:w-[318px]"
+                    >
+                      <div className="hidden flex-col md:flex lg:flex lg:flex-row">
+                        <div className="mr-6 flex w-[147px] flex-col">
+                          <div className="typo-caption1 text-Cgray500">
+                            모임장
+                          </div>
+                          <div className="typo-button2 mt-1 flex items-center text-Cgray700">
+                            <Profile className="mr-2 h-10 w-10" />
+                            <span className="text-ellipsi truncate">
+                              김밤식김밤식
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="typo-caption1 text-Cgray500">
+                            모임시작
+                          </div>
+                          <div className="typo-button2 mt-1 text-Cgray700">
+                            D+14
+                          </div>
+                        </div>
+                      </div>
+                      <Button className="typo-button2 mt-[7px] md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]">
+                        신청하기
+                      </Button>
+                    </div>
+                  </HorizonCard>
+                );
+              })}
             </div>
-          </HorizonCard>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* 모임 리스트 모바일뷰 */}
-      <div className="flex flex-col md:hidden lg:hidden">
-        {meetingDummyData.map((meeting) => (
-          <VerticalCard
-            className="h-[380px]"
-            thumbnailHeight={160}
-            thumbnailWidth={311}
-            key={meeting.meetingId}
-            title={meeting.title}
-            thumbnailUrl={meeting.thumbnail}
-            location={meeting.location}
-            isLike={meeting.isLike}
-            total={meeting.maxMember}
-            value={meeting.memberCount}
-          >
-            <div className="mt-5 md:w-[180px] lg:w-[318px]">
-              <div className="hidden flex-col md:flex lg:flex lg:flex-row">
-                <div className="mr-6 flex w-[147px] flex-col">
-                  <div className="typo-head3 text-Cgray500">모임장</div>
-                  <div className="typo-head2 mt-1 flex items-center text-Cgray700">
-                    <Profile className="mr-2 h-10 w-10" />
-                    <span className="text-ellipsi truncate">김밤식김밤식</span>
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="typo-head3 text-Cgray500">모임시작</div>
-                  <div className="typo-head1 mt-1 text-Cgray700">D+14</div>
-                </div>
-              </div>
-              <Button className="mt-6 h-[46px] w-[311px]">신청하기</Button>
+      {breakpoint === 'mobile' && (
+        <div className="flex flex-col md:hidden lg:hidden">
+          {data?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.content.map((meeting: IMeeting) => {
+                return (
+                  <VerticalCard
+                    className="h-[380px]"
+                    thumbnailHeight={160}
+                    thumbnailWidth={311}
+                    key={meeting.meetingId}
+                    title={meeting.meetingTitle}
+                    thumbnailUrl={meeting.thumbnail}
+                    location={meeting.location}
+                    isLike={meeting.isLike}
+                    total={meeting.maxMember}
+                    value={meeting.memberCount}
+                  >
+                    <div
+                      ref={
+                        page.nextCursor === meeting.meetingId
+                          ? lastMeetingRef
+                          : null
+                      }
+                      className="mt-5 md:w-[180px] lg:w-[318px]"
+                    >
+                      <div className="hidden flex-col md:flex lg:flex lg:flex-row">
+                        <div className="mr-6 flex w-[147px] flex-col">
+                          <div className="typo-head3 text-Cgray500">모임장</div>
+                          <div className="typo-head2 mt-1 flex items-center text-Cgray700">
+                            <Profile className="mr-2 h-10 w-10" />
+                            <span className="text-ellipsi truncate">
+                              김밤식김밤식
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="typo-head3 text-Cgray500">
+                            모임시작
+                          </div>
+                          <div className="typo-head1 mt-1 text-Cgray700">
+                            D+14
+                          </div>
+                        </div>
+                      </div>
+                      <Button className="mt-6 h-[46px] w-[311px]">
+                        신청하기
+                      </Button>
+                    </div>
+                  </VerticalCard>
+                );
+              })}
             </div>
-          </VerticalCard>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

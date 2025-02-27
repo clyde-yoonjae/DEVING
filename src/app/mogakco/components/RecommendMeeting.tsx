@@ -3,7 +3,7 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 import { useTopMeetings } from '@/hooks/queries/useMeetingQueries';
-import { IMeeting } from 'types/meeting';
+import { ITopMeeting } from 'types/meeting';
 
 import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';
 
@@ -15,6 +15,7 @@ const RecommendMeeting = () => {
   }
 
   if (error) {
+    console.log('err:', error);
     return <div className="typo-head1 text-white">에러 발생</div>;
   }
 
@@ -27,7 +28,7 @@ const RecommendMeeting = () => {
 
       {/* 웹뷰, 테블릿 */}
       <div className="hidden overflow-hidden overflow-x-auto md:flex lg:flex">
-        {meetings?.map((meeting: IMeeting) => (
+        {meetings?.map((meeting: ITopMeeting) => (
           <VerticalCard
             key={meeting.meetingId}
             title={meeting.title}
@@ -42,7 +43,7 @@ const RecommendMeeting = () => {
 
       {/* 모바일 */}
       <div className="flex flex-col md:hidden lg:hidden">
-        {meetings?.map((meeting: IMeeting) => (
+        {meetings?.map((meeting: ITopMeeting) => (
           <HorizonCard
             className="h-[130px]"
             key={meeting.meetingId}

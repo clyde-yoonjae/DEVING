@@ -3,7 +3,7 @@ import { getMeetings, getTopMeetings } from 'service/api/meeting';
 import { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
 
 const MEETING_QUERY_KEYS = {
-  topMeetings: ['meetings'] as const,
+  topMeetings: ['topMeetings'] as const,
   meetings: ['meetings'] as const,
   meetingId: (id: string) => [...MEETING_QUERY_KEYS.meetings, id] as const,
 };
@@ -23,11 +23,11 @@ const useInfiniteSearchMeetings = (
 ) => {
   return useInfiniteQuery({
     queryKey: MEETING_QUERY_KEYS.meetings,
-    queryFn: () => getMeetings(category, searchQueryObj),
+    queryFn: ({ pageParam = 0 }) =>
+      getMeetings(pageParam, category, searchQueryObj),
     initialPageParam: 0,
-    getNextPageParam: (lastPage, pages) => {
-      console.log(lastPage, pages);
-      return lastPage.result?.hasNextPage ? pages.length : null;
+    getNextPageParam: (lastPage) => {
+      return lastPage?.nextCursor;
     },
     ...option,
   });

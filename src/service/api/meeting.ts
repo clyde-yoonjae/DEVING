@@ -10,14 +10,15 @@ const getTopMeetings = async (category: CategoryTitle) => {
 };
 
 const getMeetings = async (
+  pageParams: number,
   category: CategoryTitle,
   searchQueryObj: IMeetingSearchCondition,
 ) => {
-  const params = new URLSearchParams();
-  params.set('request', JSON.stringify(searchQueryObj));
+  const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
 
-  const res = await basicAPI.get(
-    `/api/v1/meetings/top?categoryTitle=${category}&${params.toString()}`,
+  const res = await basicAPI.post(
+    `/api/v1/meetings/search?categoryTitle=${category}`,
+    newSearchQueryObj,
   );
 
   return res.data.data;
