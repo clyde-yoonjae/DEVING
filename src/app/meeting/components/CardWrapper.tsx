@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
+import VerticalCard from '@/components/ui/VerticalCard';
 import Modal from '@/components/ui/modal/Modal';
 import {
   useMeetingMutation,
@@ -160,8 +161,8 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
   };
 
   return (
-    <div className="flex h-[208px] w-[318px] flex-col justify-end gap-[24px]">
-      <div>
+    <div className="flex w-full flex-col justify-end gap-[24px] py-[16px] md:p-[16px] lg:h-[208px] lg:w-[318px]">
+      <div className="md:ml-[8px] lg:ml-0">
         <p className="typo-head3 text-Cgray500">모임 시작</p>
         <div className="flex items-end">
           <p className="typo-head1 text-Cgray800">
@@ -172,14 +173,23 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
       </div>
       {!meeting.isMember ? (
         meeting.maxMember === meeting.memberCount ? (
-          <Button disabled>인원이 꽉찼어요</Button>
+          <Button className="w-full" disabled>
+            인원이 꽉찼어요
+          </Button>
         ) : (
-          <Button onClick={() => handleModalOpen('registerCheck')}>
+          <Button
+            className="w-full"
+            onClick={() => handleModalOpen('registerCheck')}
+          >
             신청하기
           </Button>
         )
       ) : (
-        <Button variant={'outline'} onClick={() => handleModalOpen('cancel')}>
+        <Button
+          className="w-full"
+          variant={'outline'}
+          onClick={() => handleModalOpen('cancel')}
+        >
           신청 취소하기
         </Button>
       )}
@@ -205,18 +215,54 @@ const CardWarpper = ({ meetingId }: { meetingId: number }) => {
   }
 
   return (
-    <div className="w-full p-[16px]">
-      <HorizonCard
-        title={meeting.title}
-        thumbnailUrl={meeting.thumbnail}
-        location={meeting.location}
-        isLike={meeting.isLike}
-        total={meeting.maxMember}
-        value={meeting.memberCount}
-      >
+    <>
+      {/* 모바일 */}
+      <div className="flex flex-col md:hidden lg:hidden">
+        <VerticalCard
+          className="h-fit w-full"
+          thumbnailHeight={252}
+          thumbnailWidth={343}
+          key={meeting.meetingId}
+          title={meeting.title}
+          thumbnailUrl={meeting.thumbnail}
+          location={meeting.location}
+          isLike={meeting.isLike}
+          total={meeting.maxMember}
+          value={meeting.memberCount}
+        >
+          <CardRightSection meeting={meeting} />
+        </VerticalCard>
+      </div>
+      {/* 테블릿 */}
+      <div className="hidden w-full flex-col px-[16px] md:flex lg:hidden">
+        <HorizonCard
+          className="items-center"
+          key={meeting.meetingId}
+          title={meeting.title}
+          thumbnailUrl={meeting.thumbnail}
+          thumbnailHeight={252}
+          location={meeting.location}
+          isLike={meeting.isLike}
+          total={meeting.maxMember}
+          value={meeting.memberCount}
+        />
         <CardRightSection meeting={meeting} />
-      </HorizonCard>
-    </div>
+      </div>
+      {/* 데스크탑 */}
+      <div className="hidden w-full p-[16px] lg:flex">
+        <HorizonCard
+          title={meeting.title}
+          thumbnailUrl={meeting.thumbnail}
+          location={meeting.location}
+          isLike={meeting.isLike}
+          total={meeting.maxMember}
+          value={meeting.memberCount}
+          className="flex-col lg:flex-row"
+        >
+          <CardRightSection meeting={meeting} />
+        </HorizonCard>
+      </div>
+    </>
   );
 };
 export default CardWarpper;
