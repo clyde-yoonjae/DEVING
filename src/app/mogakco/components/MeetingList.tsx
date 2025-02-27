@@ -112,6 +112,8 @@ const MeetingList = () => {
     return <div className="typo text-white">에러 발생</div>;
   }
 
+  console.log(data?.pages);
+
   return (
     <div className="mt-[126px]">
       {/* 기술스택 검색바 */}
@@ -144,6 +146,7 @@ const MeetingList = () => {
                     isLike={meeting.isLike}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
+                    skills={meeting.meetingSkillResponse}
                   >
                     <div
                       ref={
@@ -202,6 +205,7 @@ const MeetingList = () => {
                     isLike={meeting.isLike}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
+                    skills={meeting.meetingSkillResponse}
                   >
                     <div
                       ref={
@@ -262,6 +266,7 @@ const MeetingList = () => {
                     isLike={meeting.isLike}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
+                    skills={meeting.meetingSkillResponse}
                   >
                     <div
                       ref={

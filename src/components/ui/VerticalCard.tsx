@@ -1,8 +1,11 @@
+import { getIconComponent } from '@/util/getIconDetail';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
+import { Skill } from 'types/meeting';
 
 import { Button } from './Button';
 import { Progress } from './Progress';
+import TechButton from './tech-stack/tech-stack-components/TechButton';
 
 interface VerticalCardProps {
   children?: React.ReactElement;
@@ -16,6 +19,7 @@ interface VerticalCardProps {
   isLike?: boolean;
   value: number;
   total: number;
+  skills?: Skill[];
 }
 
 const VerticalCard = ({
@@ -30,13 +34,14 @@ const VerticalCard = ({
   isLike = false,
   value,
   total = 100,
+  skills,
 }: VerticalCardProps) => {
   const handleLikeButton = () => {
     if (onClickLike) onClickLike();
   };
 
   return (
-    <div className={`h-[410px] w-[335px] bg-BG p-4 ${className}`}>
+    <div className={`h-auto w-[335px] bg-BG p-4 ${className}`}>
       <div
         className={'relative'}
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
@@ -71,10 +76,26 @@ const VerticalCard = ({
             {location}
           </span>
         </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {skills &&
+            skills?.length > 0 &&
+            skills.map((skill) => (
+              <TechButton
+                key={skill.skillTitle}
+                name={skill.skillTitle}
+                icon={getIconComponent(skill.skillTitle)}
+                color={'#333'}
+                isClicked={true}
+                isMaxReached={false}
+                onClick={() => {}}
+              />
+            ))}
+        </div>
         <Progress
           className="mt-4 overflow-hidden"
           value={value}
           total={total}
+          showCounter={true}
         />
       </div>
       {children}

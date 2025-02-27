@@ -37,4 +37,10 @@ interface IMeetingSearchCondition {
   size: number;
 }
 
-export type { CategoryTitle, ITopMeeting, IMeetingSearchCondition, IMeeting };
+export type {
+  CategoryTitle,
+  Skill,
+  ITopMeeting,
+  IMeetingSearchCondition,
+  IMeeting,
+};

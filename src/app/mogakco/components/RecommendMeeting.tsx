@@ -27,7 +27,7 @@ const RecommendMeeting = () => {
       </div>
 
       {/* 웹뷰, 테블릿 */}
-      <div className="hidden overflow-hidden overflow-x-auto md:flex lg:flex">
+      <div className="hidden overflow-hidden overflow-x-auto pb-4 md:flex lg:flex">
         {meetings?.map((meeting: ITopMeeting) => (
           <VerticalCard
             key={meeting.meetingId}
