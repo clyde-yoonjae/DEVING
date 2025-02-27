@@ -9,14 +9,14 @@ const ReviewInput = ({ meetingId }: { meetingId: number }) => {
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [review, setReview] = useState('');
 
-  const { mutate } = useCommentMutation();
+  const { mutate } = useCommentMutation(meetingId);
 
   const handleSubmit = () => {
     const req = {
       score: selectedRating,
       content: review,
     };
-    mutate({ meetingId, req });
+    mutate({ req });
 
     // 초기화
     setSelectedRating(0);

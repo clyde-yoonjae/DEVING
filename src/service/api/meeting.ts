@@ -42,14 +42,26 @@ const postMeetingRegister = async ({
   meetingId: number;
   message: string;
 }) => {
-  // const res = await authAPI.post(`/api/v1/members/${meetingId}`, message);
+  const res = await authAPI.post(`/api/v1/members/${meetingId}`, { message });
   console.log(
     '[postMeetingRegister] meetingId:',
     meetingId,
     'message: ',
     message,
   );
-  // return res.data;
+  return res.data.data;
 };
 
-export { getMeetingDetail, getMeetingDetailManager, postMeetingRegister };
+// Approve 상태에서 모임 탈퇴
+const deleteMeetingQuit = async (meetingId: number) => {
+  const res = await authAPI.delete(`/api/v1/mymeetings/quit/${meetingId}`);
+
+  return res.data.data;
+};
+
+export {
+  getMeetingDetail,
+  getMeetingDetailManager,
+  postMeetingRegister,
+  deleteMeetingQuit,
+};

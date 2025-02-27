@@ -3,7 +3,10 @@
 import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
 import Modal from '@/components/ui/modal/Modal';
-import { useMeetingMutation } from '@/hooks/mutations/useMeetingMutation';
+import {
+  useMeetingMutation,
+  useMeetingQuitMutation,
+} from '@/hooks/mutations/useMeetingMutation';
 import { useDetailQueries } from '@/hooks/queries/useMeetingQueries';
 import { getAccessToken } from '@/lib/serverActions';
 import { getDDay } from '@/util/date';
@@ -12,6 +15,7 @@ import { useState } from 'react';
 import { MeetingDetail } from 'service/api/meeting';
 
 import ModalBeforeLogin from './modal-content/ModalBeforeLogin';
+import ModalCancel from './modal-content/ModalCancel';
 import ModalRegisterCheck from './modal-content/ModalRegisterCheck';
 import ModalRegisterComplete from './modal-content/ModalRegisterComplete';
 import ModalRegisterInput from './modal-content/ModalRegisterInput';
@@ -34,8 +38,6 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
 
   const [ment, setMent] = useState('');
 
-  const { mutate } = useMeetingMutation();
-
   const getToken = async () => {
     const token = await getAccessToken(); // 서버에서 데이터 패칭
     return token;
@@ -51,6 +53,13 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
     }
 
     switch (state) {
+      case 'cancel':
+        setModalValue({
+          state,
+          confirmText: '신청 취소',
+          cancelText: '돌아가기',
+        });
+        break;
       case 'beforeLogin':
         setModalValue({
           state,
@@ -90,9 +99,23 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
     setIsModalOpen(true);
   };
 
+  const { mutate } = useMeetingMutation({
+    onSuccessCallback: handleModalOpen,
+    onErrorCallback: () => setIsModalOpen(false),
+    meetingId: meeting.meetingId,
+  });
+
+  const { mutate: cancelMutate } = useMeetingQuitMutation({
+    meetingId: meeting.meetingId,
+  });
+
   // 모달의 confirm 버튼 동작을 현재 modalType에 따라 동적으로 처리
   const handleModalConfirm = () => {
     switch (modalValue.state) {
+      case 'cancel':
+        setIsModalOpen(false);
+        cancelMutate();
+        break;
       case 'beforeLogin':
         setIsModalOpen(false);
         router.push('/login');
@@ -101,12 +124,8 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
         handleModalOpen('registerInput');
         break;
       case 'registerInput':
-        mutate({ meetingId: meeting.meetingId, message: ment });
-        if (meeting.requireApproval) {
-          handleModalOpen('registerWait');
-        } else {
-          handleModalOpen('registerComplete');
-        }
+        mutate({ message: ment });
+        setMent('');
         break;
       case 'registerWait':
         router.push('/mypage');
@@ -123,6 +142,8 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
   // 모달 내부 콘텐츠를 조건부로 렌더링
   const renderModalContent = () => {
     switch (modalValue.state) {
+      case 'cancel':
+        return <ModalCancel />;
       case 'beforeLogin':
         return <ModalRegisterCheck />;
       case 'registerCheck':
@@ -158,7 +179,7 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
           </Button>
         )
       ) : (
-        <Button variant={'outline'} onClick={() => setIsModalOpen(true)}>
+        <Button variant={'outline'} onClick={() => handleModalOpen('cancel')}>
           신청 취소하기
         </Button>
       )}
