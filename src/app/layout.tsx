@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
 import '../styles/globals.css';
+import QueryProvider from './providers/QueryProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -25,7 +26,9 @@ export default function RootLayout({
     <html lang="ko" className={pretendard.variable}>
       <body className="bg-BG">
         <Header />
-        <div className="m-auto max-w-[1340px]">{children}</div>
+        <div className="m-auto max-w-[1340px]">
+          <QueryProvider>{children}</QueryProvider>
+        </div>
       </body>
     </html>
   );
