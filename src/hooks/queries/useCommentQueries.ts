@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getCommentsCount, getCommentsMeeting } from 'service/api/comment';
 
 export const commentKeys = {
@@ -19,11 +19,13 @@ export const useCommentsCountQueries = (meetingId: number) => {
   return { data, error, isLoading };
 };
 
-export const useCommentsMeetingQueires = (meetingId: number) => {
-  const { data, error, isLoading } = useQuery({
+export const useInfiniteGetComments = (meetingId: number) => {
+  return useInfiniteQuery({
     queryKey: commentKeys.comments(meetingId),
-    queryFn: () => getCommentsMeeting(meetingId),
+    queryFn: ({ pageParam }) => getCommentsMeeting(meetingId, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage.nextCursor ?? null;
+    },
   });
-
-  return { data, error, isLoading };
 };

@@ -52,9 +52,13 @@ const getCommentsCount = async (meetingId: number): Promise<ICommentsCount> => {
   return res.data.data;
 };
 
-const getCommentsMeeting = async (meetingId: number): Promise<Comments> => {
+const getCommentsMeeting = async (
+  meetingId: number,
+  lastCommentId: number,
+): Promise<Comments> => {
+  console.log('[getCommentsMeeting] lastCommentId: ', lastCommentId);
   const res = await basicAPI.get(
-    `/api/v1/comments/${meetingId}?lastCommentId=0&size=3`,
+    `/api/v1/comments/${meetingId}?lastCommentId=${lastCommentId}&size=3`,
   );
   return res.data.data;
 };
