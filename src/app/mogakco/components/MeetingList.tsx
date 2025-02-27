@@ -15,7 +15,7 @@ import {
 import useDebounce from '@/hooks/useDebounde';
 import { getDDay } from '@/util/date';
 import { QueryClient } from '@tanstack/react-query';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { IMeeting, IMeetingSearchCondition } from 'types/meeting';
 
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
@@ -70,20 +70,26 @@ const MeetingList = () => {
 
   const breakpoint = useMediaQuery();
 
-  const handleSearchOption = (searchData: Partial<IMeetingSearchCondition>) => {
-    setSearchQuery((prev) => ({
-      ...prev,
-      ...searchData,
-    }));
-  };
+  const handleSearchOption = useCallback(
+    (newQuery: Partial<IMeetingSearchCondition>) => {
+      // 기존 검색 조건과 동일하다면 API 호출하지 않도록 처리
+      setSearchQuery((prev) => {
+        if (prev.keyword === newQuery.keyword) {
+          return prev;
+        }
+        return { ...prev, ...newQuery };
+      });
+    },
+    [],
+  );
 
-  const queryClient = new QueryClient();
+  const queryClient = useMemo(() => new QueryClient(), []);
 
   useEffect(() => {
     console.log('검색 필터에 따른 재검색');
     queryClient.removeQueries({ queryKey: [MEETING_QUERY_KEYS.meetings] });
     refetch();
-  }, [searchQuery]);
+  }, [queryClient, searchQuery, refetch]);
 
   const [inputValue, setInputValue] = useState('');
 
