@@ -12,6 +12,7 @@ const SkeletonMeetingInfo = () => {
           <SkeletonBasic className="w-[150px]" />
           <SkeletonBasic className="w-[250px]" />
           <SkeletonBasic />
+          <SkeletonBasic className="w-[220px]" />
         </div>
         <SkeletonBasic className="h-[200px] w-full" />
       </div>
