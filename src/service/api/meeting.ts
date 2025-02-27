@@ -34,4 +34,22 @@ const getMeetingDetailManager = async (id: number): Promise<MeetingManager> => {
   return res.data.data;
 };
 
-export { getMeetingDetail, getMeetingDetailManager };
+// 모임 참가
+const postMeetingRegister = async ({
+  meetingId,
+  message,
+}: {
+  meetingId: number;
+  message: string;
+}) => {
+  // const res = await authAPI.post(`/api/v1/members/${meetingId}`, message);
+  console.log(
+    '[postMeetingRegister] meetingId:',
+    meetingId,
+    'message: ',
+    message,
+  );
+  // return res.data;
+};
+
+export { getMeetingDetail, getMeetingDetailManager, postMeetingRegister };
