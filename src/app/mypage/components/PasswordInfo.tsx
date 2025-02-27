@@ -1,12 +1,4 @@
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { useForm } from 'react-hook-form';
-
-interface PasswordFormData {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-}
 
 const PasswordInfo = () => {
   return (
