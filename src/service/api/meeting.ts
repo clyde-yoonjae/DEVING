@@ -1,8 +1,15 @@
 import { authAPI } from '@/lib/axios/authApi';
 import { basicAPI } from '@/lib/axios/basicApi';
-import { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
+import {
+  CategoryTitle,
+  IMeetingSearchCondition,
+  PaginatedSearchMeeting,
+  TopMeeting,
+} from 'types/meeting';
 
-const getTopMeetings = async (categoryTitle: CategoryTitle) => {
+const getTopMeetings = async (
+  categoryTitle: CategoryTitle,
+): Promise<TopMeeting[]> => {
   const res = await basicAPI.get(`/api/v1/meetings/top`, {
     params: { categoryTitle },
   });
@@ -14,7 +21,7 @@ const getMeetings = async (
   pageParams: number,
   category: CategoryTitle,
   searchQueryObj: IMeetingSearchCondition,
-) => {
+): Promise<PaginatedSearchMeeting> => {
   const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
 
   const res = await basicAPI.post(

@@ -3,7 +3,7 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 import { useTopMeetings } from '@/hooks/queries/useMeetingQueries';
-import { ITopMeeting } from 'types/meeting';
+import { TopMeeting } from 'types/meeting';
 
 import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';
 
@@ -30,7 +30,7 @@ const RecommendMeeting = () => {
         }}
         className="hidden overflow-hidden overflow-x-auto pb-4 md:flex lg:flex"
       >
-        {meetings?.map((meeting: ITopMeeting) => (
+        {meetings?.map((meeting: TopMeeting) => (
           <VerticalCard
             key={meeting.meetingId}
             meetingId={meeting.meetingId}
@@ -46,7 +46,7 @@ const RecommendMeeting = () => {
 
       {/* 모바일 */}
       <div className="flex flex-col md:hidden lg:hidden">
-        {meetings?.map((meeting: ITopMeeting) => (
+        {meetings?.map((meeting: TopMeeting) => (
           <HorizonCard
             className="h-[130px]"
             key={meeting.meetingId}

@@ -20,8 +20,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   CategoryTitle,
-  IMeeting,
   IMeetingSearchCondition,
+  SearchMeeting,
 } from 'types/meeting';
 
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
@@ -175,7 +175,7 @@ const MeetingList = () => {
         <div className="hidden flex-col md:hidden lg:flex">
           {data?.pages.map((page, pageIndex) => (
             <div key={pageIndex}>
-              {page.content.map((meeting: IMeeting) => {
+              {page.content.map((meeting: SearchMeeting) => {
                 return (
                   <HorizonCard
                     key={meeting.meetingId}
@@ -235,7 +235,7 @@ const MeetingList = () => {
         <div className="hidden flex-col md:flex lg:hidden">
           {data?.pages.map((page, pageIndex) => (
             <div key={pageIndex}>
-              {page.content.map((meeting: IMeeting) => {
+              {page.content.map((meeting: SearchMeeting) => {
                 return (
                   <HorizonCard
                     className="items-center"
@@ -297,7 +297,7 @@ const MeetingList = () => {
         <div className="flex flex-col md:hidden lg:hidden">
           {data?.pages.map((page, pageIndex) => (
             <div key={pageIndex}>
-              {page.content.map((meeting: IMeeting) => {
+              {page.content.map((meeting: SearchMeeting) => {
                 return (
                   <VerticalCard
                     className="h-[380px]"

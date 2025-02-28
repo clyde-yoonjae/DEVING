@@ -1,6 +1,6 @@
 type CategoryTitle = '모각코' | '스터디' | '사이드 프로젝트' | '취미';
 
-interface ITopMeeting {
+interface TopMeeting {
   meetingId: number;
   isLike: boolean;
   location: string;
@@ -8,25 +8,6 @@ interface ITopMeeting {
   memberCount: number;
   thumbnail: string;
   title: string;
-}
-
-// TODO: 변경 예정
-interface Skill {
-  skillTitle: string;
-}
-
-interface IMeeting {
-  meetingId: number;
-  isLike: boolean;
-  location: string;
-  maxMember: number;
-  memberCount: number;
-  thumbnail: string;
-  meetingTitle: string;
-  startDate: string;
-  name: string;
-  profilePic: string;
-  meetingSkillResponse: Skill[];
 }
 
 interface IMeetingSearchCondition {
@@ -37,10 +18,59 @@ interface IMeetingSearchCondition {
   size: number;
 }
 
+interface Sort {
+  sorted: boolean;
+  empty: boolean;
+  unsorted: boolean;
+}
+
+interface Pageable {
+  pageNumber: number;
+  pageSize: number;
+  paged: boolean;
+  offset: number;
+  sort: Sort;
+  unpaged: boolean;
+}
+
+interface MeetingSkill {
+  skillTitle: string;
+}
+
+interface SearchMeeting {
+  meetingId: number;
+  meetingTitle: string;
+  thumbnail: string;
+  location: string;
+  memberCount: number;
+  maxMember: number;
+  startDate: string;
+  meetingSkillResponse: MeetingSkill[];
+  name: string;
+  profilePic: string;
+  isLike: boolean;
+}
+
+interface PaginatedSearchMeeting {
+  pageable: Pageable;
+  nextCursor: number;
+  size: number;
+  content: SearchMeeting[];
+  number: number;
+  sort: Sort;
+  numberOfElements: number;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+}
+
 export type {
   CategoryTitle,
-  Skill,
-  ITopMeeting,
+  TopMeeting,
+  Sort,
+  Pageable,
+  MeetingSkill,
+  SearchMeeting,
   IMeetingSearchCondition,
-  IMeeting,
+  PaginatedSearchMeeting,
 };
