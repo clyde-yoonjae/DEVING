@@ -6,6 +6,15 @@ const nextConfig = {
       'helpx.adobe.com',
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/meeting',
+        destination: '/meeting/mogakco',
+        permanent: true,
+      },
+    ];
+  },
 
   webpack(config) {
     config.module.rules.push({

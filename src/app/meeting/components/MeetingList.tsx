@@ -16,7 +16,7 @@ import {
 import useDebounce from '@/hooks/useDebounde';
 import { getDDay } from '@/util/date';
 import { QueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   CategoryTitle,
@@ -89,9 +89,10 @@ const MeetingList = () => {
 
   const breakpoint = useMediaQuery();
 
+  // 필터 변경 핸들러
   const handleSearchOption = useCallback(
     (newQuery: Partial<IMeetingSearchCondition>) => {
-      // 기존 검색 조건과 동일하다면 API 호출하지 않도록 처리
+      // 기존 키워드와 동일하다면 API 호출하지 않도록 처리
       setSearchQuery((prev) => {
         if (prev.keyword === newQuery.keyword) {
           return prev;
@@ -104,6 +105,7 @@ const MeetingList = () => {
 
   const queryClient = useMemo(() => new QueryClient(), []);
 
+  // 필터에 따른 재검색
   useEffect(() => {
     queryClient.removeQueries({ queryKey: [MEETING_QUERY_KEYS.meetings] });
     refetch();
@@ -111,6 +113,7 @@ const MeetingList = () => {
 
   const [inputValue, setInputValue] = useState('');
 
+  // 키워드 검색 시 사용되는 디바운스 훅
   useDebounce({
     value: inputValue,
     callBack: () => {
@@ -128,6 +131,13 @@ const MeetingList = () => {
   const handleSelectionChange = (selection: string[]) => {
     setSelectedTechs(selection);
     handleSearchOption({ skillArray: selection });
+  };
+
+  const router = useRouter();
+
+  // 신청하기 버튼 클릭 시 상세페이지로 이동
+  const handleMoveDetailPage = (meetingId: number) => {
+    router.push(`/meeting/${category}/${meetingId}`);
   };
 
   if (isLoading) {
@@ -204,7 +214,10 @@ const MeetingList = () => {
                           </div>
                         </div>
                       </div>
-                      <Button className="mt-6 md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]">
+                      <Button
+                        className="mt-6 md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]"
+                        onClick={() => handleMoveDetailPage(meeting.meetingId)}
+                      >
                         신청하기
                       </Button>
                     </div>
