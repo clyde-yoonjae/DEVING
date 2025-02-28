@@ -4,17 +4,17 @@ import ContectEdit from './components/ContectEdit';
 import ContectInfo from './components/ContectInfo';
 import PasswordEdit from './components/PasswordEdit';
 import PasswordInfo from './components/PasswordInfo';
-import ProfileEdit from './components/ProfileImageEdit';
-import TechStackEdit from './components/TechStackEdit';
+import ProfileImage from './components/ProfileImage';
 
 export default function MyPage() {
   return (
     <div className="flex flex-col gap-[56px] px-[24px]">
-      <ProfileEdit />
+      {/*
       <BasicEdit />
       <ContectEdit />
-      <TechStackEdit />
       <PasswordEdit />
+       */}
+      <ProfileImage />
       <BasicInfo />
       <ContectInfo />
       <PasswordInfo />
