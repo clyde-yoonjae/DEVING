@@ -41,7 +41,7 @@ const filterOptions = [
   },
 ];
 
-const translateCategoryNameToKor = (category: string): CategoryTitle => {
+export const translateCategoryNameToKor = (category: string): CategoryTitle => {
   switch (category) {
     case 'mogakco':
       return '모각코';

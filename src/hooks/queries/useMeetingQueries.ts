@@ -3,14 +3,15 @@ import { getMeetings, getTopMeetings } from 'service/api/meeting';
 import { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
 
 const MEETING_QUERY_KEYS = {
-  topMeetings: ['topMeetings'] as const,
-  meetings: ['meetings'] as const,
-  meetingId: (id: string) => [...MEETING_QUERY_KEYS.meetings, id] as const,
+  topMeetings: (category: string) => ['topMeetings', category] as const, // 카테고리별 추천모임 쿼리키 분리
+  meetings: (category: string) => ['meetings', category] as const, // 카테고리별 모임 쿼리키 분리
+  meetingId: (id: string, category: string) =>
+    [...MEETING_QUERY_KEYS.meetings(category), id] as const,
 };
 
 const useTopMeetings = (category: CategoryTitle, options = {}) => {
   return useQuery({
-    queryKey: MEETING_QUERY_KEYS.topMeetings,
+    queryKey: MEETING_QUERY_KEYS.topMeetings(category),
     queryFn: () => getTopMeetings(category),
     ...options,
   });
@@ -22,7 +23,7 @@ const useInfiniteSearchMeetings = (
   option = {},
 ) => {
   return useInfiniteQuery({
-    queryKey: MEETING_QUERY_KEYS.meetings,
+    queryKey: MEETING_QUERY_KEYS.meetings(category),
     queryFn: ({ pageParam = 0 }) =>
       getMeetings(pageParam, category, searchQueryObj),
     initialPageParam: 0,

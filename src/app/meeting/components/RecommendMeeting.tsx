@@ -3,12 +3,20 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 import { useTopMeetings } from '@/hooks/queries/useMeetingQueries';
+import { useParams } from 'next/navigation';
 import { TopMeeting } from 'types/meeting';
 
+import { translateCategoryNameToKor } from './MeetingList';
 import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';
 
 const RecommendMeeting = () => {
-  const { data: meetings, isLoading, error } = useTopMeetings('모각코');
+  const { category } = useParams();
+  const categoryStr = Array.isArray(category) ? category[0] : category;
+  const {
+    data: meetings,
+    isLoading,
+    error,
+  } = useTopMeetings(translateCategoryNameToKor(categoryStr));
 
   if (isLoading) {
     return <RecommendMeetingSkeleton />;
