@@ -1,12 +1,12 @@
 'use client';
 
-import Some from '@/app/preview/modal/Some';
 import Dropdown from '@/components/common/Dropdown';
 import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
 import { Tag } from '@/components/ui/Tag';
 import Modal from '@/components/ui/modal/Modal';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import ModalProfile from '../components/ModalProfile';
@@ -35,7 +35,6 @@ const CardRightSection = ({
   const handleConfirm = () => {
     setIsUserListModalOpen(false);
   };
-  console.log('memberList: ', memberList);
   const filterAreaOptions = [
     { value: 'true', label: '공개' },
     { value: 'false', label: '비공개' },
@@ -186,14 +185,32 @@ export default function Page() {
       ],
     },
   ];
-
-  console.log('meetings: ', meetings);
+  const searchParams = useSearchParams(); // 서버 컴포넌트로 변경되면 리펙토링.
+  const meetingType = searchParams.get('type');
+  console.log('meetingType: ', meetingType);
   return (
     <div>
-      {/* 카드 리스트 */}
+      <div className="flex flex-col gap-[24px]">
+        <div className="flex gap-[24px]">
+          <h3 className="typo-button1 border-b-2 border-main p-4 text-[17px] font-bold text-main">
+            나의 모임
+          </h3>
+          <h3 className="typo-button1 border-b-2 border-main p-4 text-[17px] font-bold text-main">
+            찜한 모임
+          </h3>
+          <h3 className="typo-button1 border-b-2 border-main p-4 text-[17px] font-bold text-main">
+            나의 리뷰
+          </h3>
+        </div>
+        <div className="flex gap-2">
+          <Button className="w-fit px-4">내가 만든 모임</Button>
+          <Button className="w-fit px-4" variant="default">
+            내가 참여하고 있는 모임
+          </Button>
+        </div>
+      </div>
       <div>
         {meetings.map((meeting) => {
-          console.log('[map] meeting:', meeting);
           return (
             <>
               {/* 데스크탑 */}

@@ -1,14 +1,9 @@
-import Description from '@/components/common/Description';
 import { Tag } from '@/components/ui/Tag';
 import Image from 'next/image';
-import { mock } from 'node:test';
-import { Dispatch, SetStateAction, useState } from 'react';
 import React from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { Button } from '../../../components/ui/Button';
-import Modal from '../../../components/ui/modal/Modal';
-import UserItem from './UserItem';
-import Test from './test';
 
 export interface UserData {
   id: number;
@@ -17,29 +12,6 @@ export interface UserData {
   introduction: string;
   profilePic: string;
 }
-
-const mockUser = {
-  userId: 9,
-  name: '강윤지',
-  profilePic:
-    'https://deving-bucket.s3.ap-northeast-2.amazonaws.com/profile_img.png',
-  intro: '안녕하세요, 개발자 강윤지입니다. 안녕하세요, 개발자 강윤지입니다.',
-  email: 'yunji@naver.com',
-  position: 'Frontend',
-  skillArray: [],
-  gender: '비공개',
-  age: '선택 안함',
-  location: '선택 안함',
-  contactResponse: {
-    phone: null,
-    github: null,
-    kakao: null,
-  },
-  memberResponse: {
-    memberId: 37,
-    message: '모임 주최자 입니다',
-  },
-};
 
 const mockUsers: UserData[] = [
   {

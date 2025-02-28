@@ -1,10 +1,6 @@
 import Description from '@/components/common/Description';
-import { Tag } from '@/components/ui/Tag';
 import Image from 'next/image';
-import { useState } from 'react';
 import React from 'react';
-
-import Modal from '../../../components/ui/modal/Modal';
 
 export interface UserData {
   id: number;

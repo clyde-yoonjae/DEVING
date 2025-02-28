@@ -15,8 +15,8 @@ const buttonVariants = cva(
           'disabled:bg-disable disabled:text-disable_text',
         ],
         default: [
-          'bg-default',
-          'text-main',
+          'bg-disable',
+          'text-Cgray500',
           'hover:opacity-90',
           'disabled:bg-disable disabled:text-disable_text',
         ],
