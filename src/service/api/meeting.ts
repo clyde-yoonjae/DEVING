@@ -1,10 +1,11 @@
+import { authAPI } from '@/lib/axios/authApi';
 import { basicAPI } from '@/lib/axios/basicApi';
 import { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
 
-const getTopMeetings = async (category: CategoryTitle) => {
-  const res = await basicAPI.get(
-    `/api/v1/meetings/top?categoryTitle=${category}`,
-  );
+const getTopMeetings = async (categoryTitle: CategoryTitle) => {
+  const res = await basicAPI.get(`/api/v1/meetings/top`, {
+    params: { categoryTitle },
+  });
 
   return res.data.data;
 };
@@ -23,4 +24,17 @@ const getMeetings = async (
 
   return res.data.data;
 };
-export { getTopMeetings, getMeetings };
+
+const likeMeeting = async (meetingId: number) => {
+  const res = await authAPI.post(`/api/v1/meetings/${meetingId}/likes`);
+
+  return res.data.data;
+};
+
+const cancelLikeMeeting = async (meetingId: number) => {
+  const res = await authAPI.delete(`/api/v1/meetings/${meetingId}/likes`);
+
+  return res.data.data;
+};
+
+export { getTopMeetings, getMeetings, likeMeeting, cancelLikeMeeting };

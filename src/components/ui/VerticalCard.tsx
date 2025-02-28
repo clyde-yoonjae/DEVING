@@ -1,10 +1,20 @@
+import {
+  useCancelLikeMeeting,
+  useLikeMeeting,
+} from '@/hooks/mutations/useMeetingMutation';
+import { MEETING_QUERY_KEYS } from '@/hooks/queries/useMeetingQueries';
+import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
+import { QueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { Skill } from 'types/meeting';
 
 import { Button } from './Button';
 import { Progress } from './Progress';
+import Modal from './modal/Modal';
 import TechButton from './tech-stack/tech-stack-components/TechButton';
 
 interface VerticalCardProps {
@@ -13,6 +23,7 @@ interface VerticalCardProps {
   thumbnailUrl?: string;
   thumbnailWidth?: number;
   thumbnailHeight?: number;
+  meetingId: number;
   title: string;
   location: string;
   onClickLike?: () => void;
@@ -28,6 +39,7 @@ const VerticalCard = ({
   thumbnailUrl = '/thumbnail.jpg',
   thumbnailHeight = 252,
   thumbnailWidth = 303,
+  meetingId,
   title,
   location,
   onClickLike,
@@ -36,12 +48,64 @@ const VerticalCard = ({
   total = 100,
   skills,
 }: VerticalCardProps) => {
-  const handleLikeButton = () => {
-    if (onClickLike) onClickLike();
+  const queryClient = new QueryClient();
+  const { mutate: likeMutation } = useLikeMeeting(meetingId, {
+    onSuccess: () => {
+      invalidateMeetingQuery();
+    },
+  });
+
+  const { mutate: cancellikeMutation } = useCancelLikeMeeting(meetingId, {
+    onSuccess: () => {
+      invalidateMeetingQuery();
+    },
+  });
+
+  const handleLikeButton = async () => {
+    const token = await getAccessToken();
+
+    if (!token) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+
+    if (!isLike) {
+      likeMutation();
+    }
+
+    if (isLike) {
+      cancellikeMutation();
+    }
+  };
+
+  const invalidateMeetingQuery = () => {
+    queryClient.invalidateQueries({
+      queryKey: [MEETING_QUERY_KEYS.meetingId(String(meetingId))],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [MEETING_QUERY_KEYS.topMeetings],
+    });
+  };
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push('/login');
   };
 
   return (
     <div className={`h-auto w-[335px] bg-BG p-4 ${className}`}>
+      <Modal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onConfirm={handleLogin}
+        confirmText="로그인"
+        cancelText="취소"
+        modalClassName="w-96"
+      >
+        <p className="text-center text-white">로그인이 필요한 서비스 입니다.</p>
+      </Modal>
       <div
         className={'relative'}
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
@@ -81,6 +145,7 @@ const VerticalCard = ({
             skills?.length > 0 &&
             skills.map((skill) => (
               <TechButton
+                className="h-6"
                 key={skill.skillTitle}
                 name={skill.skillTitle}
                 icon={getIconComponent(skill.skillTitle)}

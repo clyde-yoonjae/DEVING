@@ -179,6 +179,7 @@ const MeetingList = () => {
                 return (
                   <HorizonCard
                     key={meeting.meetingId}
+                    meetingId={meeting.meetingId}
                     title={meeting.meetingTitle}
                     thumbnailUrl={meeting.thumbnail}
                     location={meeting.location}
@@ -239,6 +240,7 @@ const MeetingList = () => {
                   <HorizonCard
                     className="items-center"
                     key={meeting.meetingId}
+                    meetingId={meeting.meetingId}
                     title={meeting.meetingTitle}
                     thumbnailUrl={meeting.thumbnail}
                     thumbnailHeight={160}
@@ -302,6 +304,7 @@ const MeetingList = () => {
                     thumbnailHeight={160}
                     thumbnailWidth={311}
                     key={meeting.meetingId}
+                    meetingId={meeting.meetingId}
                     title={meeting.meetingTitle}
                     thumbnailUrl={meeting.thumbnail}
                     location={meeting.location}

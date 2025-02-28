@@ -33,6 +33,7 @@ const RecommendMeeting = () => {
         {meetings?.map((meeting: ITopMeeting) => (
           <VerticalCard
             key={meeting.meetingId}
+            meetingId={meeting.meetingId}
             title={meeting.title}
             thumbnailUrl={meeting.thumbnail}
             location={meeting.location}
@@ -49,6 +50,7 @@ const RecommendMeeting = () => {
           <HorizonCard
             className="h-[130px]"
             key={meeting.meetingId}
+            meetingId={meeting.meetingId}
             thumbnailHeight={80}
             thumbnailWidth={80}
             title={meeting.title}

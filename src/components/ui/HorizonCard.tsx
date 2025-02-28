@@ -1,13 +1,24 @@
+import {
+  useCancelLikeMeeting,
+  useLikeMeeting,
+} from '@/hooks/mutations/useMeetingMutation';
+import { MEETING_QUERY_KEYS } from '@/hooks/queries/useMeetingQueries';
+import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
+import { QueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { Skill } from 'types/meeting';
 
 import { Button } from './Button';
 import { Progress } from './Progress';
+import Modal from './modal/Modal';
 import TechButton from './tech-stack/tech-stack-components/TechButton';
 
 interface HorizonCardProps {
+  meetingId: number;
   title: string;
   location: string;
   value: number;
@@ -23,6 +34,7 @@ interface HorizonCardProps {
 }
 
 const HorizonCard = ({
+  meetingId,
   children,
   className = '',
   thumbnailUrl = '/thumbnail.jpg',
@@ -36,14 +48,67 @@ const HorizonCard = ({
   total = 100,
   skills,
 }: HorizonCardProps) => {
-  const handleLikeButton = () => {
-    if (onClickLike) onClickLike();
+  const queryClient = new QueryClient();
+  const { mutate: likeMutation } = useLikeMeeting(meetingId, {
+    onSuccess: () => {
+      invalidateMeetingQuery();
+    },
+  });
+
+  const { mutate: cancellikeMutation } = useCancelLikeMeeting(meetingId, {
+    onSuccess: () => {
+      invalidateMeetingQuery();
+    },
+  });
+
+  const invalidateMeetingQuery = () => {
+    queryClient.invalidateQueries({
+      queryKey: [MEETING_QUERY_KEYS.meetingId(String(meetingId))],
+    });
+    queryClient.invalidateQueries({
+      queryKey: [MEETING_QUERY_KEYS.topMeetings],
+    });
+  };
+
+  const handleLikeButton = async () => {
+    const token = await getAccessToken();
+
+    // 토큰 없으면 로그인 안내 팝업 노출
+    if (!token) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+
+    if (!isLike) {
+      likeMutation();
+    }
+
+    if (isLike) {
+      cancellikeMutation();
+    }
+  };
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push('/login');
   };
 
   return (
     <div
       className={`relative flex h-auto w-full flex-shrink-0 bg-BG p-4 ${className}`}
     >
+      <Modal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onConfirm={handleLogin}
+        confirmText="로그인"
+        cancelText="취소"
+        modalClassName="w-96"
+      >
+        <p className="text-center text-white">로그인이 필요한 서비스 입니다.</p>
+      </Modal>
       <Button
         className="absolute right-4 top-4 h-auto w-auto"
         variant="text"
@@ -52,7 +117,7 @@ const HorizonCard = ({
         icon={
           <Heart
             style={{ width: '24px', height: '24px' }}
-            className={`${isLike ? 'fill-main' : ''} h-4 w-4 md:h-6 md:w-6`}
+            className={`${isLike ? 'fill-main' : 'stroke-Cgray500'} h-4 w-4 md:h-6 md:w-6`}
           />
         }
       ></Button>
@@ -84,6 +149,7 @@ const HorizonCard = ({
             skills?.length > 0 &&
             skills.map((skill) => (
               <TechButton
+                className="h-6"
                 key={skill.skillTitle}
                 name={skill.skillTitle}
                 icon={getIconComponent(skill.skillTitle)}
