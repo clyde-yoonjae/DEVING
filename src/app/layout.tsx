@@ -1,4 +1,5 @@
 import Header from '@/components/common/Header';
+import { ToastProvider } from '@/components/common/ToastContext';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
@@ -26,8 +27,10 @@ export default function RootLayout({
     <html lang="ko" className={pretendard.variable}>
       <body className="bg-BG">
         <ReactQueryProviders>
-          <Header />
-          <div className="m-auto max-w-[1340px]">{children}</div>
+          <ToastProvider>
+            <Header />
+            <div className="m-auto max-w-[1340px]">{children}</div>
+          </ToastProvider>
         </ReactQueryProviders>
       </body>
     </html>
