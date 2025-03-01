@@ -24,6 +24,7 @@ import {
   SearchMeeting,
 } from 'types/meeting';
 
+import NoResultsMeeting from './NoResultsMeeting';
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
 
 const filterOptions = [
@@ -169,6 +170,8 @@ const MeetingList = () => {
           sideOffset={8}
         />
       </div>
+
+      {data?.pages[0].content.length === 0 && <NoResultsMeeting />}
 
       {/* 모임 리스트 웹뷰 */}
       {breakpoint === 'desktop' && (
