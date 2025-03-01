@@ -80,10 +80,12 @@ const HorizonCard = ({
   };
 
   const handleClickCard = () => {
+    if (isLoginModalOpen) return;
     if (onClick) onClick(meetingId);
   };
 
-  const handleLikeButton = async () => {
+  const handleLikeButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     const token = await getAccessToken();
 
     // 토큰 없으면 로그인 안내 팝업 노출
@@ -130,7 +132,7 @@ const HorizonCard = ({
         className="absolute right-4 top-4 h-auto w-auto"
         variant="text"
         size="sm"
-        onClick={handleLikeButton}
+        onClick={(e) => handleLikeButton(e)}
         icon={
           <Heart
             style={{ width: '24px', height: '24px' }}
