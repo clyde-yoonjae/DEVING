@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write # PR에 댓글을 달 수 있는 권한 추가
 
 jobs:
   deploy-preview:
@@ -43,30 +42,3 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      # 미리보기 URL 가져오기
-      - name: Get Netlify Preview URL
-        id: netlify-url
-        run: |
-          PREVIEW_URL=$(netlify deploy --json --alias=pr-${{ github.event.number }} | jq -r '.deploy_url')
-          echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
-          echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-      # PR 코멘트 추가
-      - name: Add Netlify Preview URL to PR
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { issue: { number: issue_number }, repo: { owner, repo } } = context;
-            const deployUrl = '${{ steps.netlify-url.outputs.preview_url }}';
-
-            github.rest.issues.createComment({
-              issue_number,
-              owner,
-              repo,
-              body: `## 🚀 Netlify 미리보기가 배포되었습니다!\n\n### 🔍 [미리보기 링크](${deployUrl})\n\n배포 시간: ${new Date().toLocaleString()}`
-            });
