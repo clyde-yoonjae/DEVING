@@ -29,6 +29,31 @@ jobs:
           echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env
           echo "NEXT_TOKEN_MAX_AGE=${{ secrets.NEXT_TOKEN_MAX_AGE }}" >> .env
 
+      - name: Create netlify.toml for plugins
+        run: |
+          cat > netlify.toml << 'EOL'
+          [build]
+            command = "npm run build"
+            publish = ".next"
+
+          # 라이트하우스 성능 분석 플러그인
+          [[plugins]]
+            package = "@netlify/plugin-lighthouse"
+            
+            [plugins.inputs]
+              output_path = "reports/lighthouse.html"
+              audit_mobile = true
+              audit_desktop = true
+
+          # 번들 분석 플러그인 
+          [[plugins]]
+            package = "netlify-plugin-inline-source-map"
+            
+          # Next.js 최적화 (번들 분석을 위해 필요)
+          [[plugins]]
+            package = "@netlify/plugin-nextjs"
+          EOL
+
       - name: Build project
         run: npm run build
 
