@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getMeetings, getTopMeetings } from 'service/api/meeting';
-import { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
+import type { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
 
 const MEETING_QUERY_KEYS = {
   topMeetings: (category: string) => ['topMeetings', category] as const, // 카테고리별 추천모임 쿼리키 분리

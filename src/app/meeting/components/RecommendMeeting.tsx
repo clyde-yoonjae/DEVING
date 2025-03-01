@@ -4,7 +4,7 @@ import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 import { useTopMeetings } from '@/hooks/queries/useMeetingQueries';
 import { useParams, useRouter } from 'next/navigation';
-import { TopMeeting } from 'types/meeting';
+import type { TopMeeting } from 'types/meeting';
 
 import { translateCategoryNameToKor } from './MeetingList';
 import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';

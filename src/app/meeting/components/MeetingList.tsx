@@ -1,8 +1,6 @@
 'use client';
 
-import Profile from '@/assets/icon/profile.svg';
 import Dropdown from '@/components/common/Dropdown';
-import { Button } from '@/components/ui/Button';
 import HorizonCard from '@/components/ui/HorizonCard';
 import { SearchInput } from '@/components/ui/SearchInput';
 import VerticalCard from '@/components/ui/VerticalCard';
@@ -14,11 +12,10 @@ import {
   useInfiniteSearchMeetings,
 } from '@/hooks/queries/useMeetingQueries';
 import useDebounce from '@/hooks/useDebounde';
-import { getDDay } from '@/util/date';
 import { QueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import {
+import type {
   CategoryTitle,
   IMeetingSearchCondition,
   SearchMeeting,

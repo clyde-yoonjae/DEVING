@@ -1,7 +1,7 @@
 import { authAPI } from '@/lib/axios/authApi';
 import { basicAPI } from '@/lib/axios/basicApi';
 import { getAccessToken } from '@/lib/serverActions';
-import {
+import type {
   CategoryTitle,
   IMeetingSearchCondition,
   PaginatedSearchMeeting,
