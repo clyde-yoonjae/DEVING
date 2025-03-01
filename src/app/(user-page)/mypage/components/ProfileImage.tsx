@@ -3,77 +3,85 @@
 import EditLogo from '@/assets/icon/editLogo.svg';
 import { Button } from '@/components/ui/Button';
 import Modal from '@/components/ui/modal/Modal';
-import { getProfileImage, updateProfileImage } from '@/lib/axios/profileApi';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Pencil } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
+import {
+  getProfile,
+  updateProfileImage,
+} from '../../../../service/api/mypageProfile';
+
 const ProfileImage = () => {
-  // 모달 상태
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // 프로필 이미지 URL 상태
-  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
-
-  // 선택된 이미지 파일
+  const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  // 선택된 이미지 미리보기
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-  // 로딩 상태
-  const [loading, setLoading] = useState(false);
-  const [fetchLoading, setFetchLoading] = useState(true);
-
-  // 파일 입력 참조
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 컴포넌트 마운트 시 프로필 이미지 로드
-  useEffect(() => {
-    fetchProfileImage();
-  }, []);
+  // 이미지 버전 관리를 위한 상태 (캐시 버스팅용)
+  const [imageVersion, setImageVersion] = useState<number>(0);
 
-  // 미리보기 URL 정리
-  useEffect(() => {
-    return () => {
-      // 컴포넌트 언마운트 시 URL 해제
+  // 프로필 데이터 쿼리
+  const { data: profileData, isLoading: isProfileLoading } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile,
+    // 기본 설정 유지 (불필요한 리페치 방지)
+  });
+
+  // 프로필 이미지 URL에 버전 추가 (필요할 때만)
+  const profileImageUrl = profileData?.data?.profilePic
+    ? `${profileData.data.profilePic}${imageVersion > 0 ? `?v=${imageVersion}` : ''}`
+    : null;
+
+  // 이미지 업로드 뮤테이션
+  const uploadMutation = useMutation({
+    mutationFn: (file: File) => updateProfileImage(file),
+    onSuccess: () => {
+      // 캐시 무효화 및 단일 리페치
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
+
+      // 이미지 버전 증가 (캐시 버스팅)
+      setImageVersion((prev) => prev + 1);
+
+      // 상태 초기화
+      setSelectedFile(null);
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl);
+        setPreviewUrl(null);
       }
-    };
-  }, [previewUrl]);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
 
-  // 프로필 이미지 가져오기
-  const fetchProfileImage = async () => {
-    setFetchLoading(true);
-    try {
-      const response = await getProfileImage();
-      if (response.data && response.data.profilePic) {
-        setProfileImageUrl(response.data.profilePic);
-      }
-    } catch (error) {
-      console.error('프로필 이미지를 불러오는데 실패했습니다:', error);
-    } finally {
-      setFetchLoading(false);
-    }
-  };
+      // 모달 닫기
+      setIsModalOpen(false);
+    },
+    onError: (error) => {
+      console.error('프로필 이미지 업로드 실패:', error);
+      alert('프로필 이미지 업로드에 실패했습니다.');
+    },
+  });
 
   // 파일 선택 핸들러
-  const handleFileSelect = () => {
+  const handleFileSelect = (): void => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // 키보드 핸들러 - Enter 또는 Space 키로 파일 선택 다이얼로그 열기
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  // 키보드 핸들러
+  const handleKeyDown = (event: React.KeyboardEvent): void => {
     if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault(); // 스크롤 방지
+      event.preventDefault();
       handleFileSelect();
     }
   };
 
   // 파일 변경 핸들러
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
@@ -101,40 +109,18 @@ const ProfileImage = () => {
     }
   };
 
-  // 이미지 업로드 핸들러 (모달 확인 버튼)
-  const handleConfirm = async () => {
+  // 이미지 업로드 핸들러
+  const handleConfirm = (): void => {
     if (!selectedFile) {
       setIsModalOpen(false);
       return;
     }
 
-    setLoading(true);
-    try {
-      await updateProfileImage(selectedFile);
-
-      // 업로드 성공 후 이미지 갱신
-      await fetchProfileImage();
-
-      // 상태 초기화
-      setSelectedFile(null);
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-        setPreviewUrl(null);
-      }
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    } catch (error) {
-      console.error('프로필 이미지 업로드 실패:', error);
-      alert('프로필 이미지 업로드에 실패했습니다.');
-    } finally {
-      setLoading(false);
-      setIsModalOpen(false);
-    }
+    uploadMutation.mutate(selectedFile);
   };
 
   // 모달 닫기 시 상태 초기화
-  const handleCloseModal = () => {
+  const handleCloseModal = (): void => {
     setIsModalOpen(false);
     setSelectedFile(null);
     if (previewUrl) {
@@ -150,8 +136,8 @@ const ProfileImage = () => {
     <div className="flex flex-col pt-[83px]">
       <div className="typo-head3 text-Cgray700">프로필 이미지</div>
       <div className="flex justify-center gap-[24px] py-[24px]">
-        <div className="relative flex h-[252px] w-[252px] items-center justify-center rounded-[20px] border border-Cgray300 bg-Cgray200">
-          {fetchLoading ? (
+        <div className="relative flex h-[163px] w-[163px] items-center justify-center rounded-[20px] border border-Cgray300 bg-Cgray200 md:h-[255px] md:w-[255px]">
+          {isProfileLoading ? (
             <div className="flex h-full w-full items-center justify-center">
               <p className="text-Cgray700">로딩 중...</p>
             </div>
@@ -160,6 +146,7 @@ const ProfileImage = () => {
               src={profileImageUrl}
               alt="프로필 이미지"
               className="h-full w-full rounded-[20px] object-cover"
+              key={`profile-image-${imageVersion}`} // 버전 변경 시에만 리렌더링
             />
           ) : (
             <EditLogo className="text-Cgray700" width={86} height={86} />
@@ -188,9 +175,9 @@ const ProfileImage = () => {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirm}
-        confirmText={loading ? '업로드 중...' : '변경'}
+        confirmText={uploadMutation.isPending ? '업로드 중...' : '변경'}
         cancelText="취소"
-        modalClassName="w-[450px]"
+        modalClassName="w-[343px] md:w-[450px] "
         buttonClassName="pt-0 px-[24px] pb-[24px]"
       >
         <div className="flex flex-col items-center justify-center gap-[16px]">
@@ -198,10 +185,11 @@ const ProfileImage = () => {
           <div className="flex justify-center">
             <button
               type="button"
-              className="relative flex h-[160px] w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-[20px] border border-Cgray300 bg-Cgray200 p-0"
+              className="relative flex h-[123px] w-[123px] cursor-pointer items-center justify-center overflow-hidden rounded-[20px] border border-Cgray300 bg-Cgray200 p-0 md:h-[163px] md:w-[163px] lg:h-[203px] lg:w-[203px]"
               onClick={handleFileSelect}
               onKeyDown={handleKeyDown}
               aria-label="프로필 이미지 변경하기"
+              disabled={uploadMutation.isPending}
             >
               {previewUrl ? (
                 <img

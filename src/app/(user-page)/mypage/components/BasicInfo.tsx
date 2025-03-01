@@ -1,47 +1,51 @@
-'use client';
-
 import { Button } from '@/components/ui/Button';
-import { getProfile } from '@/lib/axios/profileApi';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-const BasicInfo = () => {
-  // 사용자 정보 상태
-  const [userData, setUserData] = useState({
-    name: '',
-    intro: '',
-    position: '',
-    gender: '',
-    age: '',
-    location: '',
+import { getProfile } from '../../../../service/api/mypageProfile';
+
+interface BasicInfoProps {
+  onEnableEdit: () => void;
+}
+
+const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
+  // tanstack query를 사용하여 사용자 프로필 데이터 불러오기
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile,
   });
 
-  // 로딩 상태
-  const [loading, setLoading] = useState(true);
+  // 사용자 데이터 포맷팅
+  const userData = {
+    name: data?.data?.name || '',
+    intro: data?.data?.intro || '',
+    position: data?.data?.position || '',
+    gender: data?.data?.gender || '',
+    age: data?.data?.age || '',
+    location: data?.data?.location || '',
+    email: data?.data?.email || '',
+    profilePic: data?.data?.profilePic || '',
+    skillArray: data?.data?.skillArray || [],
+    contactResponse: data?.data?.contactResponse || {
+      phone: '',
+      github: '',
+      kakao: '',
+      blog: '',
+    },
+  };
 
-  // 컴포넌트 마운트 시 사용자 정보 로드
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await getProfile();
+  // 로딩 중이면 로딩 표시
+  if (isLoading) {
+    return <div className="p-4 text-center">데이터를 불러오는 중...</div>;
+  }
 
-        // API 응답에서 데이터 설정
-        setUserData({
-          name: response.data.name || '',
-          intro: response.data.intro || '',
-          position: response.data.position || '',
-          gender: response.data.gender || '',
-          age: response.data.age || '',
-          location: response.data.location || '',
-        });
-      } catch (error) {
-        console.error('사용자 정보를 불러오는데 실패했습니다:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
+  // 오류가 발생하면 오류 메시지 표시
+  if (error) {
+    return (
+      <div className="text-red-500 p-4 text-center">
+        데이터를 불러오는데 실패했습니다.
+      </div>
+    );
+  }
 
   return (
     <div className="mb-6 w-full rounded-[16px] border border-Cgray300 p-[32px]">
@@ -65,8 +69,8 @@ const BasicInfo = () => {
           <textarea
             id="intro-input"
             rows={3}
-            value={userData.intro || ''}
-            disabled
+            value={userData.intro}
+            readOnly
             className="h-[140px] resize-none rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
@@ -118,7 +122,15 @@ const BasicInfo = () => {
             className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <Button variant="outline">사용자 정보 변경</Button>
+        <div className="flex justify-center md:justify-start">
+          <Button
+            variant="outline"
+            className="h-[40px] w-[295px] md:h-[46px] md:w-[280px]"
+            onClick={onEnableEdit}
+          >
+            사용자 정보 변경
+          </Button>
+        </div>
       </div>
     </div>
   );
