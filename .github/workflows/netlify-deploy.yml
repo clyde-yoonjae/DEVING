@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+permissions:
+  contents: read
+  pull-requests: write # PR에 댓글을 달 수 있는 권한 추가
+
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
