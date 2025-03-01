@@ -35,7 +35,7 @@ jobs:
 
       # PR에 대한 미리보기 배포
       - name: Deploy Preview to Netlify
-        run: netlify deploy --build --message "PR #${{ github.event.number }} - ${{ github.event.pull_request.title }}"
+        run: netlify deploy --build --dir=build --alias=pr-${{ github.event.number }}
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -44,7 +44,7 @@ jobs:
       - name: Get Netlify Preview URL
         id: netlify-url
         run: |
-          PREVIEW_URL=$(netlify deploy --json | jq -r '.deploy_url')
+          PREVIEW_URL=$(netlify deploy --json --dir=build --alias=pr-${{ github.event.number }} | jq -r '.deploy_url')
           echo "PREVIEW_URL=$PREVIEW_URL" >> $GITHUB_ENV
           echo "preview_url=$PREVIEW_URL" >> $GITHUB_OUTPUT
         env:
