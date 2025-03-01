@@ -1,11 +1,12 @@
 'use client';
 
 import EditLogo from '@/assets/icon/editLogo.svg';
+import { useToast } from '@/components/common/ToastContext';
 import { Button } from '@/components/ui/Button';
 import Modal from '@/components/ui/modal/Modal';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Pencil } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import {
   getProfile,
@@ -18,6 +19,7 @@ const ProfileImage = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { showToast } = useToast();
 
   // 이미지 버전 관리를 위한 상태 (캐시 버스팅용)
   const [imageVersion, setImageVersion] = useState<number>(0);
@@ -34,7 +36,6 @@ const ProfileImage = () => {
     ? `${profileData.data.profilePic}${imageVersion > 0 ? `?v=${imageVersion}` : ''}`
     : null;
 
-  // 이미지 업로드 뮤테이션
   const uploadMutation = useMutation({
     mutationFn: (file: File) => updateProfileImage(file),
     onSuccess: () => {
@@ -58,8 +59,9 @@ const ProfileImage = () => {
       setIsModalOpen(false);
     },
     onError: (error) => {
-      console.error('프로필 이미지 업로드 실패:', error);
-      alert('프로필 이미지 업로드에 실패했습니다.');
+      showToast('프로필 이미지 업로드에 실패했습니다.', 'error', {
+        duration: 3000,
+      });
     },
   });
 
@@ -146,7 +148,7 @@ const ProfileImage = () => {
               src={profileImageUrl}
               alt="프로필 이미지"
               className="h-full w-full rounded-[20px] object-cover"
-              key={`profile-image-${imageVersion}`} // 버전 변경 시에만 리렌더링
+              key={`profile-image-${imageVersion}`}
             />
           ) : (
             <EditLogo className="text-Cgray700" width={86} height={86} />

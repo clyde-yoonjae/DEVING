@@ -107,7 +107,6 @@ const TechStackEdit = ({ onEditComplete }: TechStackEditProps) => {
         onButtonClick={handleButtonClick}
       />
 
-      {/* 버튼 그룹 */}
       <div className="mt-4 flex justify-end gap-3">
         <button
           type="button"

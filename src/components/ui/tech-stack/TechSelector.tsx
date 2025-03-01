@@ -8,6 +8,7 @@ import SelectedTechList from './tech-stack-components/SelectedTechList';
 import TechButtonList from './tech-stack-components/TechButtonList';
 
 interface TechSelectorProps {
+  className?: string;
   maxSelections?: number;
   onSelectionChange?: (selection: string[]) => void;
 }
@@ -15,6 +16,7 @@ interface TechSelectorProps {
 const TechSelector = ({
   maxSelections = 5,
   onSelectionChange,
+  className,
 }: TechSelectorProps): JSX.Element => {
   // 현재 선택된 카테고리 상태
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');

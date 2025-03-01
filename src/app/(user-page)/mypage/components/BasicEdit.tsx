@@ -4,23 +4,16 @@ import Dropdown from '@/components/common/Dropdown';
 import { Button } from '@/components/ui/Button';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import {
   getProfile,
   updateProfile,
 } from '../../../../service/api/mypageProfile';
-import { IProfileUpdateRequest } from '../../../../types/mypageTypes';
-
-// 폼 데이터 타입 정의
-interface FormData {
-  name: string;
-  intro: string;
-  position: string;
-  gender: string;
-  age: string;
-  location: string;
-}
+import {
+  IFormData,
+  IProfileUpdateRequest,
+} from '../../../../types/mypageTypes';
 
 interface BasicEditProps {
   onEditComplete: () => void;
@@ -47,10 +40,9 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
     handleSubmit,
     control,
     setValue,
-    watch,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+  } = useForm<IFormData>({
     defaultValues: {
       name: '',
       intro: '',
@@ -73,7 +65,10 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
   });
 
   // 현재 폼 값 관찰
-  const currentGender = watch('gender');
+  const currentGender = useWatch({
+    control,
+    name: 'gender',
+  });
 
   // 옵션 데이터 - useMemo로 메모이제이션
   const positionOptions = useMemo(
@@ -81,7 +76,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       { value: '프론트엔드', label: '프론트엔드' },
       { value: '백엔드', label: '백엔드' },
       { value: '디자이너', label: '디자이너' },
-      { value: '해당없음', label: '해당없음' },
+      { value: '선택안함', label: '선택안함' },
     ],
     [],
   );
@@ -93,6 +88,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       { value: '30대', label: '30대' },
       { value: '40대', label: '40대' },
       { value: '50대이상', label: '50대이상' },
+      { value: '선택안함', label: '선택안함' },
     ],
     [],
   );
@@ -116,6 +112,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       { value: '경북', label: '경북' },
       { value: '경남', label: '경남' },
       { value: '제주', label: '제주' },
+      { value: '선택안함', label: '선택안함' },
     ],
     [],
   );
@@ -149,11 +146,10 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       );
       if (locationOption) setLocationLabel(locationOption.label);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, reset]);
 
   // 폼 제출 처리
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: IFormData) => {
     updateProfileMutation.mutate(data);
   };
 
@@ -232,13 +228,13 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
         {/* 포지션 드롭다운 */}
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[32px]">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="typo-head3 text-main">포지션</label>
+          <div className="typo-head3 text-main">포지션</div>
           <Controller
             name="position"
             control={control}
-            render={({ field }) => (
+            render={() => (
               <Dropdown
+                aria-label="포지션"
                 options={positionOptions}
                 onChange={handlePositionChange}
                 trigger={positionLabel}
@@ -252,10 +248,9 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
         {/* 성별 토글 버튼 */}
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[32px]">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="typo-head3 text-main">성별</label>
+          <div className="typo-head3 text-main">성별</div>
           <div className="typo-head3 flex w-64 rounded-md border bg-white">
-            {['남자', '여자'].map((option) => (
+            {['남자', '여자', '비공개'].map((option) => (
               <button
                 key={option}
                 type="button"
@@ -274,18 +269,18 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
         {/* 연령대 드롭다운 */}
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[32px]">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="typo-head3 text-main">연령대</label>
+          <div className="typo-head3 text-main">연령대</div>
           <Controller
             name="age"
             control={control}
-            render={({ field }) => (
+            render={() => (
               <Dropdown
+                aria-label="연령대"
                 options={ageOptions}
                 onChange={handleAgeChange}
                 trigger={ageLabel}
                 variant="icon"
-                className="w-full"
+                className="max-h-[200px] w-full"
                 sideOffset={6}
               />
             )}
@@ -294,25 +289,25 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
         {/* 지역 드롭다운 */}
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[32px]">
-          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label className="typo-head3 text-main">지역</label>
+          <div className="typo-head3 text-main">지역</div>
           <Controller
             name="location"
             control={control}
-            render={({ field }) => (
+            render={() => (
               <Dropdown
+                aria-label="지역"
                 options={locationOptions}
                 onChange={handleLocationChange}
                 trigger={locationLabel}
                 variant="icon"
                 className="w-full"
                 sideOffset={6}
+                contentClassName="max-h-[200px] overflow-y-auto"
               />
             )}
           />
         </div>
 
-        {/* 버튼 그룹 */}
         <div className="flex justify-between">
           <Button
             type="button"

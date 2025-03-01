@@ -1,3 +1,13 @@
+// 폼 데이터 타입 정의
+export interface IFormData {
+  name: string;
+  intro: string;
+  position: string;
+  gender: string;
+  age: string;
+  location: string;
+}
+
 // 프로필 업데이트를 위한 타입 정의
 export interface IProfileUpdateRequest {
   name: string;

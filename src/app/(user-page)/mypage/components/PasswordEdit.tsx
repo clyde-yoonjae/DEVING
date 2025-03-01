@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/Input';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
-// API 함수 추가 필요
 import { updatePassword } from '../../../../service/api/mypageProfile';
 
 interface PasswordFormData {
@@ -135,7 +134,7 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
             })}
           />
         </div>
-        {/* 버튼 그룹 */}
+
         <div className="flex justify-between">
           <Button
             type="button"

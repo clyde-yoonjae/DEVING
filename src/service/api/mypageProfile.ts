@@ -17,10 +17,8 @@ import {
 export const getProfile = async (): Promise<IProfileResponse> => {
   try {
     const response = await authAPI.get('/api/v1/mypage/profile');
-    console.log('프로필 조회 성공:', response.data);
     return response.data;
   } catch (error) {
-    console.error('프로필 조회 실패:', error);
     throw error;
   }
 };
@@ -31,10 +29,8 @@ export const updateProfile = async (
 ): Promise<IProfileUpdateResponse> => {
   try {
     const response = await authAPI.put('/api/v1/mypage/profile', profileData);
-    console.log('프로필 업데이트 성공:', response.data);
     return response.data;
   } catch (error) {
-    console.error('프로필 업데이트 실패:', error);
     throw error;
   }
 };
@@ -45,10 +41,8 @@ export const updateContactInfo = async (
 ): Promise<IContactInfoUpdateResponse> => {
   try {
     const response = await authAPI.put('/api/v1/mypage/contact', contactData);
-    console.log('연락 수단 업데이트 성공:', response.data);
     return response.data;
   } catch (error) {
-    console.error('연락 수단 업데이트 실패:', error);
     throw error;
   }
 };
@@ -71,10 +65,8 @@ export const updateProfileImage = async (
       '/api/v1/mypage/profilepic',
       requestData,
     );
-    console.log('프로필 이미지 업데이트 성공:', response.data);
     return response.data;
   } catch (error) {
-    console.error('프로필 이미지 업데이트 실패:', error);
     throw error;
   }
 };
@@ -84,10 +76,8 @@ export const updatePassword = async (
 ): Promise<IPasswordUpdateResponse> => {
   try {
     const response = await authAPI.put('/api/v1/mypage/password', passwordData);
-    console.log('비밀번호 업데이트 성공:', response.data);
     return response.data;
   } catch (error) {
-    console.error('비밀번호 업데이트 실패:', error);
     throw error;
   }
 };
@@ -99,10 +89,8 @@ export const updateSkills = async (
     const response = await authAPI.post('/api/v1/mypage/skills', {
       skillArray,
     });
-    console.log('기술 스택 업데이트 성공:', response.data);
     return response.data;
   } catch (error) {
-    console.error('기술 스택 업데이트 실패:', error);
     throw error;
   }
 };

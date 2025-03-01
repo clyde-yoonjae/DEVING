@@ -149,7 +149,6 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           </div>
         )}
 
-        {/* 버튼 그룹 */}
         <div className="flex justify-between">
           <Button
             type="button"

@@ -22,15 +22,6 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
     gender: data?.data?.gender || '',
     age: data?.data?.age || '',
     location: data?.data?.location || '',
-    email: data?.data?.email || '',
-    profilePic: data?.data?.profilePic || '',
-    skillArray: data?.data?.skillArray || [],
-    contactResponse: data?.data?.contactResponse || {
-      phone: '',
-      github: '',
-      kakao: '',
-      blog: '',
-    },
   };
 
   // 로딩 중이면 로딩 표시

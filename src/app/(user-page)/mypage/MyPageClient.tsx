@@ -2,7 +2,6 @@
 
 import { ReactNode, useState } from 'react';
 
-// Components imports
 import BasicEdit from './components/BasicEdit';
 import BasicInfo from './components/BasicInfo';
 import ContactEdit from './components/ContactEdit';

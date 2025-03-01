@@ -1,4 +1,3 @@
-// src/components/mypage/components/TechStackInfo.tsx
 import { getIconColor, getIconComponent } from '@/util/getIconDetail';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
