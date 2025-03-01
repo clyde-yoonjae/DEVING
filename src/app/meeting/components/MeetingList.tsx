@@ -178,6 +178,7 @@ const MeetingList = () => {
               {page.content.map((meeting: SearchMeeting) => {
                 return (
                   <HorizonCard
+                    onClick={handleMoveDetailPage}
                     key={meeting.meetingId}
                     meetingId={meeting.meetingId}
                     category={translateCategoryNameToKor(categoryStr)}
@@ -239,6 +240,7 @@ const MeetingList = () => {
               {page.content.map((meeting: SearchMeeting) => {
                 return (
                   <HorizonCard
+                    onClick={handleMoveDetailPage}
                     className="items-center"
                     key={meeting.meetingId}
                     meetingId={meeting.meetingId}
@@ -302,6 +304,7 @@ const MeetingList = () => {
               {page.content.map((meeting: SearchMeeting) => {
                 return (
                   <VerticalCard
+                    onClick={handleMoveDetailPage}
                     className="h-[380px]"
                     thumbnailHeight={160}
                     thumbnailWidth={311}

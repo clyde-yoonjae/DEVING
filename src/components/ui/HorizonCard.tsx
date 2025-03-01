@@ -29,7 +29,7 @@ interface HorizonCardProps {
   thumbnailUrl?: string;
   thumbnailWidth?: number;
   thumbnailHeight?: number;
-  onClickLike?: () => void;
+  onClick?: (id: number) => void;
   isLike?: boolean;
   skills?: string[];
 }
@@ -44,7 +44,7 @@ const HorizonCard = ({
   thumbnailWidth = 252,
   title,
   location,
-  onClickLike,
+  onClick,
   isLike = false,
   value,
   total = 100,
@@ -79,6 +79,10 @@ const HorizonCard = ({
     });
   };
 
+  const handleClickCard = () => {
+    if (onClick) onClick(meetingId);
+  };
+
   const handleLikeButton = async () => {
     const token = await getAccessToken();
 
@@ -108,7 +112,9 @@ const HorizonCard = ({
 
   return (
     <div
-      className={`relative flex h-auto w-full flex-shrink-0 bg-BG p-4 ${className}`}
+      className={`relative flex h-auto w-full flex-shrink-0 cursor-pointer bg-BG p-4 ${className}`}
+      role="presentation"
+      onClick={handleClickCard}
     >
       <Modal
         isOpen={isLoginModalOpen}

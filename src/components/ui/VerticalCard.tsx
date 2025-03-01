@@ -27,7 +27,7 @@ interface VerticalCardProps {
   meetingId: number;
   title: string;
   location: string;
-  onClickLike?: () => void;
+  onClick?: (id: number) => void;
   isLike?: boolean;
   value: number;
   total: number;
@@ -44,7 +44,7 @@ const VerticalCard = ({
   meetingId,
   title,
   location,
-  onClickLike,
+  onClick,
   isLike = false,
   value,
   total = 100,
@@ -103,10 +103,18 @@ const VerticalCard = ({
     router.push('/login');
   };
 
+  const handleClickCard = () => {
+    if (onClick) onClick(meetingId);
+  };
+
   const [thumbnail, setThumbnail] = useState(thumbnailUrl);
 
   return (
-    <div className={`h-auto w-[335px] bg-BG p-4 ${className}`}>
+    <div
+      className={`h-auto w-[335px] cursor-pointer bg-BG p-4 ${className}`}
+      role="presentation"
+      onClick={handleClickCard}
+    >
       <Modal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}

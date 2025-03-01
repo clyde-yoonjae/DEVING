@@ -3,7 +3,7 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 import { useTopMeetings } from '@/hooks/queries/useMeetingQueries';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { TopMeeting } from 'types/meeting';
 
 import { translateCategoryNameToKor } from './MeetingList';
@@ -11,6 +11,8 @@ import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';
 
 const RecommendMeeting = () => {
   const { category } = useParams();
+  const router = useRouter();
+
   const categoryStr = Array.isArray(category) ? category[0] : category;
   const {
     data: meetings,
@@ -26,6 +28,10 @@ const RecommendMeeting = () => {
     return <div className="typo-head1 text-white">에러 발생</div>;
   }
 
+  const handleMoveDetailPage = (id: number) => {
+    router.push(`/meeting/${category}/${id}`);
+  };
+
   return (
     <>
       <div className="typo-head1 mb-6 px-4 text-Cgray800">Deving 추천 모임</div>
@@ -40,6 +46,7 @@ const RecommendMeeting = () => {
       >
         {meetings?.map((meeting: TopMeeting) => (
           <VerticalCard
+            onClick={handleMoveDetailPage}
             category={translateCategoryNameToKor(categoryStr)}
             key={meeting.meetingId}
             meetingId={meeting.meetingId}
@@ -57,6 +64,7 @@ const RecommendMeeting = () => {
       <div className="flex flex-col md:hidden lg:hidden">
         {meetings?.map((meeting: TopMeeting) => (
           <HorizonCard
+            onClick={handleMoveDetailPage}
             category={translateCategoryNameToKor(categoryStr)}
             className="h-[130px]"
             key={meeting.meetingId}
