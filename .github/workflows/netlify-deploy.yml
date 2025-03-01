@@ -24,12 +24,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 플러그인 설치 추가
       - name: Install Netlify plugins
         run: |
           npm install -D @netlify/plugin-lighthouse
           npm install -D @netlify/plugin-nextjs
-          npm install -D netlify-plugin-inline-source-map
 
       - name: Create .env file
         run: |
@@ -51,11 +49,7 @@ jobs:
               output_path = "reports/lighthouse.html"
               audit_mobile = true
               audit_desktop = true
-
-          # 번들 분석 플러그인 
-          [[plugins]]
-            package = "netlify-plugin-inline-source-map"
-            
+              
           # Next.js 최적화
           [[plugins]]
             package = "@netlify/plugin-nextjs"
