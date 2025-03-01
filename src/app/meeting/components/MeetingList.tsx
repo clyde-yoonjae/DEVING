@@ -24,6 +24,7 @@ import {
   SearchMeeting,
 } from 'types/meeting';
 
+import MeetingExtraInfo from './MeetingExtraInfo';
 import NoResultsMeeting from './NoResultsMeeting';
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
 
@@ -126,11 +127,8 @@ const MeetingList = () => {
     setInputValue(e.target.value);
   };
 
-  const [selectedTechs, setSelectedTechs] = useState<string[]>([]);
-
   // 기술 선택 변경 핸들러
   const handleSelectionChange = (selection: string[]) => {
-    setSelectedTechs(selection);
     handleSearchOption({ skillArray: selection });
   };
 
@@ -193,40 +191,17 @@ const MeetingList = () => {
                     value={meeting.memberCount}
                     skills={meeting.meetingSkillArray}
                   >
-                    <div
-                      ref={
+                    <MeetingExtraInfo
+                      lastMeetingRef={
                         page.nextCursor === meeting.meetingId
                           ? lastMeetingRef
                           : null
                       }
-                      className="mt-5 md:w-[180px] lg:w-[318px]"
-                    >
-                      <div className="hidden flex-col md:flex lg:flex lg:flex-row">
-                        <div className="mr-6 flex w-[147px] flex-col">
-                          <div className="typo-head3 text-Cgray500">모임장</div>
-                          <div className="typo-head2 mt-1 flex items-center text-Cgray700">
-                            <Profile className="mr-2 h-10 w-10" />
-                            <span className="text-ellipsi truncate">
-                              {meeting.name}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col">
-                          <div className="typo-head3 text-Cgray500">
-                            모임시작
-                          </div>
-                          <div className="typo-head1 mt-1 text-Cgray700">
-                            {getDDay(meeting.startDate)}
-                          </div>
-                        </div>
-                      </div>
-                      <Button
-                        className="mt-6 md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]"
-                        onClick={() => handleMoveDetailPage(meeting.meetingId)}
-                      >
-                        신청하기
-                      </Button>
-                    </div>
+                      name={meeting.name}
+                      startDate={meeting.startDate}
+                      meetingId={meeting.meetingId}
+                      variant="desktop"
+                    />
                   </HorizonCard>
                 );
               })}
@@ -258,39 +233,17 @@ const MeetingList = () => {
                     value={meeting.memberCount}
                     skills={meeting.meetingSkillArray}
                   >
-                    <div
-                      ref={
+                    <MeetingExtraInfo
+                      lastMeetingRef={
                         page.nextCursor === meeting.meetingId
                           ? lastMeetingRef
                           : null
                       }
-                      className="mt-5 md:w-[180px] lg:w-[318px]"
-                    >
-                      <div className="hidden flex-col md:flex lg:flex lg:flex-row">
-                        <div className="mr-6 flex w-[147px] flex-col">
-                          <div className="typo-caption1 text-Cgray500">
-                            모임장
-                          </div>
-                          <div className="typo-button2 mt-1 flex items-center text-Cgray700">
-                            <Profile className="mr-2 h-10 w-10" />
-                            <span className="text-ellipsi truncate">
-                              김밤식김밤식
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col">
-                          <div className="typo-caption1 text-Cgray500">
-                            모임시작
-                          </div>
-                          <div className="typo-button2 mt-1 text-Cgray700">
-                            D+14
-                          </div>
-                        </div>
-                      </div>
-                      <Button className="typo-button2 mt-[7px] md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]">
-                        신청하기
-                      </Button>
-                    </div>
+                      name={meeting.name}
+                      startDate={meeting.startDate}
+                      meetingId={meeting.meetingId}
+                      variant="tablet"
+                    />
                   </HorizonCard>
                 );
               })}
@@ -322,37 +275,17 @@ const MeetingList = () => {
                     value={meeting.memberCount}
                     skills={meeting.meetingSkillArray}
                   >
-                    <div
-                      ref={
+                    <MeetingExtraInfo
+                      lastMeetingRef={
                         page.nextCursor === meeting.meetingId
                           ? lastMeetingRef
                           : null
                       }
-                      className="mt-5 md:w-[180px] lg:w-[318px]"
-                    >
-                      <div className="hidden flex-col md:flex lg:flex lg:flex-row">
-                        <div className="mr-6 flex w-[147px] flex-col">
-                          <div className="typo-head3 text-Cgray500">모임장</div>
-                          <div className="typo-head2 mt-1 flex items-center text-Cgray700">
-                            <Profile className="mr-2 h-10 w-10" />
-                            <span className="text-ellipsi truncate">
-                              김밤식김밤식
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex flex-col">
-                          <div className="typo-head3 text-Cgray500">
-                            모임시작
-                          </div>
-                          <div className="typo-head1 mt-1 text-Cgray700">
-                            D+14
-                          </div>
-                        </div>
-                      </div>
-                      <Button className="mt-6 h-[46px] w-[311px]">
-                        신청하기
-                      </Button>
-                    </div>
+                      name={meeting.name}
+                      startDate={meeting.startDate}
+                      meetingId={meeting.meetingId}
+                      variant="mobile"
+                    />
                   </VerticalCard>
                 );
               })}
