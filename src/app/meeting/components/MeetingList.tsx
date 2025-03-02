@@ -117,13 +117,16 @@ const MeetingList = () => {
 
   return (
     <div className="mt-[126px]">
-      {/* 기술스택 검색바 */}
       <SearchInput className="mx-5" onChange={handleChange} />
-      <TechSelector
-        className="mt-2 p-2"
-        maxSelections={5}
-        onSelectionChange={handleSelectionChange}
-      />
+
+      {/* 기술스택 검색바 */}
+      {categoryStr !== 'hobby' && (
+        <TechSelector
+          className="mt-2 p-2"
+          maxSelections={5}
+          onSelectionChange={handleSelectionChange}
+        />
+      )}
 
       {/* 드롭다운 */}
       <div className="my-4 flex w-full justify-end px-4">
