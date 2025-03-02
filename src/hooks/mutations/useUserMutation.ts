@@ -1,4 +1,3 @@
-import { ISignupFormData } from '@/app/signup/page';
 import { useToast } from '@/components/common/ToastContext';
 import { setAccessToken } from '@/lib/serverActions';
 import { useMutation } from '@tanstack/react-query';
@@ -8,6 +7,7 @@ import {
   postLogin,
   postSignup,
 } from 'service/api/user';
+import { ISignupFormData } from 'types/auth';
 
 const useLoginMutation = ({
   onSuccessCallback,
