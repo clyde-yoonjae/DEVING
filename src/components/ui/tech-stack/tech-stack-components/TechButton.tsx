@@ -3,6 +3,7 @@ import React from 'react';
 import { IconComponent } from 'types/techStack';
 
 interface TechButtonProps {
+  className?: string;
   icon: IconComponent;
   name: string;
   color: string;
@@ -12,6 +13,7 @@ interface TechButtonProps {
 }
 
 const TechButton = ({
+  className,
   icon: Icon,
   name,
   color,
@@ -27,12 +29,12 @@ const TechButton = ({
       className={`flex items-center gap-1 rounded-full border px-2 py-1
   text-xs transition-all hover:shadow-md lg:gap-2 lg:px-3 lg:py-1.5 lg:text-sm
   ${isClicked ? 'bg-white' : ''}
-  ${isMaxReached ? 'cursor-not-allowed opacity-50' : ''}`}
+  ${isMaxReached ? 'cursor-not-allowed opacity-50' : ''} ${className}`}
       onClick={() => onClick(name)}
       disabled={isMaxReached}
       title={isMaxReached ? '최대 5개까지만 선택할 수 있습니다' : ''}
     >
-      <Icon size={16} color={iconColor} />
+      {Icon ? <Icon size={16} color={iconColor} /> : null}
       <p style={{ color: iconColor }} className="font-medium">
         {name}
       </p>
