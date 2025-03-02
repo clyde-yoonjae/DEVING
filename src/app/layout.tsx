@@ -33,6 +33,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const userInfo = await getUserInfo();
+  console.log('banner Info', userInfo);
 
   return (
     <html lang="ko" className={pretendard.variable}>
