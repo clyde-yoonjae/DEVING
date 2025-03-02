@@ -139,125 +139,130 @@ const MeetingList = () => {
       {data?.pages[0].content.length === 0 && <NoResultsMeeting />}
 
       {/* 모임 리스트 웹뷰 */}
-
-      <div className="hidden flex-col md:hidden lg:flex">
-        {data?.pages.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page.content.map((meeting: SearchMeeting) => {
-              return (
-                <HorizonCard
-                  onClick={handleMoveDetailPage}
-                  key={meeting.meetingId}
-                  meetingId={meeting.meetingId}
-                  category={translateCategoryNameToKor(categoryStr)}
-                  title={meeting.meetingTitle}
-                  thumbnailUrl={meeting.thumbnail}
-                  location={meeting.location}
-                  isLike={meeting.isLike}
-                  total={meeting.maxMember}
-                  value={meeting.memberCount}
-                  likesCount={meeting.likesCount}
-                  skills={meeting.meetingSkillArray}
-                >
-                  <MeetingExtraInfo
-                    lastMeetingRef={
-                      page.nextCursor === meeting.meetingId
-                        ? lastMeetingRef
-                        : null
-                    }
-                    name={meeting.name}
-                    startDate={meeting.startDate}
+      {breakpoint === 'desktop' && (
+        <div className="hidden flex-col md:hidden lg:flex">
+          {data?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.content.map((meeting: SearchMeeting) => {
+                return (
+                  <HorizonCard
+                    onClick={handleMoveDetailPage}
+                    key={meeting.meetingId}
                     meetingId={meeting.meetingId}
-                    variant="desktop"
-                  />
-                </HorizonCard>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+                    category={translateCategoryNameToKor(categoryStr)}
+                    title={meeting.meetingTitle}
+                    thumbnailUrl={meeting.thumbnail}
+                    location={meeting.location}
+                    isLike={meeting.isLike}
+                    total={meeting.maxMember}
+                    value={meeting.memberCount}
+                    likesCount={meeting.likesCount}
+                    skills={meeting.meetingSkillArray}
+                  >
+                    <MeetingExtraInfo
+                      lastMeetingRef={
+                        page.nextCursor === meeting.meetingId
+                          ? lastMeetingRef
+                          : null
+                      }
+                      name={meeting.name}
+                      startDate={meeting.startDate}
+                      meetingId={meeting.meetingId}
+                      variant="desktop"
+                    />
+                  </HorizonCard>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* 모임 리스트 테블릿뷰 */}
-      <div className="hidden flex-col md:flex lg:hidden">
-        {data?.pages.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page.content.map((meeting: SearchMeeting) => {
-              return (
-                <HorizonCard
-                  onClick={handleMoveDetailPage}
-                  className="items-center"
-                  key={meeting.meetingId}
-                  meetingId={meeting.meetingId}
-                  category={translateCategoryNameToKor(categoryStr)}
-                  title={meeting.meetingTitle}
-                  thumbnailUrl={meeting.thumbnail}
-                  thumbnailHeight={160}
-                  thumbnailWidth={160}
-                  location={meeting.location}
-                  isLike={meeting.isLike}
-                  likesCount={meeting.likesCount}
-                  total={meeting.maxMember}
-                  value={meeting.memberCount}
-                  skills={meeting.meetingSkillArray}
-                >
-                  <MeetingExtraInfo
-                    lastMeetingRef={
-                      page.nextCursor === meeting.meetingId
-                        ? lastMeetingRef
-                        : null
-                    }
-                    name={meeting.name}
-                    startDate={meeting.startDate}
+      {breakpoint === 'tablet' && (
+        <div className="hidden flex-col md:flex lg:hidden">
+          {data?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.content.map((meeting: SearchMeeting) => {
+                return (
+                  <HorizonCard
+                    onClick={handleMoveDetailPage}
+                    className="items-center"
+                    key={meeting.meetingId}
                     meetingId={meeting.meetingId}
-                    variant="tablet"
-                  />
-                </HorizonCard>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+                    category={translateCategoryNameToKor(categoryStr)}
+                    title={meeting.meetingTitle}
+                    thumbnailUrl={meeting.thumbnail}
+                    thumbnailHeight={160}
+                    thumbnailWidth={160}
+                    location={meeting.location}
+                    isLike={meeting.isLike}
+                    likesCount={meeting.likesCount}
+                    total={meeting.maxMember}
+                    value={meeting.memberCount}
+                    skills={meeting.meetingSkillArray}
+                  >
+                    <MeetingExtraInfo
+                      lastMeetingRef={
+                        page.nextCursor === meeting.meetingId
+                          ? lastMeetingRef
+                          : null
+                      }
+                      name={meeting.name}
+                      startDate={meeting.startDate}
+                      meetingId={meeting.meetingId}
+                      variant="tablet"
+                    />
+                  </HorizonCard>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* 모임 리스트 모바일뷰 */}
-      <div className="flex flex-col items-center md:hidden lg:hidden">
-        {data?.pages.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page.content.map((meeting: SearchMeeting) => {
-              return (
-                <VerticalCard
-                  onClick={handleMoveDetailPage}
-                  className="h-[380px]"
-                  thumbnailHeight={160}
-                  thumbnailWidth={311}
-                  category={translateCategoryNameToKor(categoryStr)}
-                  key={meeting.meetingId}
-                  meetingId={meeting.meetingId}
-                  title={meeting.meetingTitle}
-                  thumbnailUrl={meeting.thumbnail}
-                  location={meeting.location}
-                  isLike={meeting.isLike}
-                  likesCount={meeting.likesCount}
-                  total={meeting.maxMember}
-                  value={meeting.memberCount}
-                  skills={meeting.meetingSkillArray}
-                >
-                  <MeetingExtraInfo
-                    lastMeetingRef={
-                      page.nextCursor === meeting.meetingId
-                        ? lastMeetingRef
-                        : null
-                    }
-                    name={meeting.name}
-                    startDate={meeting.startDate}
+      {breakpoint === 'mobile' && (
+        <div className="flex flex-col items-center md:hidden lg:hidden">
+          {data?.pages.map((page, pageIndex) => (
+            <div key={pageIndex}>
+              {page.content.map((meeting: SearchMeeting) => {
+                return (
+                  <VerticalCard
+                    onClick={handleMoveDetailPage}
+                    className="h-[380px]"
+                    thumbnailHeight={160}
+                    thumbnailWidth={311}
+                    category={translateCategoryNameToKor(categoryStr)}
+                    key={meeting.meetingId}
                     meetingId={meeting.meetingId}
-                    variant="mobile"
-                  />
-                </VerticalCard>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+                    title={meeting.meetingTitle}
+                    thumbnailUrl={meeting.thumbnail}
+                    location={meeting.location}
+                    isLike={meeting.isLike}
+                    likesCount={meeting.likesCount}
+                    total={meeting.maxMember}
+                    value={meeting.memberCount}
+                    skills={meeting.meetingSkillArray}
+                  >
+                    <MeetingExtraInfo
+                      lastMeetingRef={
+                        page.nextCursor === meeting.meetingId
+                          ? lastMeetingRef
+                          : null
+                      }
+                      name={meeting.name}
+                      startDate={meeting.startDate}
+                      meetingId={meeting.meetingId}
+                      variant="mobile"
+                    />
+                  </VerticalCard>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
