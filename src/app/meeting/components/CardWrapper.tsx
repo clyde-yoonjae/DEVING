@@ -60,7 +60,7 @@ const CardWrapper = ({ meetingId }: { meetingId: number }) => {
           isLike={meeting.isLike}
           total={meeting.maxMember}
           value={meeting.memberCount}
-          className="flex-col lg:flex-row"
+          className="flex-row"
         >
           <CardRightSection meeting={meeting} />
         </HorizonCard>

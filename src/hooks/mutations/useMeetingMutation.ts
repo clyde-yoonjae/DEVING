@@ -31,7 +31,7 @@ const useMeetingMutation = ({
       });
     },
     onError: (error: AxiosError) => {
-      if (error.status === 400) {
+      if (error.response?.status === 400) {
         showToast(
           '이미 모임에 참가 신청을 했습니다. 승인을 기다려주세요.',
           'error',
