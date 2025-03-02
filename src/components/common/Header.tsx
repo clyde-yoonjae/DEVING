@@ -3,6 +3,7 @@
 import Logo from '@/assets/icon/logo.svg';
 import Profile from '@/assets/icon/profile.svg';
 import { removeAccessToken } from '@/lib/serverActions';
+import { translateCategoryNameToKor } from '@/util/searchFilter';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -52,7 +53,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
     {
       value: 'mypage',
       label: '마이페이지',
-      onSelect: () => router.push('/my-page'),
+      onSelect: () => router.push('/mypage'),
     },
     {
       value: 'logout',
@@ -135,7 +136,7 @@ const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
       </div>
       <Link
         className="typo-head4 p-[16px] text-Cgray400 hover:text-Cgray500"
-        href="/my-page"
+        href="/mypage"
       >
         마이페이지
       </Link>
@@ -158,7 +159,10 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
       className={`${!isMobile ? 'hidden items-center text-Cgray700 lg:flex' : 'text-Cgray400'}`}
     >
       {navigation.map((item) => (
-        <li className="typo-head4 p-[16px]" key={item.label}>
+        <li
+          className={`typo-head4 p-[16px] ${category && translateCategoryNameToKor(categoryStr) === item.label && 'text-white'}`}
+          key={item.label}
+        >
           <Link
             href={item.href}
             className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}

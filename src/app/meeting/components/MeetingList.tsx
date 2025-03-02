@@ -140,7 +140,7 @@ const MeetingList = () => {
 
       {/* 모임 리스트 웹뷰 */}
       {breakpoint === 'desktop' && (
-        <div className="hidden flex-col md:hidden lg:flex">
+        <div className="flex-col sm:hidden lg:flex">
           {data?.pages.map((page, pageIndex) => (
             <div key={pageIndex}>
               {page.content.map((meeting: SearchMeeting) => {
