@@ -84,7 +84,7 @@ export default function MeetingForm({
 
         // 성공 시 상세 페이지로 이동
         const categoryId = getCategoryId(data.categoryTitle);
-        router.push(`/meeting/${categoryId}/${result.id}`);
+        router.push(`/meeting/${categoryId}/${result.data.meetingId}`);
       } else if (mode === 'edit' && meetingId) {
         // 모임 수정 (TODO: API 구현 시 수정)
         // const result = await updateMeeting.mutateAsync({ id: meetingId, data });
