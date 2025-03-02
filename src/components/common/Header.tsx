@@ -195,7 +195,7 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
 
       {/* mobile */}
       <div
-        className={`fixed right-0 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 z-50 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } lg:hidden`}
       >
