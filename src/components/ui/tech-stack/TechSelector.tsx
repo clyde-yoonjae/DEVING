@@ -8,11 +8,13 @@ import SelectedTechList from './tech-stack-components/SelectedTechList';
 import TechButtonList from './tech-stack-components/TechButtonList';
 
 interface TechSelectorProps {
+  id?: string; // id 속성 추가
   maxSelections?: number;
   onSelectionChange?: (selection: string[]) => void;
 }
 
 const TechSelector = ({
+  id,
   maxSelections = 5,
   onSelectionChange,
 }: TechSelectorProps): JSX.Element => {
@@ -36,7 +38,7 @@ const TechSelector = ({
   const activeIcons = getIconsByCategory(activeCategory);
 
   return (
-    <div className="bg-gray-50 min-h-screen p-10">
+    <div id={id}>
       <div className="mx-auto max-w-6xl">
         {/* 선택된 기술 목록 */}
         <SelectedTechList
