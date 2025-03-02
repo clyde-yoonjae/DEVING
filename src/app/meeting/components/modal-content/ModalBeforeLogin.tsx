@@ -13,8 +13,8 @@ const ModalBeforeLogin = ({ meeting }: { meeting: MeetingDetail }) => {
       <Image
         width={160}
         height={160}
-        className="mt-[16px] h-[160px] w-[160px]"
-        src={meeting.thumbnail}
+        className="mt-[16px] h-[160px] w-[160px] rounded-[14px]"
+        src={meeting.thumbnail ? meeting.thumbnail : '/thumbnail.jpg'}
         alt="모임 썸네일"
       />
     </div>
