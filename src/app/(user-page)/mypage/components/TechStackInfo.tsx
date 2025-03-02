@@ -1,25 +1,22 @@
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { getIconColor, getIconComponent } from '@/util/getIconDetail';
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
-import { getProfile } from '../../../../service/api/mypageProfile';
+import SkeletonTechStackInfo from './skeletons/SkeletonTechStackInfo';
 
 interface TechStackInfoProps {
   onEnableEdit: () => void;
 }
 
 const TechStackInfo = ({ onEnableEdit }: TechStackInfoProps) => {
-  // 프로필 데이터 쿼리
-  const { data: profileData, isLoading } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
-  });
+  // 커스텀 훅을 사용하여 프로필 데이터 가져오기
+  const { data: profileData, isLoading } = useProfileQuery();
 
   // 사용자 스킬 데이터 (안전하게 기본값 지정)
   const userSkills = profileData?.data?.skillArray || [];
 
   if (isLoading) {
-    return <div className="py-4 text-center">로딩 중...</div>;
+    return <SkeletonTechStackInfo />;
   }
 
   return (
@@ -49,7 +46,7 @@ const TechStackInfo = ({ onEnableEdit }: TechStackInfoProps) => {
                 </span>
                 <span
                   style={{ color }}
-                  className="cursor-default text-xs font-medium"
+                  className="cursor-default text-xs font-medium sm:inline-block"
                 >
                   {skill}
                 </span>

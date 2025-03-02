@@ -1,32 +1,21 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import { useQuery } from '@tanstack/react-query';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 
-import { getProfile } from '../../../../service/api/mypageProfile';
+import SkeletonContactInfo from './skeletons/SkeletonContactInfo';
 
 interface ContactInfoProps {
   onEnableEdit: () => void;
 }
 
 const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
-  // 프로필 데이터 가져오기
-  const {
-    data: profileData,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
-  });
+  // 프로필 데이터 커스텀 훅 사용
+  const { data: profileData, isLoading, error } = useProfileQuery();
 
   // 로딩 중이면 로딩 표시
   if (isLoading) {
-    return (
-      <div className="mb-6 flex w-full items-center justify-center rounded-[16px] border border-Cgray300 p-[32px]">
-        <p className="text-Cgray700">데이터를 불러오는 중...</p>
-      </div>
-    );
+    return <SkeletonContactInfo />;
   }
 
   // 에러 발생 시 에러 메시지 표시

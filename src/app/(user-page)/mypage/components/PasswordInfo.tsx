@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import { useQuery } from '@tanstack/react-query';
+import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 
-import { getProfile } from '../../../../service/api/mypageProfile';
+import SkeletonPasswordInfo from './skeletons/SkeletonPasswordInfo';
 
 interface PasswordInfoProps {
   onEnableEdit: () => void;
@@ -11,20 +11,11 @@ interface PasswordInfoProps {
 
 const PasswordInfo = ({ onEnableEdit }: PasswordInfoProps) => {
   // 프로필 데이터를 가져오기 (이메일 등 필요한 정보를 표시하기 위함)
-  const { data: profileData, isLoading } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
-  });
+  const { data: profileData, isLoading } = useProfileQuery();
 
   // 로딩 중이면 로딩 표시
   if (isLoading) {
-    return (
-      <div className="w-full rounded-[16px] border border-Cgray300 p-[32px]">
-        <div className="flex items-center justify-center p-4">
-          <p className="text-Cgray700">데이터를 불러오는 중...</p>
-        </div>
-      </div>
-    );
+    return <SkeletonPasswordInfo />;
   }
 
   // 비밀번호 정보는 표시하지 않고, 이메일 정보는 표시할 수 있음

@@ -2,37 +2,31 @@
 
 import Dropdown from '@/components/common/Dropdown';
 import { Button } from '@/components/ui/Button';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useProfileQuery,
+  useUpdateProfileMutation,
+} from '@/hooks/queries/useMyPageQueries';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
-import {
-  getProfile,
-  updateProfile,
-} from '../../../../service/api/mypageProfile';
-import {
-  IFormData,
-  IProfileUpdateRequest,
-} from '../../../../types/mypageTypes';
+import { IFormData } from '../../../../types/mypageTypes';
 
 interface BasicEditProps {
   onEditComplete: () => void;
 }
 
 const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
-  // QueryClient 인스턴스 가져오기
-  const queryClient = useQueryClient();
-
   // 드롭다운 디스플레이를 위한 상태 관리
-  const [positionLabel, setPositionLabel] = useState('프론트엔드');
-  const [ageLabel, setAgeLabel] = useState('청소년');
-  const [locationLabel, setLocationLabel] = useState('서울');
+  const [positionLabel, setPositionLabel] = useState('선택 안함');
+  const [ageLabel, setAgeLabel] = useState('선택 안함');
+  const [locationLabel, setLocationLabel] = useState('선택 안함');
 
-  // 프로필 데이터 가져오기
-  const { data: profileData, isLoading } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
-  });
+  // 커스텀 훅을 사용하여 프로필 데이터 가져오기
+  const { data: profileData, isLoading } = useProfileQuery();
+
+  // 프로필 업데이트 뮤테이션 훅 사용 - 이 부분이 누락되어 있었습니다
+  const { mutate: updateProfile, isPending: isUpdating } =
+    useUpdateProfileMutation();
 
   // React Hook Form 설정
   const {
@@ -53,17 +47,6 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
     },
   });
 
-  // 프로필 업데이트 뮤테이션
-  const updateProfileMutation = useMutation({
-    mutationFn: (data: IProfileUpdateRequest) => updateProfile(data),
-    onSuccess: () => {
-      // 프로필 데이터 캐시 무효화하고 다시 가져오기
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
-      // 편집 모드 종료
-      onEditComplete();
-    },
-  });
-
   // 현재 폼 값 관찰
   const currentGender = useWatch({
     control,
@@ -76,7 +59,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       { value: '프론트엔드', label: '프론트엔드' },
       { value: '백엔드', label: '백엔드' },
       { value: '디자이너', label: '디자이너' },
-      { value: '선택안함', label: '선택안함' },
+      { value: '선택 안함', label: '선택 안함' },
     ],
     [],
   );
@@ -88,7 +71,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       { value: '30대', label: '30대' },
       { value: '40대', label: '40대' },
       { value: '50대이상', label: '50대이상' },
-      { value: '선택안함', label: '선택안함' },
+      { value: '선택 안함', label: '선택 안함' },
     ],
     [],
   );
@@ -112,7 +95,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       { value: '경북', label: '경북' },
       { value: '경남', label: '경남' },
       { value: '제주', label: '제주' },
-      { value: '선택안함', label: '선택안함' },
+      { value: '선택 안함', label: '선택 안함' },
     ],
     [],
   );
@@ -127,12 +110,12 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
         name: profile.name || '',
         intro: profile.intro || '',
         position: profile.position || '',
-        gender: profile.gender || '남자',
+        gender: profile.gender || '비공개',
         age: profile.age || '',
         location: profile.location || '',
       });
 
-      // 드롭다운 라벨 초기 설정 - 한 번만 실행되도록 함
+      // 드롭다운 라벨 초기 설정
       const positionOption = positionOptions.find(
         (opt) => opt.value === profile.position,
       );
@@ -146,11 +129,15 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       );
       if (locationOption) setLocationLabel(locationOption.label);
     }
-  }, [profileData, reset]);
+  }, [profileData, reset, positionOptions, ageOptions, locationOptions]);
 
   // 폼 제출 처리
   const onSubmit = (data: IFormData) => {
-    updateProfileMutation.mutate(data);
+    updateProfile(data, {
+      onSuccess: () => {
+        onEditComplete();
+      },
+    });
   };
 
   // 드롭다운 값 변경 핸들러 - useCallback으로 메모이제이션
@@ -320,9 +307,9 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
           <Button
             type="submit"
             className="h-[40px] w-[140px] select-none md:h-[46px]"
-            disabled={isSubmitting || updateProfileMutation.isPending}
+            disabled={isSubmitting || isUpdating}
           >
-            {updateProfileMutation.isPending ? '저장 중...' : '변경사항 저장'}
+            {isUpdating ? '저장 중...' : '변경사항 저장'}
           </Button>
         </div>
       </div>

@@ -1,35 +1,36 @@
 'use client';
 
+import {
+  useProfileQuery,
+  useUpdateSkillsMutation,
+} from '@/hooks/queries/useMyPageQueries';
 import useTechSelection from '@/hooks/useTechSelection';
 import { getIconColor, getIconsByCategory } from '@/util/getIconDetail';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { CategoryType } from 'types/techStack';
 
 import CategoryTabs from '../../../../components/ui/tech-stack/tech-stack-components/CategoryTabs';
 import SelectedTechList from '../../../../components/ui/tech-stack/tech-stack-components/SelectedTechList';
 import TechButtonList from '../../../../components/ui/tech-stack/tech-stack-components/TechButtonList';
-import {
-  getProfile,
-  updateSkills,
-} from '../../../../service/api/mypageProfile';
 
 interface TechStackEditProps {
   onEditComplete: () => void;
 }
 
 const TechStackEdit = ({ onEditComplete }: TechStackEditProps) => {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient(); // 추가: 직접 queryClient 참조
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
 
   // 초기화 여부를 추적하는 플래그
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // 프로필 데이터 쿼리
-  const { data: profileData, isLoading } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getProfile,
-  });
+  // 커스텀 훅을 사용하여 프로필 데이터 가져오기
+  const { data: profileData, isLoading } = useProfileQuery();
+
+  // 기술 스택 업데이트 뮤테이션 훅 사용
+  const { mutate: updateSkills, isPending: isUpdating } =
+    useUpdateSkillsMutation();
 
   // 기술 선택 로직 훅 사용
   const {
@@ -55,18 +56,16 @@ const TechStackEdit = ({ onEditComplete }: TechStackEditProps) => {
     }
   }, [profileData, isLoading, isInitialized, setInitialSelection]);
 
-  // 기술 스택 업데이트 뮤테이션
-  const updateSkillsMutation = useMutation({
-    mutationFn: updateSkills,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
-      onEditComplete();
-    },
-  });
-
   // 저장 처리
   const handleSave = () => {
-    updateSkillsMutation.mutate(selectedNames);
+    updateSkills(selectedNames, {
+      onSuccess: () => {
+        // 추가: 성공 후 강제로 프로필 데이터를 다시 불러오기
+        queryClient.invalidateQueries({ queryKey: ['profile'] });
+        queryClient.refetchQueries({ queryKey: ['profile'] });
+        onEditComplete();
+      },
+    });
   };
 
   if (isLoading) {
@@ -119,9 +118,9 @@ const TechStackEdit = ({ onEditComplete }: TechStackEditProps) => {
           type="button"
           onClick={handleSave}
           className="rounded-md bg-main px-4 py-2 text-white"
-          disabled={updateSkillsMutation.isPending}
+          disabled={isUpdating}
         >
-          {updateSkillsMutation.isPending ? '저장 중...' : '저장'}
+          {isUpdating ? '저장 중...' : '저장'}
         </button>
       </div>
     </div>

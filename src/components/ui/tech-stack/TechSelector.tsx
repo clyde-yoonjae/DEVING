@@ -14,9 +14,9 @@ interface TechSelectorProps {
 }
 
 const TechSelector = ({
+  className,
   maxSelections = 5,
   onSelectionChange,
-  className,
 }: TechSelectorProps): JSX.Element => {
   // 현재 선택된 카테고리 상태
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
@@ -38,8 +38,8 @@ const TechSelector = ({
   const activeIcons = getIconsByCategory(activeCategory);
 
   return (
-    <div className="bg-gray-50 min-h-screen p-10">
-      <div className="mx-auto max-w-6xl">
+    <div className={`bg-gray-50 h-auto p-10 ${className || ''}`}>
+      <div className="mx-auto">
         {/* 선택된 기술 목록 */}
         <SelectedTechList
           selectedNames={selectedNames}

@@ -2,10 +2,8 @@
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { useMutation } from '@tanstack/react-query';
+import { useUpdatePasswordMutation } from '@/hooks/queries/useMyPageQueries';
 import { useForm } from 'react-hook-form';
-
-import { updatePassword } from '../../../../service/api/mypageProfile';
 
 interface PasswordFormData {
   currentPassword: string;
@@ -36,26 +34,9 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
   // 현재 새 비밀번호 값 감시
   const newPassword = watch('newPassword');
 
-  // 비밀번호 업데이트 뮤테이션
-  const updatePasswordMutation = useMutation({
-    mutationFn: (data: {
-      currentPassword: string;
-      newPassword: string;
-      passwordCheck: string;
-    }) => updatePassword(data),
-    onSuccess: () => {
-      // 성공 시 편집 모드 종료
-      onEditComplete();
-    },
-    onError: (error) => {
-      // 모든 서버 에러를 기존 비밀번호 필드 에러로 설정
-      // 서버가 어떤 에러를 보내든 '기존 비밀번호와 다릅니다' 메시지를 표시
-      setError('currentPassword', {
-        type: 'manual',
-        message: '기존 비밀번호와 다릅니다',
-      });
-    },
-  });
+  // 비밀번호 업데이트 뮤테이션 커스텀 훅 사용
+  const { mutate: updatePassword, isPending: isUpdating } =
+    useUpdatePasswordMutation();
 
   // 폼 제출 처리
   const onSubmit = (data: PasswordFormData) => {
@@ -69,11 +50,26 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
     }
 
     // 비밀번호 업데이트 뮤테이션 호출
-    updatePasswordMutation.mutate({
-      currentPassword: data.currentPassword,
-      newPassword: data.newPassword,
-      passwordCheck: data.passwordCheck,
-    });
+    updatePassword(
+      {
+        currentPassword: data.currentPassword,
+        newPassword: data.newPassword,
+        passwordCheck: data.passwordCheck,
+      },
+      {
+        onSuccess: () => {
+          // 성공 시 편집 모드 종료
+          onEditComplete();
+        },
+        onError: () => {
+          // 모든 서버 에러를 기존 비밀번호 필드 에러로 설정
+          setError('currentPassword', {
+            type: 'manual',
+            message: '기존 비밀번호와 다릅니다',
+          });
+        },
+      },
+    );
   };
 
   // 취소 핸들러
@@ -147,9 +143,9 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
           <Button
             type="submit"
             className="h-[40px] w-[140px] select-none md:h-[46px]"
-            disabled={isSubmitting || updatePasswordMutation.isPending}
+            disabled={isSubmitting || isUpdating}
           >
-            {updatePasswordMutation.isPending ? '변경 중...' : '비밀번호 변경'}
+            {isUpdating ? '변경 중...' : '비밀번호 변경'}
           </Button>
         </div>
       </div>

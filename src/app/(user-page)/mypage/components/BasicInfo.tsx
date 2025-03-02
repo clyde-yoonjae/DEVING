@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/Button';
 import { useQuery } from '@tanstack/react-query';
 
 import { getProfile } from '../../../../service/api/mypageProfile';
+import SkeletonBasicInfo from './skeletons/SkeletonBasicInfo';
 
 interface BasicInfoProps {
   onEnableEdit: () => void;
@@ -26,7 +27,7 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
 
   // 로딩 중이면 로딩 표시
   if (isLoading) {
-    return <div className="p-4 text-center">데이터를 불러오는 중...</div>;
+    return <SkeletonBasicInfo />;
   }
 
   // 오류가 발생하면 오류 메시지 표시

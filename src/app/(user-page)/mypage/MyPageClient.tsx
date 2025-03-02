@@ -1,7 +1,8 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 
+// 컴포넌트 임포트
 import BasicEdit from './components/BasicEdit';
 import BasicInfo from './components/BasicInfo';
 import ContactEdit from './components/ContactEdit';
@@ -11,81 +12,45 @@ import PasswordInfo from './components/PasswordInfo';
 import TechStackEdit from './components/TechStackEdit';
 import TechStackInfo from './components/TechStackInfo';
 
-// 섹션 타입 정의 - Added 'tech' type
-type SectionType = 'basic' | 'password' | 'contact' | 'tech';
-
-// 모듈형 섹션 컴포넌트 타입 정의
-interface SectionProps {
-  type: SectionType;
-  withTransition?: boolean;
-}
-
-// 공통 섹션 컴포넌트
-const ProfileSection = ({ type, withTransition = true }: SectionProps) => {
-  // 편집 모드 상태
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
-
-  // 정보 보기 모드에서 편집 모드로 전환
-  const handleEnableEdit = (): void => {
-    setIsEditMode(true);
-  };
-
-  // 편집 모드에서 정보 보기 모드로 전환 (편집 완료 후)
-  const handleEditComplete = (): void => {
-    setIsEditMode(false);
-  };
-
-  // 타입에 따른 컴포넌트 결정
-  const renderContent = (): ReactNode => {
-    if (isEditMode) {
-      switch (type) {
-        case 'basic':
-          return <BasicEdit onEditComplete={handleEditComplete} />;
-        case 'password':
-          return <PasswordEdit onEditComplete={handleEditComplete} />;
-        case 'contact':
-          return <ContactEdit onEditComplete={handleEditComplete} />;
-        case 'tech':
-          return <TechStackEdit onEditComplete={handleEditComplete} />;
-      }
-    } else {
-      switch (type) {
-        case 'basic':
-          return <BasicInfo onEnableEdit={handleEnableEdit} />;
-        case 'password':
-          return <PasswordInfo onEnableEdit={handleEnableEdit} />;
-        case 'contact':
-          return <ContactInfo onEnableEdit={handleEnableEdit} />;
-        case 'tech':
-          return <TechStackInfo onEnableEdit={handleEnableEdit} />;
-      }
-    }
-  };
-
-  // 트랜지션 효과 적용 여부에 따른 렌더링
-  return withTransition ? (
-    <div className="transition-opacity duration-300">{renderContent()}</div>
-  ) : (
-    renderContent()
-  );
-};
-
-// 각 섹션에 대한 배포용 컴포넌트
-export const BasicSection = () => <ProfileSection type="basic" />;
-export const PasswordSection = () => <ProfileSection type="password" />;
-export const ContactSection = () => <ProfileSection type="contact" />;
-export const TechSection = () => <ProfileSection type="tech" />;
-
 // 기본 내보내기 (모든 섹션을 관리하는 상위 컴포넌트)
-const ProfilePage = () => {
+const MyPageClient = () => {
+  // 각 섹션별 편집 모드 상태 관리
+  const [isBasicEditMode, setIsBasicEditMode] = useState(false);
+  const [isContactEditMode, setIsContactEditMode] = useState(false);
+  const [isTechEditMode, setIsTechEditMode] = useState(false);
+  const [isPasswordEditMode, setIsPasswordEditMode] = useState(false);
+
   return (
     <div className="profile-manager flex flex-col gap-[56px]">
-      <BasicSection />
-      <ContactSection />
-      <TechSection />
-      <PasswordSection />
+      {/* 기본 정보 섹션 */}
+      {isBasicEditMode ? (
+        <BasicEdit onEditComplete={() => setIsBasicEditMode(false)} />
+      ) : (
+        <BasicInfo onEnableEdit={() => setIsBasicEditMode(true)} />
+      )}
+
+      {/* 연락처 정보 섹션 */}
+      {isContactEditMode ? (
+        <ContactEdit onEditComplete={() => setIsContactEditMode(false)} />
+      ) : (
+        <ContactInfo onEnableEdit={() => setIsContactEditMode(true)} />
+      )}
+
+      {/* 기술 스택 섹션 */}
+      {isTechEditMode ? (
+        <TechStackEdit onEditComplete={() => setIsTechEditMode(false)} />
+      ) : (
+        <TechStackInfo onEnableEdit={() => setIsTechEditMode(true)} />
+      )}
+
+      {/* 비밀번호 섹션 */}
+      {isPasswordEditMode ? (
+        <PasswordEdit onEditComplete={() => setIsPasswordEditMode(false)} />
+      ) : (
+        <PasswordInfo onEnableEdit={() => setIsPasswordEditMode(true)} />
+      )}
     </div>
   );
 };
 
-export default ProfilePage;
+export default MyPageClient;
