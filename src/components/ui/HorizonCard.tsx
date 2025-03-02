@@ -2,13 +2,16 @@ import {
   useCancelLikeMeeting,
   useLikeMeeting,
 } from '@/hooks/mutations/useMeetingMutation';
-import { MEETING_QUERY_KEYS } from '@/hooks/queries/useMeetingQueries';
+import {
+  MEETING_QUERY_KEYS,
+  meetingKeys,
+} from '@/hooks/queries/useMeetingQueries';
 import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
 import { useQueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useToast } from '../common/ToastContext';
@@ -79,11 +82,17 @@ const HorizonCard = ({
     queryClient.invalidateQueries({
       queryKey: MEETING_QUERY_KEYS.topMeetings(category),
     });
+    queryClient.invalidateQueries({
+      queryKey: meetingKeys.detailInfo(meetingId),
+    });
   };
+
+  // TODO: 리팩토링 예정
+  const { id } = useParams();
 
   const handleClickCard = () => {
     if (isLoginModalOpen) return;
-    if (onClick) onClick(meetingId);
+    if (onClick && !id) onClick(meetingId);
   };
 
   const handleLikeButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -116,7 +125,7 @@ const HorizonCard = ({
 
   return (
     <div
-      className={`relative flex h-auto w-full flex-shrink-0 cursor-pointer bg-BG p-4 ${className}`}
+      className={`relative flex h-auto w-full flex-shrink-0 ${!id && 'cursor-pointer'} bg-BG p-4 ${className}`}
       role="presentation"
       onClick={handleClickCard}
     >

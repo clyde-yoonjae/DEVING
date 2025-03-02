@@ -2,7 +2,10 @@ import {
   useCancelLikeMeeting,
   useLikeMeeting,
 } from '@/hooks/mutations/useMeetingMutation';
-import { MEETING_QUERY_KEYS } from '@/hooks/queries/useMeetingQueries';
+import {
+  MEETING_QUERY_KEYS,
+  meetingKeys,
+} from '@/hooks/queries/useMeetingQueries';
 import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
 import { useQueryClient } from '@tanstack/react-query';
@@ -72,12 +75,16 @@ const VerticalCard = ({
     },
   });
 
+  // TODO: 리팩토링 예정
   const invalidateMeetingQuery = () => {
     queryClient.invalidateQueries({
       queryKey: MEETING_QUERY_KEYS.meetings(category),
     });
     queryClient.invalidateQueries({
       queryKey: MEETING_QUERY_KEYS.topMeetings(category),
+    });
+    queryClient.invalidateQueries({
+      queryKey: meetingKeys.detailInfo(meetingId),
     });
   };
 
