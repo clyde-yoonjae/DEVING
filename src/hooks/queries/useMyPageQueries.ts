@@ -25,7 +25,7 @@ export const QUERY_KEYS = {
 // 프로필 정보 조회 커스텀 훅
 export const useProfileQuery = () => {
   return useQuery({
-    queryKey: ['profile'], // 기존 코드에서 사용하던 쿼리 키와 일치시킴
+    queryKey: QUERY_KEYS.profile(), // 기존 코드에서 사용하던 쿼리 키와 일치시킴
     queryFn: getProfile,
   });
 };
@@ -38,7 +38,7 @@ export const useUpdateProfileMutation = () => {
     mutationFn: (data: IProfileUpdateRequest) => updateProfile(data),
     onSuccess: () => {
       // 성공 시 프로필 데이터 캐시 무효화
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.profile() });
     },
   });
 };
@@ -50,7 +50,7 @@ export const useUpdateContactInfoMutation = () => {
   return useMutation({
     mutationFn: (data: IContactInfoUpdateRequest) => updateContactInfo(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.profile() });
     },
   });
 };
@@ -62,7 +62,7 @@ export const useUpdateProfileImageMutation = () => {
   return useMutation({
     mutationFn: (file: File) => updateProfileImage(file),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.profile() });
     },
   });
 };
@@ -82,7 +82,7 @@ export const useUpdateSkillsMutation = () => {
     mutationFn: (skillArray: string[]) => updateSkills(skillArray),
     onSuccess: () => {
       // 명시적으로 캐시 무효화 강화
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.profile() });
       queryClient.refetchQueries({ queryKey: ['profile'] });
     },
   });

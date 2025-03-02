@@ -45,7 +45,7 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
   };
 
   return (
-    <div className="mb-6 w-full rounded-[16px] border border-Cgray300 p-[32px]">
+    <div className="w-full rounded-[16px] border border-Cgray300 p-[32px]">
       <div className="flex flex-col gap-[32px]">
         <div className="flex flex-col gap-[8px]">
           <label htmlFor="phone-input" className="typo-head3 text-Cgray700">
