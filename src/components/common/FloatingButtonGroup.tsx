@@ -15,7 +15,7 @@ const FloatingButtonGroup = () => {
   const router = useRouter();
   const MoveToCreateMeetingPage = () => {
     // TODO: 모임 생성 페이지로 이동
-    router.push('/');
+    router.push('/meeting/create-meeting');
   };
 
   return (
@@ -28,13 +28,13 @@ const FloatingButtonGroup = () => {
       {/* 웹 노출 */}
       <FloatingButton
         onClick={MoveToCreateMeetingPage}
-        className="z-10 hidden md:hidden lg:flex"
+        className="z-10 hidden md:flex"
         icon={<Plus />}
       />
       {/* 테블릿, 모바일 노출 노출 */}
       <FloatingButton
         onClick={MoveToCreateMeetingPage}
-        className="z-10 flex md:flex lg:hidden"
+        className="z-10 flex md:hidden"
         variant="text"
         icon={<Plus />}
       >

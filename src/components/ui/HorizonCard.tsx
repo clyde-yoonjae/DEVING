@@ -9,7 +9,7 @@ import {
 import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
 import { useQueryClient } from '@tanstack/react-query';
-import { Heart } from 'lucide-react';
+import { Heart, Map } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -168,13 +168,14 @@ const HorizonCard = ({
           onError={() => setThumbnail('/thumbnail.jpg')}
         />
       </div>
-      <div className="flex min-w-0 flex-1 flex-col px-[10px] md:px-[30px] lg:px-[40px]">
+      <div className="flex min-w-0 flex-1 flex-col justify-center px-[10px] md:px-[30px] lg:px-[40px]">
         <div className="type-button2 flex justify-between text-Cgray800 md:typo-head2 lg:typo-head2">
           <span className="mr-4 max-w-[950px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {title}
           </span>
         </div>
-        <div className="md:typo-button typo-body2 mt-3 flex truncate text-Cgray500 lg:typo-button1">
+        <div className="md:typo-button typo-body2 mt-3 flex items-center gap-1 truncate text-Cgray500 lg:typo-button1">
+          <Map size={20} strokeWidth={1} />
           <span className="max-w-[950px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {location}
           </span>

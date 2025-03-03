@@ -201,6 +201,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ✅ 이슈 제보 섹션 추가 ✅ */}
+      <section className="bg-Cgray200 py-10">
+        <div className="container mx-auto px-4 text-center">
+          <h3 className="typo-head3 mb-4 text-white">
+            사이트에서 문제가 발생했나요?
+          </h3>
+          <p className="typo-body2 mb-6 text-Cgray700">
+            오류를 발견하셨다면 아래 버튼을 눌러 이슈를 제보해주세요.
+          </p>
+          <Link
+            href="https://www.notion.so/kangyunji/1ab68460118e805ab4bbe1cd31beaf0c?pvs=4" // 🔗 노션 URL로 변경
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-red-500 typo-button2 rounded-full px-6 py-3 text-white transition-opacity hover:opacity-90"
+          >
+            🛠 이슈 제보하기
+          </Link>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-BG_2 py-8">
         <div className="container mx-auto px-4">
