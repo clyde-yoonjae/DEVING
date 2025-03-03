@@ -48,7 +48,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
     {
       value: 'mymeeting',
       label: '내 모임',
-      onSelect: () => router.push('/my-meeting'),
+      onSelect: () => router.push('/my-meeting/my?type=created'),
     },
     {
       value: 'mypage',
