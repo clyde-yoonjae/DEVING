@@ -1,3 +1,4 @@
+import FloatingButtonGroup from '@/components/common/FloatingButtonGroup';
 import ReviewAvgCard from '@/components/common/review/ReviewAvgCard';
 
 import BackButton from '../../components/BackButton';
@@ -13,6 +14,7 @@ export default function page({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex flex-col gap-[48px]">
+      <FloatingButtonGroup />
       <BackButton />
       <div className="flex flex-col gap-[48px] p-[16px] md:px-[48px]">
         <CardWrapper meetingId={meetingId} />
