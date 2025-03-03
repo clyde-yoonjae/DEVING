@@ -33,7 +33,7 @@ const BeforeLogin = () => {
     <nav className="ml-auto flex">
       <Link
         href="/login"
-        className="text-head3 hidden h-[54px] items-center justify-center text-white lg:flex"
+        className="text-head3 hidden h-[54px] items-center justify-center text-white md:flex"
       >
         로그인
       </Link>
@@ -66,7 +66,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
     },
   ];
   return (
-    <nav className="ml-auto hidden lg:flex">
+    <nav className="ml-auto hidden md:flex">
       <div className="flex items-center">
         <Dropdown
           options={menu}
@@ -156,7 +156,7 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
 
   return (
     <ul
-      className={`${!isMobile ? 'hidden items-center text-Cgray700 lg:flex' : 'text-Cgray400'}`}
+      className={`${!isMobile ? 'hidden items-center text-Cgray700 md:flex' : 'text-Cgray400'}`}
     >
       {navigation.map((item) => (
         <li
@@ -182,7 +182,7 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
     <div>
       {/* desktop */}
       <header
-        className={`flex h-20 items-center bg-BG px-[24px] lg:bg-main ${!isOpen && 'bg-main'}`}
+        className={`flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'}`}
       >
         <div className="item-center mx-auto flex w-full max-w-[1340px] items-center justify-between">
           <Link href="/" className="mr-[40px] flex-shrink-0">
@@ -191,7 +191,7 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
           <NavLinks />
           {!isLogIn ? <BeforeLogin /> : <AfterLogin userInfo={userInfo} />}
           <Menu
-            className="text-white lg:hidden"
+            className="text-white md:hidden"
             onClick={() => setIsOpen((prev) => !prev)}
           />
         </div>
@@ -201,7 +201,7 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
       <div
         className={`fixed right-0 z-50 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
-        } lg:hidden`}
+        } md:hidden`}
       >
         {!isLogIn ? (
           <MobileBeforeLogin />
