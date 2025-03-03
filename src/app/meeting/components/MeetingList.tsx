@@ -85,6 +85,7 @@ const MeetingList = () => {
     callBack: () => {
       handleSearchOption({ keyword: inputValue });
     },
+    delay: 300,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
