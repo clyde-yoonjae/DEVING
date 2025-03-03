@@ -1,7 +1,7 @@
 import NotYet from '@/components/common/NotYet';
 
 import Created from '../../components/Created';
-import Joined from '../../components/Joined';
+// import Joined from '../../components/Joined';
 import MeetingTypeTab from '../../components/MeetingTypeTab';
 import Tab from '../../components/Tab';
 
