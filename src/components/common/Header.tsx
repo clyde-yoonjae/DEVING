@@ -208,6 +208,14 @@ const Header = ({ userInfo }: { userInfo: IUserInfo }) => {
         className={`fixed right-0 z-50 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } md:hidden`}
+        role="button"
+        tabIndex={0}
+        onClick={() => setIsOpen(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setIsOpen(false);
+          }
+        }}
       >
         {!isLogIn ? (
           <MobileBeforeLogin />
