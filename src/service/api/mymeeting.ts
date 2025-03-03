@@ -60,4 +60,22 @@ const getMyMeetingMemberProfile = async ({
   return res.data.data;
 };
 
-export { getMyMeetingManage, getMyMeetingMemberProfile };
+// 가입 승인 / 거절
+const putMemberStatus = async ({
+  userId,
+  meetingId,
+  setMemberStatus,
+}: {
+  userId: number;
+  meetingId: number;
+  setMemberStatus: 'APPROVED' | 'REJECTED';
+}) => {
+  const res = await authAPI.put(`/api/v1/mymeetings/member-status`, {
+    userId,
+    meetingId,
+    setMemberStatus,
+  });
+
+  return res.data.data;
+};
+export { getMyMeetingManage, getMyMeetingMemberProfile, putMemberStatus };

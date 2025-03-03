@@ -3,8 +3,6 @@ import { useMyMeetingMemberProfileQuries } from '@/hooks/queries/useMyMeetingQue
 import Image from 'next/image';
 import React from 'react';
 
-import { Member } from '../my-meeting/my/page';
-
 export interface UserData {
   id: number;
   name: string;
@@ -52,9 +50,9 @@ const ModalProfile = ({
       <div className="flex flex-col gap-[20px]">
         <div className="flex flex-col gap-2 pl-2">
           <Description label="Email" value={user.email} />
-          <Description label="연락처" value={user.contactResponse.phone} />
-          <Description label="연락처2" value={user.contactResponse.github} />
-          <Description label="연락처3" value={user.contactResponse.kakao} />
+          <Description label="연락처" value={user.contactResponse?.phone} />
+          <Description label="연락처2" value={user.contactResponse?.github} />
+          <Description label="연락처3" value={user.contactResponse?.kakao} />
         </div>
         <div className="flex flex-col gap-2 pl-2">
           <Description label="포지션" value={user.position} />

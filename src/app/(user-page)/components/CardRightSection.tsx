@@ -4,6 +4,7 @@ import Dropdown from '@/components/common/Dropdown';
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
 import Modal from '@/components/ui/modal/Modal';
+import { useMemberStatusMutation } from '@/hooks/mutations/useMyMeetingMutation';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -36,13 +37,29 @@ const CardRightSection = ({
 
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
 
+  // 가입 승인
+  const { mutate } = useMemberStatusMutation(meetingId);
+
   const handleSecondModalConfirm = () => {
     // 가입 확인 api 연동
+    if (selectedUser) {
+      mutate({
+        setMemberStatus: 'APPROVED',
+        userId: selectedUser?.userId,
+      });
+    }
     setIsUserProfileModalOpen(false);
   };
 
   const handleSecondModalCancel = () => {
     // 가입 거절 api 연동
+    if (selectedUser) {
+      mutate({
+        setMemberStatus: 'REJECTED',
+        userId: selectedUser?.userId,
+      });
+    }
+
     setIsUserProfileModalOpen(false);
   };
 
