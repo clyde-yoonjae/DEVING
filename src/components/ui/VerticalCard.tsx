@@ -9,7 +9,7 @@ import {
 import { getAccessToken } from '@/lib/serverActions';
 import { getIconComponent } from '@/util/getIconDetail';
 import { useQueryClient } from '@tanstack/react-query';
-import { Heart } from 'lucide-react';
+import { Heart, Map } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -167,7 +167,9 @@ const VerticalCard = ({
             }
           ></Button>
         </div>
-        <div className="mt-3 truncate text-Cgray500">
+        <div className="mt-3 flex items-center gap-1 truncate text-Cgray500">
+          <Map size={20} strokeWidth={1} />
+
           <span className="max-w-[270px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {location}
           </span>
