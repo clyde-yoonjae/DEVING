@@ -84,7 +84,10 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
             ),
           }}
         />
-        <span className="typo-head3 m-auto w-[77px] text-center text-white">
+        <span
+          title={userInfo.name}
+          className="typo-head3 m-auto w-[77px] truncate text-center text-white"
+        >
           {userInfo.name}
         </span>
       </div>
@@ -129,7 +132,10 @@ const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
             src={userInfo.profilePic}
             alt="프로필 이미지"
           />
-          <span className="typo-head3 m-auto w-[77px] text-center text-white">
+          <span
+            title={userInfo.name}
+            className="typo-head3 m-auto w-[77px] truncate text-center text-white"
+          >
             {userInfo.name}
           </span>
         </div>
