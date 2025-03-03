@@ -15,7 +15,7 @@ const FloatingButtonGroup = () => {
   const router = useRouter();
   const MoveToCreateMeetingPage = () => {
     // TODO: 모임 생성 페이지로 이동
-    router.push('/');
+    router.push('/meeting/create-meeting');
   };
 
   return (
