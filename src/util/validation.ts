@@ -26,11 +26,12 @@ export const emailValidation = {
 export const passwordValidation = {
   required: '비밀번호를 입력해주세요.',
   minLength: {
-    value: 6,
+    value: 8,
     message: '비밀번호는 최소 8자 이상이어야 합니다.',
   },
   pattern: {
-    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+    value:
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+~\-={}\[\]:;"'<>,.?/\\|]{8,}$/,
     message: '비밀번호는 영어와 숫자 포함 8자 이상이어야 합니다.',
   },
 };
