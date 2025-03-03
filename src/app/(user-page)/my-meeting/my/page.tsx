@@ -29,7 +29,7 @@ export default function Page({
   searchParams: { type: string };
 }) {
   const type = searchParams?.type;
-  console.log('type: ', type);
+
   return (
     <div>
       <div className="mt-6 flex flex-col gap-[24px]">

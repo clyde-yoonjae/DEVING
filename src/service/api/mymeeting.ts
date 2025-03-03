@@ -20,7 +20,6 @@ const getMyMeetingManage = async (
   const res = await authAPI.get(
     `/api/v1/mymeetings/manage?lastMeetingId=${lastMeetingId}&size=${6}`,
   );
-  console.log('[getMyMeetingManage]: res.data:', res.data);
 
   return res.data.data;
 };

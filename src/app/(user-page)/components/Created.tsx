@@ -31,8 +31,6 @@ const Created = () => {
     return <p>loading...</p>;
   }
 
-  console.log('meetingData::: ', meetingData);
-
   const handleMoveDetailPage = (meetingId: number) => {
     /**
      * TODO
