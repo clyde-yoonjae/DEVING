@@ -1,4 +1,5 @@
 import { Tag } from '@/components/ui/Tag';
+import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import Image from 'next/image';
 import React from 'react';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -17,7 +18,8 @@ const ModalUserList = ({
   setIsUserProfileModalOpen: Dispatch<SetStateAction<boolean>>;
   setIsUserListModalOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  // const [selectedUser, setSelectedUser] = useState<Member | null>(null);
+  // 내 정보 불러오기
+  const { data: currentUser, isLoading, error } = useBannerQueries();
 
   const handleProfileClick = (user: Member) => {
     setSelectedUser(user);
@@ -43,18 +45,20 @@ const ModalUserList = ({
             />
             <h3 className="typo-head3 text-Cgray700">{user.name}</h3>
           </div>
-          <div className="flex gap-[6px]">
-            <Tag variant={user.memberStatus} className="w-[49px]" />
-            <div>
-              <Button
-                onClick={() => handleProfileClick(user)}
-                variant="outline"
-                size="sm"
-              >
-                프로필 보기
-              </Button>
+          {user.userId !== currentUser?.userId && (
+            <div className="flex gap-[6px]">
+              <Tag variant={user.memberStatus} className="w-[49px]" />
+              <div>
+                <Button
+                  onClick={() => handleProfileClick(user)}
+                  variant="outline"
+                  size="sm"
+                >
+                  프로필 보기
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ))}
     </div>

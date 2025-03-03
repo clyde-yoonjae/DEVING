@@ -94,3 +94,17 @@ export const updateSkills = async (
     throw error;
   }
 };
+
+interface IBanner {
+  email: string;
+  name: string;
+  phone: string;
+  profilePic: string;
+  userId: number;
+}
+
+// 배너 정보 불러오기
+export const getBanner = async (): Promise<IBanner> => {
+  const res = await authAPI.get('/api/v1/mypage/banner');
+  return res.data.data;
+};
