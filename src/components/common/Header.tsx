@@ -67,7 +67,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   ];
   return (
     <nav className="ml-auto hidden md:flex">
-      <div className="flex items-center gap-[10px]">
+      <div className="flex items-center">
         <Dropdown
           options={menu}
           variant="image"
