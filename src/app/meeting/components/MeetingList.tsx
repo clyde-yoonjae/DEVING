@@ -7,15 +7,12 @@ import VerticalCard from '@/components/ui/VerticalCard';
 import TechSelector from '@/components/ui/tech-stack/TechSelector';
 import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import useMediaQuery from '@/hooks/common/useMediaQuery';
-import {
-  MEETING_QUERY_KEYS,
-  useInfiniteSearchMeetings,
-} from '@/hooks/queries/useMeetingQueries';
+import { useInfiniteSearchMeetings } from '@/hooks/queries/useMeetingQueries';
 import useDebounce from '@/hooks/useDebounde';
 import { filterOptions, translateCategoryNameToKor } from '@/util/searchFilter';
-import { QueryClient } from '@tanstack/react-query';
+import { keepPreviousData } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import type { IMeetingSearchCondition, SearchMeeting } from 'types/meeting';
 
 import MeetingExtraInfo from './MeetingExtraInfo';
@@ -41,10 +38,12 @@ const MeetingList = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    refetch,
   } = useInfiniteSearchMeetings(
     translateCategoryNameToKor(categoryStr),
     searchQuery,
+    {
+      placeholderData: keepPreviousData,
+    },
   );
 
   const lastMeetingRef = useInfiniteScroll({
@@ -68,14 +67,6 @@ const MeetingList = () => {
     },
     [],
   );
-
-  const queryClient = useMemo(() => new QueryClient(), []);
-
-  // 필터에 따른 재검색
-  useEffect(() => {
-    queryClient.removeQueries({ queryKey: [MEETING_QUERY_KEYS.meetings] });
-    refetch();
-  }, [queryClient, searchQuery, refetch]);
 
   const [inputValue, setInputValue] = useState('');
 
@@ -114,7 +105,11 @@ const MeetingList = () => {
 
   return (
     <div className="mt-[126px]">
-      <SearchInput className="mx-5" onChange={handleChange} />
+      <SearchInput
+        className="mx-5"
+        value={inputValue}
+        onChange={handleChange}
+      />
 
       {/* 기술스택 검색바 */}
       {categoryStr !== 'hobby' && (
