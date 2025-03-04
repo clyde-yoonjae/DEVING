@@ -121,11 +121,11 @@ const useCard = (meeting: MeetingDetail) => {
         setMent('');
         break;
       case 'registerWait':
-        router.push('/mypage');
+        router.push('/my-meeting/my?type=joined');
         setIsModalOpen(false);
         break;
       case 'registerComplete':
-        router.push('/mypage');
+        router.push('/my-meeting/my?type=joined');
         setIsModalOpen(false);
         break;
       default:

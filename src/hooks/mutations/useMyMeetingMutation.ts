@@ -49,7 +49,7 @@ const useExpelMutation = (meetingId: number) => {
       setMemberStatus,
       userId,
     }: {
-      setMemberStatus: 'APPROVED' | 'REJECTED';
+      setMemberStatus: 'EXPEL';
       userId: number;
     }) => putExpel({ meetingId, userId, setMemberStatus }),
     onSuccess: (_, variables) => {

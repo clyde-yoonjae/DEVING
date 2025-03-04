@@ -3,14 +3,6 @@ import { useMyMeetingMemberProfileQuries } from '@/hooks/queries/useMyMeetingQue
 import Image from 'next/image';
 import React from 'react';
 
-export interface UserData {
-  id: number;
-  name: string;
-  status: 'APPROVED' | 'REJECTED' | 'PENDING' | 'EXPEL';
-  introduction: string;
-  profilePic: string;
-}
-
 const ModalProfile = ({
   userId,
   meetingId,
@@ -18,7 +10,6 @@ const ModalProfile = ({
   userId: number | undefined;
   meetingId: number;
 }) => {
-  // 데이터 요청
   const {
     data: user,
     isLoading,

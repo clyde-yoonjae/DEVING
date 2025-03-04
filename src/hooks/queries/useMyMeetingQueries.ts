@@ -14,12 +14,13 @@ export const myMeetingKeys = {
   ],
 };
 
-export const useInfiniteMyMeetingManageQueries = (lastMeetingId: number) => {
+export const useInfiniteMyMeetingManageQueries = () => {
   return useInfiniteQuery({
     queryKey: myMeetingKeys.manage(),
-    queryFn: () => getMyMeetingManage(lastMeetingId),
+    queryFn: ({ pageParam }) => getMyMeetingManage(pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => {
+      console.log('[mutation] lastPage: ', lastPage);
       return lastPage.nextCursor ?? null;
     },
   });

@@ -3,9 +3,9 @@ import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import Image from 'next/image';
 import React from 'react';
 import { Dispatch, SetStateAction, useState } from 'react';
+import type { Member } from 'types/myMeeting';
 
 import { Button } from '../../../components/ui/Button';
-import { Member } from '../my-meeting/my/page';
 
 const ModalUserList = ({
   memberList,
@@ -18,7 +18,6 @@ const ModalUserList = ({
   setIsUserProfileModalOpen: Dispatch<SetStateAction<boolean>>;
   setIsUserListModalOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  // 내 정보 불러오기
   const { data: currentUser, isLoading, error } = useBannerQueries();
 
   const handleProfileClick = (user: Member) => {

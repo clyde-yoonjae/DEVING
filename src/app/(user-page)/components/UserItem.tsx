@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
 import Image from 'next/image';
-
-import { UserData } from './ModalProfile';
+import type { UserData } from 'types/myMeeting';
 
 const UserItem = ({
   user,

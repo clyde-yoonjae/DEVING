@@ -1,19 +1,8 @@
-import { Member } from '@/app/(user-page)/my-meeting/my/page';
 import { authAPI } from '@/lib/axios/authApi';
 import { Paginated } from 'types/meeting';
-import { IContactResponse } from 'types/mypageTypes';
+import type { IMemberProfile, IMyMeetingManage } from 'types/myMeeting';
 
-interface IMyMeetingManage {
-  meetingId: number;
-  title: string;
-  thumbnail: string;
-  location: string;
-  memberCount: number;
-  maxMember: number;
-  likesCount: number;
-  isPublic: boolean;
-  memberList: Member[];
-}
+// 내가 만든 모임 불러오기
 const getMyMeetingManage = async (
   lastMeetingId: number,
 ): Promise<Paginated<IMyMeetingManage>> => {
@@ -24,27 +13,7 @@ const getMyMeetingManage = async (
   return res.data.data;
 };
 
-interface IUserProfile {
-  userId: number;
-  name: string;
-  profilePic: string;
-  intro: string;
-  email: string;
-  position: string;
-  gender: string;
-  age: string;
-  location: string;
-  skillArray: string[];
-  contactResponse: IContactResponse;
-}
-
-interface IMemberProfile extends IUserProfile {
-  memberResponse: {
-    memberId: number;
-    message: string;
-  };
-}
-
+// 맴버 프로필 불러오기
 const getMyMeetingMemberProfile = async ({
   userId,
   meetingId,
@@ -86,7 +55,7 @@ const putExpel = async ({
 }: {
   userId: number;
   meetingId: number;
-  setMemberStatus: 'APPROVED' | 'REJECTED';
+  setMemberStatus: 'EXPEL';
 }) => {
   const res = await authAPI.put(`/api/v1/mymeetings/expel`, {
     userId,

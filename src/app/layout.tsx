@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'DEVING',
   description: '개발자들만의 다양한 모임을 즐겨요!',
   icons: {
-    icon: '/logo.svg', // 또는 "/icon.png"
+    icon: '/logo.svg',
   },
 };
 

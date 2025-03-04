@@ -10,8 +10,8 @@ import {
 } from '@/hooks/mutations/useMyMeetingMutation';
 import Image from 'next/image';
 import { useState } from 'react';
+import type { Member } from 'types/myMeeting';
 
-import { Member } from '../my-meeting/my/page';
 import ModalProfile from './ModalProfile';
 import ModalUserList from './ModalUserList';
 
@@ -40,7 +40,7 @@ const CardRightSection = ({
 
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
 
-  // 가입 승인
+  // 가입 승인 / 거절
   const { mutate: statusMutate } = useMemberStatusMutation(meetingId);
 
   // 내보내기
@@ -51,7 +51,6 @@ const CardRightSection = ({
     // 만약, status가 approved라면 -> 내보내기 활성화
     // 만약, status가 pending이 아니라면 -> 닫기만 활성화
 
-    // status === PENDING
     if (selectedUser && selectedUser.memberStatus === 'PENDING') {
       statusMutate({
         setMemberStatus: 'APPROVED',
@@ -71,7 +70,7 @@ const CardRightSection = ({
       });
     } else if (selectedUser && selectedUser.memberStatus === 'APPROVED') {
       expelMutate({
-        setMemberStatus: 'REJECTED',
+        setMemberStatus: 'EXPEL',
         userId: selectedUser?.userId,
       });
     }
@@ -145,8 +144,10 @@ const CardRightSection = ({
               : '닫기'
         }
         closeOnly={
-          selectedUser?.memberStatus === 'PENDING' ||
-          selectedUser?.memberStatus === 'APPROVED'
+          !(
+            selectedUser?.memberStatus === 'PENDING' ||
+            selectedUser?.memberStatus === 'APPROVED'
+          )
         }
         modalClassName="w-[450px] overflow-hidden bg-BG_2"
         buttonClassName="w-full"

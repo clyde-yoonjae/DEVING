@@ -28,7 +28,7 @@ const DummyUser = () => {
         onClick={() =>
           mutate({
             email: 'a1056719@gmail.com',
-            password,
+            password: 'qwerqwer',
           })
         }
       >
