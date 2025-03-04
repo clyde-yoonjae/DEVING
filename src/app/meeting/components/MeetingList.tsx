@@ -155,6 +155,7 @@ const MeetingList = () => {
                     isLike={meeting.isLike}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
+                    searchQuery={searchQuery}
                     likesCount={meeting.likesCount}
                     skills={meeting.meetingSkillArray}
                   >
@@ -199,6 +200,7 @@ const MeetingList = () => {
                     likesCount={meeting.likesCount}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
+                    searchQuery={searchQuery}
                     skills={meeting.meetingSkillArray}
                   >
                     <MeetingExtraInfo
@@ -242,6 +244,7 @@ const MeetingList = () => {
                     likesCount={meeting.likesCount}
                     total={meeting.maxMember}
                     value={meeting.memberCount}
+                    searchQuery={searchQuery}
                     skills={meeting.meetingSkillArray}
                   >
                     <MeetingExtraInfo
