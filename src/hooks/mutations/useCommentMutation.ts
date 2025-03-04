@@ -28,4 +28,3 @@ const useCommentMutation = (meetingId: number) => {
 };
 
 export { useCommentMutation };
-// 생각해 봤는데 우리 너무 가끔 만나는 것 같아서 서운할 때도 있어요 앞으로 좀 더 자주만나요

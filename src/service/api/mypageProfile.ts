@@ -1,5 +1,6 @@
 import { authAPI } from '@/lib/axios/authApi';
 import { fileToBase64 } from '@/util/imageBase64';
+import { IBanner } from 'types/myMeeting';
 
 import {
   IContactInfoUpdateRequest,
@@ -70,6 +71,7 @@ export const updateProfileImage = async (
     throw error;
   }
 };
+
 // 비밀번호 업데이트 API 함수
 export const updatePassword = async (
   passwordData: IPasswordUpdateRequest,
@@ -81,6 +83,7 @@ export const updatePassword = async (
     throw error;
   }
 };
+
 // 기술 스택 업데이트 API 함수
 export const updateSkills = async (
   skillArray: string[],
@@ -93,4 +96,10 @@ export const updateSkills = async (
   } catch (error) {
     throw error;
   }
+};
+
+// 배너 정보 불러오기
+export const getBanner = async (): Promise<IBanner> => {
+  const res = await authAPI.get('/api/v1/mypage/banner');
+  return res.data.data;
 };

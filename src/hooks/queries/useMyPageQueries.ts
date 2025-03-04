@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+  getBanner,
   getProfile,
   updateContactInfo,
   updatePassword,
@@ -20,6 +21,7 @@ export const QUERY_KEYS = {
   profile: () => [...QUERY_KEYS.all, 'profile'] as const,
   skills: () => [...QUERY_KEYS.all, 'skills'] as const,
   contact: () => [...QUERY_KEYS.all, 'contact'] as const,
+  banner: () => [...QUERY_KEYS.all, 'banner'] as const,
 };
 
 // 프로필 정보 조회 커스텀 훅
@@ -86,4 +88,14 @@ export const useUpdateSkillsMutation = () => {
       queryClient.refetchQueries({ queryKey: ['profile'] });
     },
   });
+};
+
+// banner 정보 불러오기
+export const useBannerQueries = () => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: QUERY_KEYS.banner(),
+    queryFn: () => getBanner(),
+  });
+
+  return { data, error, isLoading };
 };
