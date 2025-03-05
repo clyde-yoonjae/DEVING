@@ -3,14 +3,30 @@ import React from 'react';
 
 // 모임 유형 옵션
 export const MEETING_TYPES = [
-  { id: 'mogakko', label: '모각코', icon: <Code className="h-5 w-5" /> },
-  { id: 'study', label: '스터디', icon: <BookOpen className="h-5 w-5" /> },
   {
-    id: 'sideproject',
+    id: 'mogakco',
+    label: '모각코',
+    icon: <Code className="h-5 w-5" />,
+    href: '/meeting/mogakco',
+  },
+  {
+    id: 'study',
+    label: '스터디',
+    icon: <BookOpen className="h-5 w-5" />,
+    href: '/meeting/study',
+  },
+  {
+    id: 'side-project',
     label: '사이드 프로젝트',
     icon: <CodeXml className="h-5 w-5" />,
+    href: '/meeting/side-project',
   },
-  { id: 'hobby', label: '취미', icon: <Palette className="h-5 w-5" /> },
+  {
+    id: 'hobby',
+    label: '취미',
+    icon: <Palette className="h-5 w-5" />,
+    href: '/meeting/hobby',
+  },
 ];
 
 // 가입 방식 옵션

@@ -14,9 +14,12 @@ const getTopMeetings = async (
 ): Promise<TopMeeting[]> => {
   const token = await getAccessToken();
 
-  const res = await (token ? authAPI : basicAPI).get(`/api/v1/meetings/top`, {
-    params: { categoryTitle },
-  });
+  const res = await (token ? authAPI : basicAPI).get(
+    `${process.env.NEXT_PUBLIC_API_URL}api/v1/meetings/top`,
+    {
+      params: { categoryTitle },
+    },
+  );
 
   return res.data.data;
 };
@@ -30,7 +33,7 @@ const getMeetings = async (
   const token = await getAccessToken();
 
   const res = await (token ? authAPI : basicAPI).post(
-    `/api/v1/meetings/search?categoryTitle=${category}`,
+    `${process.env.NEXT_PUBLIC_API_URL}api/v1/meetings/search?categoryTitle=${category}`,
     newSearchQueryObj,
   );
 
