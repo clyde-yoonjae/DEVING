@@ -8,6 +8,7 @@ import {
   useExpelMutation,
   useMemberStatusMutation,
 } from '@/hooks/mutations/useMyMeetingMutation';
+import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import Image from 'next/image';
 import { useState } from 'react';
 import type { Member } from 'types/myMeeting';
@@ -91,9 +92,15 @@ const CardRightSection = ({
   // 프로필 보기 할 유저
   const [selectedUser, setSelectedUser] = useState<Member | null>(null);
 
+  // 내 정보 불러오기 -> 이거 짜피 캐싱되는거라 상관 없을듯.
+  const { data: currentUser, isLoading, error } = useBannerQueries();
+  if (isLoading || !currentUser) {
+    return;
+  }
+
   return (
     <div
-      className={`flex w-full gap-[24px] px-4 hover:cursor-default lg:w-[518px] ${className}`}
+      className={`flex w-full justify-between gap-[24px] px-4 hover:cursor-default lg:w-[518px] ${className}`}
       onClick={(e) => e.stopPropagation()}
       role="button"
       tabIndex={0}
@@ -118,20 +125,23 @@ const CardRightSection = ({
               <p className="typo-head3 w-[114px] p-[6px] text-Cgray700">
                 {member.name}
               </p>
-              <div className="flex h-[40px] gap-[6px]">
-                <Tag variant={member.memberStatus} className="w-[49px]" />
-                <Button
-                  variant={'outline'}
-                  className="h-[40px] w-[93px]"
-                  onClick={(e) => handleOpenProfileModal(e, member)}
-                >
-                  프로필보기
-                </Button>
-              </div>
+              {member.userId !== currentUser?.userId && (
+                <div className="flex h-[40px] gap-[6px]">
+                  <Tag variant={member.memberStatus} className="w-[49px]" />
+                  <Button
+                    variant={'outline'}
+                    className="h-[40px] w-[93px]"
+                    onClick={(e) => handleOpenProfileModal(e, member)}
+                  >
+                    프로필보기
+                  </Button>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
+
       <Button
         variant="outline"
         className="flex h-[40px] flex-1 md:h-[46px] lg:hidden"
@@ -186,6 +196,7 @@ const CardRightSection = ({
           setSelectedUser={setSelectedUser}
           setIsUserProfileModalOpen={setIsUserProfileModalOpen}
           setIsUserListModalOpen={setIsUserListModalOpen}
+          currentUser={currentUser}
         />
       </Modal>
     </div>
