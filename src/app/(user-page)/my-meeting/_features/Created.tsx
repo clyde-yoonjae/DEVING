@@ -4,9 +4,9 @@ import HorizonCard from '@/components/ui/HorizonCard';
 import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import { useInfiniteMyMeetingManageQueries } from '@/hooks/queries/useMyMeetingQueries';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 import CardRightSection from './CardRightSection';
+import MeetingListSkeleton from './skeletons/SkeletonMeetingList';
 
 const Created = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const Created = () => {
   });
 
   if (isLoading || !meetingData) {
-    return <p>loading...</p>;
+    return <MeetingListSkeleton />;
   }
 
   const handleMoveDetailPage = (meetingId: number) => {

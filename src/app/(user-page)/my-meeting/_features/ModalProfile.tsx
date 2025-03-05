@@ -3,7 +3,7 @@ import { useMyMeetingMemberProfileQuries } from '@/hooks/queries/useMyMeetingQue
 import Image from 'next/image';
 import React from 'react';
 
-import SkeletonProfile from './SkeletonProfile';
+import SkeletonProfile from './skeletons/SkeletonProfile';
 
 const ModalProfile = ({
   userId,

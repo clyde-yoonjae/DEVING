@@ -1,6 +1,5 @@
 import Description from '@/components/common/Description';
-
-import SkeletonBasic from '../../../components/ui/SkeletonBasic';
+import SkeletonBasic from '@/components/ui/SkeletonBasic';
 
 const SkeletonProfile = () => {
   return (
