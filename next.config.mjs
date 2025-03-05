@@ -13,6 +13,11 @@ const nextConfig = {
         destination: '/meeting/mogakco',
         permanent: true,
       },
+      {
+        source: '/my-meeting',
+        destination: '/my-meeting/my?type=created',
+        permanent: true,
+      },
     ];
   },
 

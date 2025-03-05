@@ -13,6 +13,7 @@ import { Heart, Map } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { IMeetingSearchCondition } from 'types/meeting';
 
 import { useToast } from '../common/ToastContext';
 import { Button } from './Button';
@@ -33,6 +34,7 @@ interface HorizonCardProps {
   thumbnailWidth?: number;
   thumbnailHeight?: number;
   onClick?: (id: number) => void;
+  searchQuery?: IMeetingSearchCondition;
   isLike?: boolean;
   likesCount?: number;
   skills?: string[];
@@ -52,6 +54,7 @@ const HorizonCard = ({
   isLike = false,
   value,
   total = 100,
+  searchQuery,
   likesCount,
   skills,
 }: HorizonCardProps) => {
@@ -76,9 +79,11 @@ const HorizonCard = ({
   });
 
   const invalidateMeetingQuery = () => {
-    queryClient.invalidateQueries({
-      queryKey: MEETING_QUERY_KEYS.meetings(category),
-    });
+    if (category && searchQuery) {
+      queryClient.invalidateQueries({
+        queryKey: MEETING_QUERY_KEYS.meetings(category, searchQuery),
+      });
+    }
     queryClient.invalidateQueries({
       queryKey: MEETING_QUERY_KEYS.topMeetings(category),
     });

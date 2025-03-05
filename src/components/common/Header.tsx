@@ -47,7 +47,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
     {
       value: 'mymeeting',
       label: '내 모임',
-      onSelect: () => router.push('/my-meeting'),
+      onSelect: () => router.push('/my-meeting/my?type=created'),
     },
     {
       value: 'mypage',
@@ -115,12 +115,16 @@ const MobileBeforeLogin = () => {
 };
 
 const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
+  const { showToast } = useToast();
   return (
     <div className="flex flex-col py-[24px]">
       <div className="flex items-center justify-between">
         <button
           className="typo-head3 p-[16px] text-Cgray500 hover:text-Cgray700"
-          onClick={() => console.log('로그아웃')}
+          onClick={async () => {
+            await removeAccessToken();
+            showToast('로그아웃 되었습니다.', 'success');
+          }}
         >
           로그아웃
         </button>

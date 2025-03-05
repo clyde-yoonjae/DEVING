@@ -7,13 +7,32 @@ import {
 } from 'service/api/meeting';
 import type { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
 
-const MEETING_QUERY_KEYS = {
-  topMeetings: (category: string) => ['topMeetings', category] as const, // 카테고리별 추천모임 쿼리키 분리
-  meetings: (category: string) => ['meetings', category] as const, // 카테고리별 모임 쿼리키 분리
-  meetingId: (id: string, category: string) =>
-    [...MEETING_QUERY_KEYS.meetings(category), id] as const,
-};
+const getSortedSearchQuery = (
+  searchQueryObj: IMeetingSearchCondition,
+): IMeetingSearchCondition => ({
+  ...searchQueryObj,
+  skillArray: [...searchQueryObj.skillArray].sort(),
+});
 
+const MEETING_QUERY_KEYS = {
+  topMeetings: (category: string) => ['topMeetings', category] as const,
+  meetings: (category: string, searchQueryObj: IMeetingSearchCondition) => {
+    const sortedSearchQueryObj = getSortedSearchQuery(searchQueryObj);
+    return ['meetings', category, sortedSearchQueryObj] as const;
+  },
+  meetingId: (
+    id: string,
+    category: string,
+    searchQueryObj: IMeetingSearchCondition,
+  ) =>
+    [
+      ...MEETING_QUERY_KEYS.meetings(
+        category,
+        getSortedSearchQuery(searchQueryObj),
+      ),
+      id,
+    ] as const,
+};
 const useTopMeetings = (category: CategoryTitle, options = {}) => {
   return useQuery({
     queryKey: MEETING_QUERY_KEYS.topMeetings(category),
@@ -28,7 +47,7 @@ const useInfiniteSearchMeetings = (
   option = {},
 ) => {
   return useInfiniteQuery({
-    queryKey: MEETING_QUERY_KEYS.meetings(category),
+    queryKey: MEETING_QUERY_KEYS.meetings(category, searchQueryObj),
     queryFn: ({ pageParam = 0 }) =>
       getMeetings(pageParam, category, searchQueryObj),
     initialPageParam: 0,
