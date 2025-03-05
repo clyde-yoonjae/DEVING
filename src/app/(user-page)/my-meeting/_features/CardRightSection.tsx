@@ -85,7 +85,6 @@ const CardRightSection = ({
   // 프로필 보기 할 유저
   const [selectedUser, setSelectedUser] = useState<Member | null>(null);
 
-  // 내 정보 불러오기 -> 이거 짜피 캐싱되는거라 상관 없을듯.
   const { data: currentUser, isLoading, error } = useBannerQueries();
   if (isLoading || !currentUser) {
     return;
