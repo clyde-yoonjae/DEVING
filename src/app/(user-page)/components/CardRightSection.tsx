@@ -78,11 +78,31 @@ const CardRightSection = ({
     setIsUserProfileModalOpen(false);
   };
 
+  // 데스크탑 뷰에서 유저 프로필 보기
+  const handleOpenProfileModal = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    member: Member,
+  ) => {
+    e.stopPropagation();
+    setSelectedUser(member);
+    setIsUserProfileModalOpen(true);
+  };
+
   // 프로필 보기 할 유저
   const [selectedUser, setSelectedUser] = useState<Member | null>(null);
 
   return (
-    <div className={`flex w-full gap-[24px] px-4 lg:w-[518px] ${className}`}>
+    <div
+      className={`flex w-full gap-[24px] px-4 hover:cursor-default lg:w-[518px] ${className}`}
+      onClick={(e) => e.stopPropagation()}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.stopPropagation();
+        }
+      }}
+    >
       <div className="hidden flex-col justify-center gap-[16px] lg:flex">
         <h3 className="typo-head3  text-main">참가 중인 멤버</h3>
         <div className="h-[172px] overflow-y-auto">
@@ -103,7 +123,7 @@ const CardRightSection = ({
                 <Button
                   variant={'outline'}
                   className="h-[40px] w-[93px]"
-                  onClick={() => setIsUserProfileModalOpen(true)}
+                  onClick={(e) => handleOpenProfileModal(e, member)}
                 >
                   프로필보기
                 </Button>
