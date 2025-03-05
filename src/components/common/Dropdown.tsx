@@ -164,14 +164,20 @@ const Dropdown = ({
           {options.map((option) => (
             <DropdownMenuPrimitive.Item
               key={option.value}
-              onSelect={() => handleSelect(option)}
+              onSelect={
+                option.value === selectedValue
+                  ? undefined
+                  : () => handleSelect(option)
+              }
               className={cn(
                 'relative flex w-full cursor-pointer select-none items-center',
                 'typo-body1 h-[34px] rounded-[10px] px-[12px] py-[8px]',
-                'text-Cgray400 hover:bg-Cgray300 hover:text-Cgray700',
+                'text-Cgray400',
                 'outline-none transition-colors',
                 size === 's' ? 'typo-body2' : 'typo-body1',
-                option.value === selectedValue && 'bg-Cgray300 text-Cgray700',
+                option.value === selectedValue
+                  ? 'cursor-default text-Cgray300'
+                  : 'hover:bg-Cgray300 hover:text-Cgray700',
               )}
             >
               {option.label}
