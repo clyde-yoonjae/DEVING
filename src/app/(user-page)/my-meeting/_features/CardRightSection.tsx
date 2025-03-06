@@ -7,9 +7,12 @@ import {
   useExpelMutation,
   useMemberStatusMutation,
 } from '@/hooks/mutations/useMyMeetingMutation';
+import { myMeetingKeys } from '@/hooks/queries/useMyMeetingQueries';
 import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useState } from 'react';
+import { getMyMeetingMemberProfile } from 'service/api/mymeeting';
 import type { Member } from 'types/myMeeting';
 
 import ModalProfile from './ModalProfile';
@@ -82,6 +85,23 @@ const CardRightSection = ({
     setIsUserProfileModalOpen(true);
   };
 
+  const queryClient = useQueryClient();
+
+  const handlePrefetchProfile = async (member: Member) => {
+    const queryKey = myMeetingKeys.memberProfile(meetingId, member.userId);
+
+    // 캐시에 데이터가 있는지 확인
+    const cachedData = queryClient.getQueryData(queryKey);
+
+    if (!cachedData) {
+      await queryClient.prefetchQuery({
+        queryKey,
+        queryFn: () =>
+          getMyMeetingMemberProfile({ meetingId, userId: member.userId }),
+      });
+    }
+  };
+
   // 프로필 보기 할 유저
   const [selectedUser, setSelectedUser] = useState<Member | null>(null);
 
@@ -124,6 +144,7 @@ const CardRightSection = ({
                     variant={'outline'}
                     className="h-[40px] w-[93px]"
                     onClick={(e) => handleOpenProfileModal(e, member)}
+                    onMouseEnter={() => handlePrefetchProfile(member)}
                   >
                     프로필보기
                   </Button>
@@ -180,6 +201,7 @@ const CardRightSection = ({
           setIsUserProfileModalOpen={setIsUserProfileModalOpen}
           setIsUserListModalOpen={setIsUserListModalOpen}
           currentUser={currentUser}
+          handlePrefetchProfile={handlePrefetchProfile}
         />
       </Modal>
     </div>
