@@ -77,7 +77,7 @@ const VerticalCard = ({
 
   return (
     <div
-      className={`h-auto w-[335px] cursor-pointer bg-BG p-4 ${className}`}
+      className={`flex h-[490px] w-[335px] cursor-pointer flex-col justify-between bg-BG p-4 ${className}`}
       role="presentation"
       onClick={handleClickCard}
     >
@@ -96,7 +96,7 @@ const VerticalCard = ({
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
         <Image
-          className="rounded-[20px] object-cover"
+          className="flex-shrink-0 rounded-[20px] object-cover"
           src={thumbnail ? thumbnail : '/thumbnail.jpg'}
           alt="card_thumbnail"
           fill
