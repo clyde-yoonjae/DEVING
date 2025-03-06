@@ -3,6 +3,8 @@ import { useMyMeetingMemberProfileQuries } from '@/hooks/queries/useMyMeetingQue
 import Image from 'next/image';
 import React from 'react';
 
+import SkeletonProfile from './skeletons/SkeletonProfile';
+
 const ModalProfile = ({
   userId,
   meetingId,
@@ -20,7 +22,7 @@ const ModalProfile = ({
   });
 
   if (isLoading || !user) {
-    return <div>로딩중</div>;
+    return <SkeletonProfile />;
   }
 
   return (
