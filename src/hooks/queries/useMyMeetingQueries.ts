@@ -3,6 +3,8 @@ import {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
 } from 'service/api/mymeeting';
+import { Paginated } from 'types/meeting';
+import { IMyMeetingManage } from 'types/myMeeting';
 
 export const myMeetingKeys = {
   all: ['mymeeting'] as const,
@@ -19,7 +21,7 @@ export const useInfiniteMyMeetingManageQueries = () => {
     queryKey: myMeetingKeys.manage(),
     queryFn: ({ pageParam }) => getMyMeetingManage(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage, pages) => {
+    getNextPageParam: (lastPage: Paginated<IMyMeetingManage>, pages) => {
       console.log('[mutation] lastPage: ', lastPage);
       return lastPage.nextCursor ?? null;
     },
