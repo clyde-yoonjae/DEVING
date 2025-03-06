@@ -30,14 +30,18 @@ export default async function Page({
     queryFn: () => getBanner(),
   });
 
-  // 내가 만든 모임 리스트
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: myMeetingKeys.manage(),
-    queryFn: ({ pageParam }) => getMyMeetingManage(pageParam),
-    getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) =>
-      lastPage.nextCursor ?? false,
-    initialPageParam: 0,
-  });
+  if (type === 'created') {
+    // 내가 만든 모임 리스트 prefetch
+    await queryClient.prefetchInfiniteQuery({
+      queryKey: myMeetingKeys.manage(),
+      queryFn: ({ pageParam }) => getMyMeetingManage(pageParam),
+      getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) =>
+        lastPage.nextCursor ?? false,
+      initialPageParam: 0,
+    });
+  } else {
+    // 참여 중인 모임 prefetch
+  }
 
   return (
     <div>
