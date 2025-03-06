@@ -1,5 +1,5 @@
-import { MEETING_TYPES } from '@/app/meeting/constants/meeting-form/meetingConstants';
 import { cn } from '@/util/cn';
+import { MEETING_TYPES } from 'constants/category/category';
 import { Check } from 'lucide-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { CreateMeetingPayload } from 'types/meetingForm';

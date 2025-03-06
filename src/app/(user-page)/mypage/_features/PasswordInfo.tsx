@@ -11,7 +11,7 @@ interface PasswordInfoProps {
 
 const PasswordInfo = ({ onEnableEdit }: PasswordInfoProps) => {
   // 프로필 데이터를 가져오기 (이메일 등 필요한 정보를 표시하기 위함)
-  const { data: isLoading } = useProfileQuery();
+  const { data: profileData, isLoading } = useProfileQuery();
 
   // 로딩 중이면 로딩 표시
   if (isLoading) {

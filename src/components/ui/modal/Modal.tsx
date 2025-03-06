@@ -12,6 +12,8 @@ interface AlertModalProps {
   contentClassName?: string;
   buttonClassName?: string;
   closeOnly?: boolean;
+  showOnly?: boolean;
+  disableConfirm?: boolean;
 }
 
 /**
@@ -49,6 +51,7 @@ interface AlertModalProps {
  * @param props.onClose - 모달이 닫힐 때 호출되는 콜백 함수
  * @param props.onConfirm - 확인 버튼 클릭 시 호출되는 콜백 함수 (closeOnly가 false일 때만 필요)
  * @param props.closeOnly - true일 경우 닫기 버튼만 표시 (기본값: false)
+ * @param props.showOnly - true일 경우 버튼 표시 안함 (기본값: false)
  * @param props.confirmText - 확인 버튼의 텍스트 (기본값: '확인', closeOnly가 false일 때만 사용)
  * @param props.cancelText - 취소/닫기 버튼의 텍스트 (기본값: closeOnly가 true일 때 '닫기', false일 때 '취소')
  * @param props.children - 모달 내부에 표시될 컨텐츠
@@ -70,6 +73,8 @@ const Modal: React.FC<AlertModalProps> = ({
   contentClassName = '',
   buttonClassName = '',
   closeOnly = false,
+  showOnly = false,
+  disableConfirm = false,
 }) => {
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (e.target === e.currentTarget) {
@@ -101,9 +106,11 @@ const Modal: React.FC<AlertModalProps> = ({
       >
         <div className={`p-6 ${contentClassName}`}>{children}</div>
 
-        <div className={`flex justify-end gap-2 p-4 ${buttonClassName}`}>
+        <div
+          className={`flex justify-end gap-2 p-4 ${buttonClassName} ${showOnly && 'hidden'}`}
+        >
           {closeOnly ? (
-            <Button onClick={onClose} type="button">
+            <Button onClick={onClose} type="button" className="w-full">
               {cancelText}
             </Button>
           ) : (
@@ -111,7 +118,14 @@ const Modal: React.FC<AlertModalProps> = ({
               <Button onClick={onClose} variant={'outline'} type="button">
                 {cancelText}
               </Button>
-              <Button onClick={onConfirm} type="button">
+              <Button
+                onClick={onConfirm}
+                type="button"
+                disabled={disableConfirm}
+                className={
+                  disableConfirm ? 'cursor-not-allowed opacity-50' : ''
+                }
+              >
                 {confirmText}
               </Button>
             </>

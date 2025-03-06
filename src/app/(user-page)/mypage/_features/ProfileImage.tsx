@@ -8,108 +8,89 @@ import {
   useProfileQuery,
   useUpdateProfileImageMutation,
 } from '@/hooks/queries/useMyPageQueries';
+import { useQueryClient } from '@tanstack/react-query';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 import SkeletonProfileImage from './skeletons/SkeletonProfileImage';
 
+const MAX_FILE_SIZE = 500 * 1024; // 500KB
+
 const ProfileImage = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const queryClient = useQueryClient(); // 추가: queryClient 가져오기
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [fileSizeError, setFileSizeError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { showToast } = useToast();
 
-  // 이미지 버전 관리를 위한 상태 (캐시 버스팅용)
-  const [imageVersion, setImageVersion] = useState<number>(0);
-
-  // 프로필 데이터 조회 커스텀 훅 사용
+  // 프로필 데이터 조회
   const { data: profileData, isLoading: isProfileLoading } = useProfileQuery();
 
-  // 프로필 이미지 업데이트 커스텀 훅 사용
+  // 프로필 이미지 업데이트
   const { mutate: updateImage, isPending: isUploading } =
     useUpdateProfileImageMutation();
 
-  // 프로필 이미지 URL에 버전 추가 (필요할 때만)
-  const profileImageUrl = profileData?.data?.profilePic
-    ? `${profileData.data.profilePic}${imageVersion > 0 ? `?v=${imageVersion}` : ''}`
-    : null;
+  // 프로필 이미지 URL
+  const profileImageUrl = profileData?.data?.profilePic || null;
 
   // 파일 선택 핸들러
-  const handleFileSelect = (): void => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
-  // 키보드 핸들러
-  const handleKeyDown = (event: React.KeyboardEvent): void => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      handleFileSelect();
-    }
+  const handleFileSelect = () => {
+    fileInputRef.current?.click();
   };
 
   // 파일 변경 핸들러
-  const handleFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
+    if (!files || files.length === 0) return;
 
-      setSelectedFile(file);
+    const file = files[0];
 
-      // 미리보기 URL 생성
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
-      const objectUrl = URL.createObjectURL(file);
-      setPreviewUrl(objectUrl);
-    }
+    // 이전 미리보기 URL 해제
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+
+    // 새 미리보기 URL 생성
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
+    setSelectedFile(file);
+
+    // 파일 크기 검사
+    setFileSizeError(
+      file.size > MAX_FILE_SIZE
+        ? '이미지 크기가 너무 큽니다. 최대 500KB까지 가능합니다.'
+        : null,
+    );
   };
 
   // 이미지 업로드 핸들러
-  const handleConfirm = (): void => {
-    if (!selectedFile) {
-      setIsModalOpen(false);
-      return;
-    }
+  const handleConfirm = () => {
+    if (!selectedFile || fileSizeError) return;
 
     updateImage(selectedFile, {
       onSuccess: () => {
-        // 이미지 버전 증가 (캐시 버스팅)
-        setImageVersion((prev) => prev + 1);
+        // 캐시 무효화 및 데이터 다시 가져오기 (중요: 이미지 즉시 갱신)
+        queryClient.invalidateQueries({ queryKey: ['profile'] });
 
         // 상태 초기화
-        setSelectedFile(null);
-        if (previewUrl) {
-          URL.revokeObjectURL(previewUrl);
-          setPreviewUrl(null);
-        }
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
+        resetImageState();
 
         // 모달 닫기
         setIsModalOpen(false);
       },
       onError: () => {
         showToast(
-          '프로필 이미지 파일의 용량이 너무 큽니다! 용량이 낮은 파일로 다시 시도해 주세요!',
+          '프로필 이미지 업로드에 실패했습니다. 다시 시도해 주세요.',
           'error',
-          {
-            duration: 3000,
-          },
+          { duration: 3000 },
         );
       },
     });
   };
 
-  // 모달 닫기 시 상태 초기화
-  const handleCloseModal = (): void => {
-    setIsModalOpen(false);
+  // 상태 초기화 함수 (중복 코드 제거)
+  const resetImageState = () => {
     setSelectedFile(null);
     if (previewUrl) {
       URL.revokeObjectURL(previewUrl);
@@ -118,10 +99,19 @@ const ProfileImage = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    setFileSizeError(null);
   };
+
+  // 모달 닫기 시 상태 초기화
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    resetImageState();
+  };
+
   if (isProfileLoading) {
     return <SkeletonProfileImage />;
   }
+
   return (
     <div className="flex flex-col pt-[83px]">
       <div className="typo-head3 text-Cgray700">프로필 이미지</div>
@@ -134,9 +124,8 @@ const ProfileImage = () => {
               priority
               className="rounded-[20px] object-cover"
               fill
-              unoptimized // 이미지 최적화 건너뛰기
+              unoptimized
               sizes="(max-width: 768px) 163px, 255px"
-              key={`profile-image-${imageVersion}`}
             />
           ) : (
             <EditLogo className="text-Cgray700" width={86} height={86} />
@@ -146,7 +135,7 @@ const ProfileImage = () => {
               onClick={() => setIsModalOpen(true)}
               className="h-[34px] w-[34px] rounded-full"
               icon={<Pencil />}
-            ></Button>
+            />
           </div>
         </div>
       </div>
@@ -167,8 +156,9 @@ const ProfileImage = () => {
         onConfirm={handleConfirm}
         confirmText={isUploading ? '업로드 중...' : '변경'}
         cancelText="취소"
-        modalClassName="w-[343px] md:w-[450px] "
+        modalClassName="w-[343px] md:w-[450px]"
         buttonClassName="pt-0 px-[24px] pb-[24px]"
+        disableConfirm={!!fileSizeError || !selectedFile}
       >
         <div className="flex flex-col items-center justify-center gap-[16px]">
           <div className="typo-head3 text-Cgray700">프로필 이미지</div>
@@ -177,7 +167,7 @@ const ProfileImage = () => {
               type="button"
               className="relative flex h-[123px] w-[123px] cursor-pointer items-center justify-center overflow-hidden rounded-[20px] border border-Cgray300 bg-Cgray200 p-0 md:h-[163px] md:w-[163px] lg:h-[203px] lg:w-[203px]"
               onClick={handleFileSelect}
-              onKeyDown={handleKeyDown}
+              onKeyDown={(e) => e.key === 'Enter' && handleFileSelect()}
               aria-label="프로필 이미지 변경하기"
               disabled={isUploading}
             >
@@ -205,6 +195,13 @@ const ProfileImage = () => {
               </div>
             </button>
           </div>
+
+          {/* 파일 크기 에러 메시지 */}
+          {fileSizeError && (
+            <div className="mt-2 text-center text-sm text-warning">
+              {fileSizeError}
+            </div>
+          )}
         </div>
       </Modal>
     </div>

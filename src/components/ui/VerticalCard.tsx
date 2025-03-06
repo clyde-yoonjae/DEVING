@@ -13,6 +13,7 @@ import { Heart, Map } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { IMeetingSearchCondition } from 'types/meeting';
 
 import { useToast } from '../common/ToastContext';
 import { Button } from './Button';
@@ -32,6 +33,7 @@ interface VerticalCardProps {
   location: string;
   onClick?: (id: number) => void;
   isLike?: boolean;
+  searchQuery?: IMeetingSearchCondition;
   value: number;
   total: number;
   likesCount?: number;
@@ -51,6 +53,7 @@ const VerticalCard = ({
   onClick,
   isLike = false,
   likesCount,
+  searchQuery,
   value,
   total = 100,
   skills,
@@ -77,9 +80,11 @@ const VerticalCard = ({
 
   // TODO: 리팩토링 예정
   const invalidateMeetingQuery = () => {
-    queryClient.invalidateQueries({
-      queryKey: MEETING_QUERY_KEYS.meetings(category),
-    });
+    if (category && searchQuery) {
+      queryClient.invalidateQueries({
+        queryKey: MEETING_QUERY_KEYS.meetings(category, searchQuery),
+      });
+    }
     queryClient.invalidateQueries({
       queryKey: MEETING_QUERY_KEYS.topMeetings(category),
     });

@@ -50,7 +50,9 @@ const MyPageClient = () => {
     if (currentTabFromUrl !== activeTab) {
       setActiveTab(currentTabFromUrl);
     }
-  }, [searchParams, activeTab]);
+    // activeTab을 의존성에 포함하면 진동 현상이 발생하므로 의도적으로 제외
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // URL 업데이트 함수 - 탭 정보만 저장
   const updateUrl = useCallback(
