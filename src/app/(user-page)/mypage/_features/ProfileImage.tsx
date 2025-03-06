@@ -13,9 +13,8 @@ import { Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
+import { MAX_FILE_SIZE } from '../../../../constants/mypage/mypageConstant';
 import SkeletonProfileImage from './skeletons/SkeletonProfileImage';
-
-const MAX_FILE_SIZE = 500 * 1024; // 500KB
 
 const ProfileImage = () => {
   const queryClient = useQueryClient(); // 추가: queryClient 가져오기

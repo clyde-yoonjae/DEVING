@@ -6,11 +6,19 @@ import {
   useProfileQuery,
   useUpdateProfileMutation,
 } from '@/hooks/queries/useMyPageQueries';
-import { Code, Compass, Mars, Paintbrush, Venus, X } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
-import { IFormData, IIconProps } from '../../../../types/mypageTypes';
+import {
+  AGE_OPTIONS,
+  DEFAULT_VALUES,
+  GENDER_OPTIONS,
+  ICON_SIZES,
+  LOCATION_OPTIONS,
+  MAX_INTRO_LENGTH,
+  POSITION_OPTIONS,
+} from '../../../../constants/mypage/mypageConstant';
+import { IFormData } from '../../../../types/mypageTypes';
 
 interface BasicEditProps {
   onEditComplete: () => void;
@@ -71,42 +79,6 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
     setIntroLength(introValue?.length || 0);
   }, [introValue]);
 
-  const ageOptions = useMemo(
-    () => [
-      { value: '10대', label: '10대' },
-      { value: '20대', label: '20대' },
-      { value: '30대', label: '30대' },
-      { value: '40대', label: '40대' },
-      { value: '50대이상', label: '50대이상' },
-      { value: '선택 안함', label: '선택 안함' },
-    ],
-    [],
-  );
-
-  const locationOptions = useMemo(
-    () => [
-      { value: '서울', label: '서울' },
-      { value: '경기', label: '경기' },
-      { value: '인천', label: '인천' },
-      { value: '부산', label: '부산' },
-      { value: '대구', label: '대구' },
-      { value: '광주', label: '광주' },
-      { value: '대전', label: '대전' },
-      { value: '울산', label: '울산' },
-      { value: '세종', label: '세종' },
-      { value: '강원', label: '강원' },
-      { value: '충북', label: '충북' },
-      { value: '충남', label: '충남' },
-      { value: '전북', label: '전북' },
-      { value: '전남', label: '전남' },
-      { value: '경북', label: '경북' },
-      { value: '경남', label: '경남' },
-      { value: '제주', label: '제주' },
-      { value: '선택 안함', label: '선택 안함' },
-    ],
-    [],
-  );
-
   // 프로필 데이터로 폼 초기화
   useEffect(() => {
     if (profileData?.data) {
@@ -117,7 +89,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
         name: profile.name || '',
         intro: profile.intro || '',
         position: profile.position || '',
-        gender: profile.gender || '비공개',
+        gender: profile.gender || DEFAULT_VALUES.GENDER,
         age: profile.age || '',
         location: profile.location || '',
       });
@@ -126,20 +98,20 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       setIntroLength(profile.intro?.length || 0);
 
       // 드롭다운 라벨 초기 설정
-      const ageOption = ageOptions.find((opt) => opt.value === profile.age);
+      const ageOption = AGE_OPTIONS.find((opt) => opt.value === profile.age);
       if (ageOption) setAgeLabel(ageOption.label);
 
-      const locationOption = locationOptions.find(
+      const locationOption = LOCATION_OPTIONS.find(
         (opt) => opt.value === profile.location,
       );
       if (locationOption) setLocationLabel(locationOption.label);
     }
-  }, [profileData, reset, ageOptions, locationOptions]);
+  }, [profileData, reset]);
 
   // 폼 제출 처리
   const onSubmit = (data: IFormData) => {
     // 글자 수 검사 추가
-    if (data.intro && data.intro.length > 250) {
+    if (data.intro && data.intro.length > MAX_INTRO_LENGTH) {
       return;
     }
 
@@ -153,19 +125,21 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
   const handleAgeChange = useCallback(
     (value: string) => {
       setValue('age', value);
-      const selectedOption = ageOptions.find((opt) => opt.value === value);
+      const selectedOption = AGE_OPTIONS.find((opt) => opt.value === value);
       if (selectedOption) setAgeLabel(selectedOption.label);
     },
-    [setValue, ageOptions],
+    [setValue],
   );
 
   const handleLocationChange = useCallback(
     (value: string) => {
       setValue('location', value);
-      const selectedOption = locationOptions.find((opt) => opt.value === value);
+      const selectedOption = LOCATION_OPTIONS.find(
+        (opt) => opt.value === value,
+      );
       if (selectedOption) setLocationLabel(selectedOption.label);
     },
-    [setValue, locationOptions],
+    [setValue],
   );
 
   // 취소 핸들러
@@ -211,8 +185,8 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
             id="intro-input"
             {...register('intro', {
               maxLength: {
-                value: 250,
-                message: '최대 250자까지 작성 가능합니다',
+                value: MAX_INTRO_LENGTH,
+                message: `최대 ${MAX_INTRO_LENGTH}자까지 작성 가능합니다`,
               },
             })}
             rows={3}
@@ -221,9 +195,9 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
           {errors.intro && (
             <span className="text-sm text-warning">{errors.intro.message}</span>
           )}
-          {introLength > 250 && !errors.intro && (
+          {introLength > MAX_INTRO_LENGTH && !errors.intro && (
             <span className="text-sm text-warning">
-              최대 250자까지 작성 가능합니다
+              최대 {MAX_INTRO_LENGTH}자까지 작성 가능합니다
             </span>
           )}
         </div>
@@ -233,28 +207,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
           <div className="typo-head3 text-main">포지션</div>
           <div className="flex w-full flex-wrap gap-2">
             <div className="rounded-4 typo-head3 flex w-full gap-[12px]">
-              {[
-                {
-                  value: '프론트엔드',
-                  label: '프론트엔드',
-                  icon: (props: IIconProps) => <Code {...props} />,
-                },
-                {
-                  value: '백엔드',
-                  label: '백엔드',
-                  icon: (props: IIconProps) => <Compass {...props} />,
-                },
-                {
-                  value: '디자이너',
-                  label: '디자이너',
-                  icon: (props: IIconProps) => <Paintbrush {...props} />,
-                },
-                {
-                  value: '선택 안함',
-                  label: '선택 안함',
-                  icon: (props: IIconProps) => <X {...props} />,
-                },
-              ].map((option) => (
+              {POSITION_OPTIONS.map((option) => (
                 <button
                   key={option.value}
                   type="button"
@@ -266,8 +219,14 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
                   onClick={() => setValue('position', option.value)}
                   aria-label={option.value}
                 >
-                  {option.icon({ size: 18, className: 'md:hidden' })}
-                  {option.icon({ size: 25, className: 'hidden md:block' })}
+                  {option.icon({
+                    size: ICON_SIZES.MOBILE,
+                    className: 'md:hidden',
+                  })}
+                  {option.icon({
+                    size: ICON_SIZES.DESKTOP,
+                    className: 'hidden md:block',
+                  })}
                   <span className="text-sm md:text-[17px]">{option.value}</span>
                 </button>
               ))}
@@ -279,20 +238,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
           <div className="typo-head3 text-main">성별</div>
           <div className="typo-head3 flex w-full gap-[16px] rounded-md">
-            {[
-              {
-                value: '남자',
-                icon: (props: IIconProps) => <Mars {...props} />,
-              },
-              {
-                value: '여자',
-                icon: (props: IIconProps) => <Venus {...props} />,
-              },
-              {
-                value: '비공개',
-                icon: (props: IIconProps) => <X {...props} />,
-              },
-            ].map((option) => (
+            {GENDER_OPTIONS.map((option) => (
               <button
                 key={option.value}
                 type="button"
@@ -304,8 +250,14 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
                 onClick={() => setValue('gender', option.value)}
                 aria-label={option.value}
               >
-                {option.icon({ size: 18, className: 'md:hidden' })}
-                {option.icon({ size: 25, className: 'hidden md:block' })}
+                {option.icon({
+                  size: ICON_SIZES.MOBILE,
+                  className: 'md:hidden',
+                })}
+                {option.icon({
+                  size: ICON_SIZES.DESKTOP,
+                  className: 'hidden md:block',
+                })}
                 <span className="text-sm md:text-[17px]">{option.value}</span>
               </button>
             ))}
@@ -321,7 +273,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
             render={() => (
               <Dropdown
                 aria-label="연령대"
-                options={ageOptions}
+                options={AGE_OPTIONS}
                 onChange={handleAgeChange}
                 trigger={ageLabel}
                 variant="icon"
@@ -341,7 +293,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
             render={() => (
               <Dropdown
                 aria-label="지역"
-                options={locationOptions}
+                options={LOCATION_OPTIONS}
                 onChange={handleLocationChange}
                 trigger={locationLabel}
                 variant="icon"
@@ -365,7 +317,9 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
           <Button
             type="submit"
             className="h-[40px] w-[140px] select-none md:h-[46px]"
-            disabled={isSubmitting || isUpdating || introLength > 250}
+            disabled={
+              isSubmitting || isUpdating || introLength > MAX_INTRO_LENGTH
+            }
           >
             {isUpdating ? '저장 중...' : '변경사항 저장'}
           </Button>

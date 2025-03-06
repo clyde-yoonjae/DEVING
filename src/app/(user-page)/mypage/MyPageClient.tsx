@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { TAB_TYPES } from '../../../constants/mypage/mypageConstant';
 // 컴포넌트 임포트
 import BasicEdit from './_features/BasicEdit';
 import BasicInfo from './_features/BasicInfo';
@@ -12,14 +13,6 @@ import PasswordEdit from './_features/PasswordEdit';
 import PasswordInfo from './_features/PasswordInfo';
 import TechStackEdit from './_features/TechStackEdit';
 import TechStackInfo from './_features/TechStackInfo';
-
-// 탭 타입 상수
-const TAB_TYPES = {
-  BASIC: 'basic',
-  CONTACT: 'contact',
-  TECH: 'tech',
-  PASSWORD: 'password',
-};
 
 // 기본 내보내기 (모든 섹션을 관리하는 상위 컴포넌트)
 const MyPageClient = () => {
