@@ -52,7 +52,7 @@ async function MeetingListPage({ params }: { params: { category: string } }) {
       ),
     getNextPageParam: (lastPage: Paginated<SearchMeeting>) =>
       lastPage.nextCursor ?? false,
-    initialPageParam: 1,
+    initialPageParam: 0,
   });
 
   // 허용되지 않은 category가 들어오면 404 페이지로 이동
