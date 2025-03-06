@@ -14,6 +14,7 @@ const ModalUserList = ({
   setSelectedUser,
   currentUser,
   className,
+  handlePrefetchProfile,
 }: {
   memberList: Member[];
   setSelectedUser: Dispatch<React.SetStateAction<Member | null>>;
@@ -21,6 +22,7 @@ const ModalUserList = ({
   setIsUserListModalOpen: Dispatch<SetStateAction<boolean>>;
   currentUser: IBanner;
   className?: string;
+  handlePrefetchProfile: (member: Member) => Promise<void>;
 }) => {
   const handleProfileClick = (user: Member) => {
     setSelectedUser(user);
@@ -55,6 +57,7 @@ const ModalUserList = ({
                     onClick={() => handleProfileClick(user)}
                     variant="outline"
                     size="sm"
+                    onMouseEnter={() => handlePrefetchProfile(user)}
                   >
                     프로필 보기
                   </Button>
