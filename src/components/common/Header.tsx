@@ -1,9 +1,9 @@
 'use client';
 
 import Logo from '@/assets/icon/logo.svg';
-import Profile from '@/assets/icon/profile.svg';
 import { removeAccessToken } from '@/lib/serverActions';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
+import { MEETING_TYPES } from 'constants/category/category';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,13 +12,6 @@ import { useState } from 'react';
 
 import Dropdown from './Dropdown';
 import { useToast } from './ToastContext';
-
-const navigation = [
-  { href: '/meeting/mogakco', label: '모각코' },
-  { href: '/meeting/study', label: '스터디' },
-  { href: '/meeting/side-project', label: '사이드 프로젝트' },
-  { href: '/meeting/hobby', label: '취미' },
-];
 
 interface IUserInfo {
   userId: number;
@@ -71,26 +64,32 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
         <Dropdown
           options={menu}
           variant="image"
-          className="h-10 w-10 rounded-full bg-transparent"
-          contentClassName="mr-[85px]"
+          className="flex items-center bg-transparent"
+          contentClassName="mr-2 [&>*]:text-white [&>*:hover]:text-main "
+          sideOffset={10}
           imageProps={{
             component: (
-              <Image
-                src={userInfo.profilePic}
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
-                alt="프로필 이미지"
-              />
+              <div className="flex items-center bg-transparent">
+                <div className="group relative h-10 w-10">
+                  <div className="absolute inset-0 -m-1 rounded-full border-2 border-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                  <Image
+                    src={userInfo.profilePic}
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-full"
+                    alt="프로필 이미지"
+                  />
+                </div>
+                <span
+                  title={userInfo.name}
+                  className="typo-head3 ml-2 w-[77px] truncate text-center text-white"
+                >
+                  {userInfo.name}
+                </span>
+              </div>
             ),
           }}
         />
-        <span
-          title={userInfo.name}
-          className="typo-head3 m-auto w-[77px] truncate text-center text-white"
-        >
-          {userInfo.name}
-        </span>
       </div>
     </nav>
   );
@@ -169,15 +168,20 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
     <ul
       className={`${!isMobile ? 'hidden items-center text-Cgray700 md:flex' : 'text-Cgray400'}`}
     >
-      {navigation.map((item) => (
+      {MEETING_TYPES.map((item) => (
         <li
-          className={`typo-head4 p-[16px] ${category && translateCategoryNameToKor(categoryStr) === item.label && 'text-white'}`}
+          className={`typo-head3 p-[16px] ${
+            category &&
+            translateCategoryNameToKor(categoryStr) === item.label &&
+            'text-white'
+          }`}
           key={item.label}
         >
           <Link
             href={item.href}
-            className={`${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
+            className={`flex items-center ${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
           >
+            {!isMobile && <span className="mr-2">{item.icon}</span>}
             {item.label}
           </Link>
         </li>
