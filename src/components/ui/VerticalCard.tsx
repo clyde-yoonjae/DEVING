@@ -1,21 +1,11 @@
-import {
-  useCancelLikeMeeting,
-  useLikeMeeting,
-} from '@/hooks/mutations/useMeetingMutation';
-import {
-  MEETING_QUERY_KEYS,
-  meetingKeys,
-} from '@/hooks/queries/useMeetingQueries';
-import { getAccessToken } from '@/lib/serverActions';
+import useLikeHandler from '@/hooks/common/useLikeHandler';
 import { getIconComponent } from '@/util/getIconDetail';
-import { useQueryClient } from '@tanstack/react-query';
 import { Heart, Map } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IMeetingSearchCondition } from 'types/meeting';
 
-import { useToast } from '../common/ToastContext';
 import { Button } from './Button';
 import { Progress } from './Progress';
 import Modal from './modal/Modal';
@@ -33,6 +23,7 @@ interface VerticalCardProps {
   location: string;
   onClick?: (id: number) => void;
   isLike?: boolean;
+  showLikeButton?: boolean;
   searchQuery?: IMeetingSearchCondition;
   value: number;
   total: number;
@@ -52,69 +43,27 @@ const VerticalCard = ({
   location,
   onClick,
   isLike = false,
-  likesCount,
+  showLikeButton = true,
   searchQuery,
   value,
   total = 100,
   skills,
 }: VerticalCardProps) => {
-  const { showToast } = useToast();
-  const queryClient = useQueryClient();
-  const { mutate: likeMutation } = useLikeMeeting(meetingId, {
-    onSuccess: () => {
-      invalidateMeetingQuery();
-    },
-    onError: () => {
-      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
-    },
-  });
-
-  const { mutate: cancellikeMutation } = useCancelLikeMeeting(meetingId, {
-    onSuccess: () => {
-      invalidateMeetingQuery();
-    },
-    onError: () => {
-      showToast('잠시 후 다시 시도해주세요', 'error', { duration: 3000 });
-    },
-  });
-
-  // TODO: 리팩토링 예정
-  const invalidateMeetingQuery = () => {
-    if (category && searchQuery) {
-      queryClient.invalidateQueries({
-        queryKey: MEETING_QUERY_KEYS.meetings(category, searchQuery),
-      });
-    }
-    queryClient.invalidateQueries({
-      queryKey: MEETING_QUERY_KEYS.topMeetings(category),
-    });
-    queryClient.invalidateQueries({
-      queryKey: meetingKeys.detailInfo(meetingId),
-    });
-  };
-
   const handleClickCard = () => {
     if (isLoginModalOpen) return;
     if (onClick) onClick(meetingId);
   };
 
-  const handleLikeButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const { toggleLike } = useLikeHandler({
+    meetingId,
+    category,
+    searchQuery,
+    onAuthRequired: () => setIsLoginModalOpen(true),
+  });
+
+  const handleLikeButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    const token = await getAccessToken();
-
-    // 토큰 없으면 로그인 안내 팝업 노출
-    if (!token) {
-      setIsLoginModalOpen(true);
-      return;
-    }
-
-    if (!isLike) {
-      likeMutation();
-    }
-
-    if (isLike) {
-      cancellikeMutation();
-    }
+    toggleLike(isLike);
   };
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -159,18 +108,20 @@ const VerticalCard = ({
           <span className="max-w-[270px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {title}
           </span>
-          <Button
-            className="relative h-auto w-auto"
-            variant="text"
-            size="sm"
-            onClick={(e) => handleLikeButton(e)}
-            icon={
-              <Heart
-                style={{ width: '24px', height: '24px' }}
-                className={isLike ? 'fill-main' : 'stroke-Cgray500'}
-              />
-            }
-          ></Button>
+          {showLikeButton && (
+            <Button
+              className="relative h-auto w-auto"
+              variant="text"
+              size="sm"
+              onClick={(e) => handleLikeButton(e)}
+              icon={
+                <Heart
+                  style={{ width: '24px', height: '24px' }}
+                  className={isLike ? 'fill-main' : 'stroke-Cgray500'}
+                />
+              }
+            ></Button>
+          )}
         </div>
         <div className="mt-3 flex items-center gap-1 truncate text-Cgray500">
           <Map size={20} strokeWidth={1} />
