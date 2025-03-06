@@ -1,6 +1,5 @@
 'use client';
 
-import Dropdown from '@/components/common/Dropdown';
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
 import Modal from '@/components/ui/modal/Modal';
@@ -8,12 +7,14 @@ import {
   useExpelMutation,
   useMemberStatusMutation,
 } from '@/hooks/mutations/useMyMeetingMutation';
+import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import Image from 'next/image';
 import { useState } from 'react';
 import type { Member } from 'types/myMeeting';
 
 import ModalProfile from './ModalProfile';
 import ModalUserList from './ModalUserList';
+import PublicSelect from './PublicDropdown';
 
 const CardRightSection = ({
   memberList,
@@ -26,17 +27,10 @@ const CardRightSection = ({
   className?: string;
   meetingId: number;
 }) => {
-  const [selectedFilter, setSelectedFilter] = useState(
-    isPublic ? '공개' : '비공개',
-  );
   const [isUserListModalOpen, setIsUserListModalOpen] = useState(false);
   const handleConfirm = () => {
     setIsUserListModalOpen(false);
   };
-  const filterAreaOptions = [
-    { value: 'true', label: '공개' },
-    { value: 'false', label: '비공개' },
-  ];
 
   const [isUserProfileModalOpen, setIsUserProfileModalOpen] = useState(false);
 
@@ -78,11 +72,36 @@ const CardRightSection = ({
     setIsUserProfileModalOpen(false);
   };
 
+  // 데스크탑 뷰에서 유저 프로필 보기
+  const handleOpenProfileModal = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    member: Member,
+  ) => {
+    e.stopPropagation();
+    setSelectedUser(member);
+    setIsUserProfileModalOpen(true);
+  };
+
   // 프로필 보기 할 유저
   const [selectedUser, setSelectedUser] = useState<Member | null>(null);
 
+  const { data: currentUser, isLoading, error } = useBannerQueries();
+  if (isLoading || !currentUser) {
+    return;
+  }
+
   return (
-    <div className={`flex w-full gap-[24px] px-4 lg:w-[518px] ${className}`}>
+    <div
+      className={`flex w-full justify-between gap-[24px] px-4 hover:cursor-default lg:w-[518px] ${className}`}
+      onClick={(e) => e.stopPropagation()}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.stopPropagation();
+        }
+      }}
+    >
       <div className="hidden flex-col justify-center gap-[16px] lg:flex">
         <h3 className="typo-head3  text-main">참가 중인 멤버</h3>
         <div className="h-[172px] overflow-y-auto">
@@ -98,20 +117,23 @@ const CardRightSection = ({
               <p className="typo-head3 w-[114px] p-[6px] text-Cgray700">
                 {member.name}
               </p>
-              <div className="flex h-[40px] gap-[6px]">
-                <Tag variant={member.memberStatus} className="w-[49px]" />
-                <Button
-                  variant={'outline'}
-                  className="h-[40px] w-[93px]"
-                  onClick={() => setIsUserProfileModalOpen(true)}
-                >
-                  프로필보기
-                </Button>
-              </div>
+              {member.userId !== currentUser?.userId && (
+                <div className="flex h-[40px] gap-[6px]">
+                  <Tag variant={member.memberStatus} className="w-[49px]" />
+                  <Button
+                    variant={'outline'}
+                    className="h-[40px] w-[93px]"
+                    onClick={(e) => handleOpenProfileModal(e, member)}
+                  >
+                    프로필보기
+                  </Button>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
+
       <Button
         variant="outline"
         className="flex h-[40px] flex-1 md:h-[46px] lg:hidden"
@@ -119,16 +141,7 @@ const CardRightSection = ({
       >
         맴버 명단 보기
       </Button>
-      <div className="flex w-[120px] items-center">
-        <Dropdown
-          options={filterAreaOptions}
-          trigger={selectedFilter}
-          onChange={setSelectedFilter}
-          className="h-[40px] md:h-[46px]"
-          contentClassName=""
-          variant="icon"
-        />
-      </div>
+      <PublicSelect isPublic={isPublic} meetingId={meetingId} />
       <Modal
         isOpen={isUserProfileModalOpen}
         onClose={handleSecondModalCancel}
@@ -166,6 +179,7 @@ const CardRightSection = ({
           setSelectedUser={setSelectedUser}
           setIsUserProfileModalOpen={setIsUserProfileModalOpen}
           setIsUserListModalOpen={setIsUserListModalOpen}
+          currentUser={currentUser}
         />
       </Modal>
     </div>
