@@ -33,11 +33,11 @@ const MeetingList = () => {
 
   const {
     data,
-    isLoading,
     isError,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
+    isLoading,
   } = useInfiniteSearchMeetings(
     translateCategoryNameToKor(categoryStr),
     searchQuery,
