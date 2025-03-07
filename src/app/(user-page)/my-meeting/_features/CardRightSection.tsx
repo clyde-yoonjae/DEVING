@@ -86,7 +86,10 @@ const CardRightSection = ({
               </p>
               {member.userId !== currentUser?.userId && (
                 <div className="flex h-[40px] gap-[6px]">
-                  <Tag variant={member.memberStatus} className="w-[49px]" />
+                  <Tag
+                    variant={member.memberStatus}
+                    className="w-[49px] justify-center"
+                  />
                   <Button
                     variant={'outline'}
                     className="h-[40px] w-[93px]"
