@@ -1,30 +1,9 @@
 import Description from '@/components/common/Description';
-import { useMyMeetingMemberProfileQuries } from '@/hooks/queries/useMyMeetingQueries';
 import Image from 'next/image';
 import React from 'react';
+import { IMemberProfile } from 'types/myMeeting';
 
-import SkeletonProfile from './skeletons/SkeletonProfile';
-
-const ModalProfile = ({
-  userId,
-  meetingId,
-}: {
-  userId: number | undefined;
-  meetingId: number;
-}) => {
-  const {
-    data: user,
-    isLoading,
-    error,
-  } = useMyMeetingMemberProfileQuries({
-    meetingId,
-    userId: userId!,
-  });
-
-  if (isLoading || !user) {
-    return <SkeletonProfile />;
-  }
-
+const ModalProfile = ({ user }: { user: IMemberProfile }) => {
   return (
     <div className="p-4">
       <div className="mb-4 flex gap-4">
