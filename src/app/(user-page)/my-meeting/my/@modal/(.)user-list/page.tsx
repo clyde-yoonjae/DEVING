@@ -1,5 +1,6 @@
 'use client';
 
+import ModalPortal from '@/components/ui/modal/ModalPortal';
 import { myMeetingKeys } from '@/hooks/queries/useMyMeetingQueries';
 import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import { useQueryClient } from '@tanstack/react-query';
@@ -19,7 +20,7 @@ export default function UserListModal({
   const meetingId = Number(searchParams.meetingId);
   const queryClient = useQueryClient();
 
-  // react queryr 캐시에서 데이터를 가져오기
+  // 캐싱된 데이터 먼저 가져오기
   const cachedMeetings = queryClient.getQueryData<{
     pages: Paginated<IMyMeetingManage>[];
   }>(myMeetingKeys.manage());
@@ -33,7 +34,7 @@ export default function UserListModal({
   // 유저 정보 파악
   const { data: currentUser, isLoading, error } = useBannerQueries();
 
-  if (!currentUser) return;
+  if (!currentUser || isLoading) return;
 
   const handlePrefetchProfile = async (member: Member) => {
     const queryKey = myMeetingKeys.memberProfile(meetingId, member.userId);
@@ -51,16 +52,11 @@ export default function UserListModal({
   };
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black/50"
-      onClick={() => router.back()} // 모달 외부 클릭 시 닫기
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          router.back();
-        }
-      }}
+    <ModalPortal
+      isOpen={true}
+      onClose={() => router.back()}
+      showOnly
+      modalClassName="h-[590px] w-[520px] overflow-y-auto"
     >
       <ModalUserList
         meetingId={meetingId}
@@ -68,6 +64,6 @@ export default function UserListModal({
         currentUser={currentUser}
         handlePrefetchProfile={handlePrefetchProfile}
       />
-    </div>
+    </ModalPortal>
   );
 }

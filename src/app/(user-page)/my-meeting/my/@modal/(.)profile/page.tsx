@@ -9,6 +9,7 @@ import { useMyMeetingMemberProfileQuries } from '@/hooks/queries/useMyMeetingQue
 import { useRouter } from 'next/navigation';
 
 import ModalProfile from '../../../_features/ModalProfile';
+import SkeletonProfile from '../../../_features/skeletons/SkeletonProfile';
 
 export default function UserListModal({
   searchParams,
@@ -26,8 +27,6 @@ export default function UserListModal({
     userId,
   });
 
-  console.log('selectedUser: ', selectedUser);
-
   // 가입 승인 / 거절
   const { mutate: statusMutate } = useMemberStatusMutation(meetingId);
 
@@ -35,11 +34,7 @@ export default function UserListModal({
   const { mutate: expelMutate } = useExpelMutation(meetingId);
 
   const handleSecondModalConfirm = () => {
-    if (!selectedUser) return; // ✅ selectedUser가 없으면 실행되지 않도록 방어
-
-    // 가입 확인 api 연동
-    // 만약, status가 approved라면 -> 내보내기 활성화
-    // 만약, status가 pending이 아니라면 -> 닫기만 활성화
+    if (!selectedUser) return;
 
     if (memberStatus === 'PENDING') {
       statusMutate({
@@ -48,15 +43,12 @@ export default function UserListModal({
       });
     }
 
-    console.log('모달 닫기!!!!');
-    // router.back();
     router.replace(`/my-meeting/my/user-list?meetingId=${meetingId}`);
   };
 
   const handleSecondModalCancel = () => {
-    if (!selectedUser) return; // ✅ selectedUser가 없으면 실행되지 않도록 방어
+    if (!selectedUser) return;
 
-    // 가입 거절 api 연동
     if (memberStatus === 'PENDING') {
       statusMutate({
         setMemberStatus: 'REJECTED',
@@ -68,49 +60,30 @@ export default function UserListModal({
         userId: selectedUser.userId,
       });
     }
-    console.log('모달 닫기!!!!');
 
-    // router.back();
     router.replace(`/my-meeting/my/user-list?meetingId=${meetingId}`);
   };
 
-  if (!selectedUser) return <div>로딩중</div>;
+  if (!selectedUser) return <SkeletonProfile />;
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black/50"
-      role="button"
-      onClick={() => {
-        console.log('모달 외부 클릭 닫기');
-        router.back();
-      }} // 모달 외부 클릭 시 닫기
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          router.back();
-        }
-      }}
+    <ModalPortal
+      isOpen={true}
+      onClose={handleSecondModalCancel}
+      onConfirm={handleSecondModalConfirm}
+      confirmText={memberStatus === 'PENDING' ? '가입승인' : '닫기'}
+      cancelText={
+        memberStatus === 'PENDING'
+          ? '가입거절'
+          : memberStatus === 'APPROVED'
+            ? '내보내기'
+            : '닫기'
+      }
+      closeOnly={!(memberStatus === 'PENDING' || memberStatus === 'APPROVED')}
+      modalClassName="w-[450px] overflow-hidden bg-BG_2"
+      buttonClassName="w-full"
     >
-      <div className="h-[200px] w-[200px] bg-white">프로필 모달</div>
-      {/* <ModalProfile userId={userId} meetingId={meetingId} /> */}
-      <ModalPortal
-        isOpen={true}
-        onClose={handleSecondModalCancel}
-        onConfirm={handleSecondModalConfirm}
-        confirmText={memberStatus === 'PENDING' ? '가입승인' : '닫기'}
-        cancelText={
-          memberStatus === 'PENDING'
-            ? '가입거절'
-            : memberStatus === 'APPROVED'
-              ? '내보내기'
-              : '닫기'
-        }
-        closeOnly={!(memberStatus === 'PENDING' || memberStatus === 'APPROVED')}
-        modalClassName="w-[450px] overflow-hidden bg-BG_2"
-        buttonClassName="w-full"
-      >
-        <ModalProfile user={selectedUser} />
-      </ModalPortal>
-    </div>
+      <ModalProfile user={selectedUser} />
+    </ModalPortal>
   );
 }

@@ -29,6 +29,8 @@ const ModalUserList = ({
 
   return (
     <div
+      className="flex flex-col overflow-y-auto rounded-lg bg-BG_2 "
+      onClick={(e) => e.stopPropagation()}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -36,8 +38,6 @@ const ModalUserList = ({
           e.stopPropagation();
         }
       }}
-      className="flex h-[590px] w-[520px] flex-col overflow-y-auto rounded-lg bg-BG_2 p-6 shadow-xl"
-      onClick={(e) => e.stopPropagation()}
     >
       <h3 className={`typo-head3 mb-2 text-main`}>맴버 리스트</h3>
       <div className={className}>

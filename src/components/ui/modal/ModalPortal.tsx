@@ -1,5 +1,7 @@
 import { Button } from '@/components/ui/Button';
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -76,63 +78,67 @@ const ModalPortal: React.FC<AlertModalProps> = ({
   showOnly = false,
   disableConfirm = false,
 }) => {
-  // const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>): void => {
-  //   if (e.target === e.currentTarget) {
-  //     onClose();
-  //   }
-  // };
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const router = useRouter();
 
-  // const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
-  //   if (e.key === 'Escape') {
-  //     onClose();
-  //   }
-  // };
+  useEffect(() => {
+    if (!dialogRef.current?.open) {
+      dialogRef.current?.showModal();
+      dialogRef.current?.scrollTo({
+        top: 0,
+      });
+    }
+  }, []);
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-BG_2 bg-opacity-50"
-      // onClick={handleBackdropClick}
-      // onKeyDown={handleKeyDown}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') router.back();
+      }}
+      onClick={() => router.back()}
       role="presentation"
-      aria-label="Close modal"
     >
-      <div
-        className={`rounded-lg bg-BG_2 shadow-xl ${modalClassName}`}
-        role="dialog"
+      <dialog
+        className={`rounded-lg bg-BG_2 shadow-xl backdrop:bg-opacity-50 ${modalClassName}`}
         aria-modal="true"
         tabIndex={-1}
+        ref={dialogRef}
+        aria-labelledBy="modal-title"
+        aria-describedby="modal-description"
       >
         <div className={`p-6 ${contentClassName}`}>{children}</div>
 
-        <div
-          className={`flex justify-end gap-2 p-4 ${buttonClassName} ${showOnly && 'hidden'}`}
-        >
-          {closeOnly ? (
-            <Button onClick={onClose} type="button" className="w-full">
-              {cancelText}
-            </Button>
-          ) : (
-            <>
-              <Button onClick={onClose} variant={'outline'} type="button">
+        {!showOnly && (
+          <div className={`flex justify-end gap-2 p-4 ${buttonClassName}`}>
+            {closeOnly ? (
+              <Button onClick={onClose} type="button" className="w-full">
                 {cancelText}
               </Button>
-              <Button
-                onClick={onConfirm}
-                type="button"
-                disabled={disableConfirm}
-                className={
-                  disableConfirm ? 'cursor-not-allowed opacity-50' : ''
-                }
-              >
-                {confirmText}
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
+            ) : (
+              <>
+                <Button onClick={onClose} variant={'outline'} type="button">
+                  {cancelText}
+                </Button>
+                <Button
+                  onClick={onConfirm}
+                  type="button"
+                  disabled={disableConfirm}
+                  className={
+                    disableConfirm ? 'cursor-not-allowed opacity-50' : ''
+                  }
+                >
+                  {confirmText}
+                </Button>
+              </>
+            )}
+          </div>
+        )}
+      </dialog>
+    </div>,
+    document.getElementById('modal-root') as HTMLElement,
   );
 };
 
