@@ -1,6 +1,5 @@
 'use client';
 
-import { useToast } from '@/components/common/ToastContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useUpdatePasswordMutation } from '@/hooks/mutations/useMyPageMutation';
@@ -17,9 +16,6 @@ interface PasswordEditProps {
 }
 
 const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
-  // Toast 컨텍스트 사용
-  const { showToast } = useToast();
-
   // React Hook Form 설정
   const {
     register,
@@ -62,10 +58,6 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
       },
       {
         onSuccess: () => {
-          // 성공 시 토스트 메시지 표시
-          showToast('비밀번호가 성공적으로 변경되었습니다.', 'success', {
-            duration: 3000,
-          });
           // 편집 모드 종료
           onEditComplete();
         },
