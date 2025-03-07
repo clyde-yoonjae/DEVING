@@ -73,7 +73,7 @@ const Created = () => {
               </div>
 
               {/* 태블릿 */}
-              {/* <div
+              <div
                 className="hidden flex-col border-b border-Cgray300 py-[42px] md:flex lg:hidden"
                 ref={
                   page.nextCursor === meeting.meetingId ? lastMeetingRef : null
@@ -99,10 +99,10 @@ const Created = () => {
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
                 />
-              </div> */}
+              </div>
 
               {/* 모바일 */}
-              {/* <div
+              <div
                 className="flex flex-col border-b border-Cgray300 py-[42px] md:hidden"
                 ref={
                   page.nextCursor === meeting.meetingId ? lastMeetingRef : null
@@ -128,7 +128,7 @@ const Created = () => {
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
                 />
-              </div> */}
+              </div>
             </div>
           ))}
         </div>
