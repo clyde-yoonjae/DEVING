@@ -104,7 +104,7 @@ const MeetingList = () => {
   }
 
   return (
-    <div className="mt-[126px]">
+    <div className="mt-14">
       <div className="typo-head1 mb-10 px-4 text-Cgray800">
         {translateCategoryNameToKor(categoryStr)} 모임 목록
       </div>
@@ -142,12 +142,13 @@ const MeetingList = () => {
         <div className="flex-col sm:hidden lg:flex">
           {data?.pages.map((page, pageIndex) => (
             <div key={pageIndex}>
-              {page.content.map((meeting: SearchMeeting) => {
+              {page.content.map((meeting: SearchMeeting, index) => {
                 return (
                   <HorizonCard
                     onClick={handleMoveDetailPage}
                     key={meeting.meetingId}
                     meetingId={meeting.meetingId}
+                    className={`animate-fadeInUp ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
                     category={translateCategoryNameToKor(categoryStr)}
                     title={meeting.meetingTitle}
                     thumbnailUrl={meeting.thumbnail}
@@ -183,11 +184,11 @@ const MeetingList = () => {
         <div className="hidden flex-col md:flex lg:hidden">
           {data?.pages.map((page, pageIndex) => (
             <div key={pageIndex}>
-              {page.content.map((meeting: SearchMeeting) => {
+              {page.content.map((meeting: SearchMeeting, index) => {
                 return (
                   <HorizonCard
                     onClick={handleMoveDetailPage}
-                    className="items-center"
+                    className={`animate-fadeInUp items-center ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
                     key={meeting.meetingId}
                     meetingId={meeting.meetingId}
                     category={translateCategoryNameToKor(categoryStr)}
@@ -227,11 +228,11 @@ const MeetingList = () => {
         <div className="flex flex-col items-center md:hidden lg:hidden">
           {data?.pages.map((page, pageIndex) => (
             <div key={pageIndex}>
-              {page.content.map((meeting: SearchMeeting) => {
+              {page.content.map((meeting: SearchMeeting, index) => {
                 return (
                   <VerticalCard
                     onClick={handleMoveDetailPage}
-                    className="h-[380px]"
+                    className={`h-[380px] animate-fadeInUp items-center ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
                     thumbnailHeight={160}
                     thumbnailWidth={311}
                     category={translateCategoryNameToKor(categoryStr)}
