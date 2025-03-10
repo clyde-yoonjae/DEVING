@@ -18,9 +18,6 @@ const PasswordInfo = ({ onEnableEdit }: PasswordInfoProps) => {
     return <SkeletonPasswordInfo />;
   }
 
-  // 비밀번호 정보는 표시하지 않고, 이메일 정보는 표시할 수 있음
-  const userEmail = profileData?.data?.email || '';
-
   return (
     <div className="w-full rounded-[16px] border border-Cgray300 p-[32px]">
       <div className="flex flex-col gap-[32px]">

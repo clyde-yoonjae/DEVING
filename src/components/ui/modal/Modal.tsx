@@ -13,6 +13,7 @@ interface AlertModalProps {
   buttonClassName?: string;
   closeOnly?: boolean;
   showOnly?: boolean;
+  disableConfirm?: boolean;
 }
 
 /**
@@ -73,6 +74,7 @@ const Modal: React.FC<AlertModalProps> = ({
   buttonClassName = '',
   closeOnly = false,
   showOnly = false,
+  disableConfirm = false,
 }) => {
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (e.target === e.currentTarget) {
@@ -116,7 +118,14 @@ const Modal: React.FC<AlertModalProps> = ({
               <Button onClick={onClose} variant={'outline'} type="button">
                 {cancelText}
               </Button>
-              <Button onClick={onConfirm} type="button">
+              <Button
+                onClick={onConfirm}
+                type="button"
+                disabled={disableConfirm}
+                className={
+                  disableConfirm ? 'cursor-not-allowed opacity-50' : ''
+                }
+              >
                 {confirmText}
               </Button>
             </>

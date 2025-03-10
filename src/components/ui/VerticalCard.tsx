@@ -74,6 +74,7 @@ const VerticalCard = ({
   };
 
   const [thumbnail, setThumbnail] = useState(thumbnailUrl);
+  const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
 
   return (
     <div
@@ -95,16 +96,20 @@ const VerticalCard = ({
         className={'relative'}
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
+        {!thumbnailLoaded && (
+          <div className="h-full w-full animate-pulse rounded-[20px] bg-Cgray200"></div>
+        )}
         <Image
           className="flex-shrink-0 rounded-[20px] object-cover"
           src={thumbnail ? thumbnail : '/thumbnail.jpg'}
           alt="card_thumbnail"
           fill
           onError={() => setThumbnail('/thumbnail.jpg')}
+          onLoad={() => setThumbnailLoaded(true)}
         />
       </div>
       <div className="mt-4">
-        <div className="typo-head2 flex justify-between truncate text-Cgray800 ">
+        <div className="typo-head2 relative flex h-[40px] justify-between truncate text-Cgray800 ">
           <span className="max-w-[270px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {title}
           </span>
@@ -123,9 +128,8 @@ const VerticalCard = ({
             ></Button>
           )}
         </div>
-        <div className="mt-3 flex items-center gap-1 truncate text-Cgray500">
+        <div className="relative flex items-center gap-1 truncate text-Cgray500">
           <Map size={20} strokeWidth={1} />
-
           <span className="max-w-[270px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {location}
           </span>
