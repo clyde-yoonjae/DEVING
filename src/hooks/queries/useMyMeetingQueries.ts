@@ -3,14 +3,18 @@ import {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
 } from 'service/api/mymeeting';
-import { getMyMeetingParticipated } from 'service/api/mymeeting';
+import {
+  getMyMeetingLikes,
+  getMyMeetingParticipated,
+} from 'service/api/mymeeting';
 import { Paginated } from 'types/meeting';
-import { IMyMeetingManage } from 'types/myMeeting';
+import { IMyMeetingLikes, IMyMeetingManage } from 'types/myMeeting';
 
 export const myMeetingKeys = {
   all: ['mymeeting'] as const,
   manage: () => [...myMeetingKeys.all, 'manage'] as const,
   participated: () => [...myMeetingKeys.all, 'participated'] as const,
+  likes: () => [...myMeetingKeys.all, 'likes'] as const,
   memberProfile: (meetingId: number, userId: number) => [
     ...myMeetingKeys.all,
     'profile',
@@ -18,6 +22,7 @@ export const myMeetingKeys = {
   ],
 };
 
+// 내가 생성한 모임
 export const useInfiniteMyMeetingManageQueries = () => {
   return useInfiniteQuery({
     queryKey: myMeetingKeys.manage(),
@@ -29,12 +34,25 @@ export const useInfiniteMyMeetingManageQueries = () => {
   });
 };
 
+// 내가 참여하고 있는 모임
 export const useInfiniteMyMeetingParticipatedQueries = () => {
   return useInfiniteQuery({
     queryKey: myMeetingKeys.participated(),
     queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) => {
+      return lastPage.nextCursor ?? null;
+    },
+  });
+};
+
+// 내가 찜한 모임
+export const useInfiniteMyMeetingLikesQueries = () => {
+  return useInfiniteQuery({
+    queryKey: myMeetingKeys.likes(),
+    queryFn: ({ pageParam }) => getMyMeetingLikes(pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: Paginated<IMyMeetingLikes>) => {
       return lastPage.nextCursor ?? null;
     },
   });
