@@ -8,7 +8,7 @@ const getMyWrittenComments = async (
   lastCommentId: number,
 ): Promise<Paginated<MyComment>> => {
   const res = await authAPI.get(
-    `${mypageURL.comments}?${lastCommentId}&size=${3}`,
+    `${mypageURL.comments}?lastCommentId=${lastCommentId}&size=${3}`,
   );
 
   return res.data.data;
