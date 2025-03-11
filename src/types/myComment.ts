@@ -1,9 +1,6 @@
-interface MyComment {
-  commentId: number;
-  score: number;
-  content: string;
-  createdAt: string;
-  meetingId: number;
+import type { Comment } from '../service/api/comment';
+
+interface MyComment extends Comment {
   meetingTitle: string;
   thumbnail: string;
   location: string;

@@ -116,7 +116,7 @@ export const MY_MEETING_TAB_LIST = [
 
 export const MY_COMMENT_TAB_LIST = [
   {
-    label: '작성 가능한 리뷰',
+    label: '리뷰 작성 가능한 모임',
     value: 'writable',
     url: '/my-meeting/comments',
   },

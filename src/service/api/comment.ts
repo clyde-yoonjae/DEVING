@@ -15,8 +15,8 @@ export interface Comment {
   content: string;
   createdAt: string;
   meetingId: number;
-  userName: string;
-  profilePic: string;
+  userName?: string;
+  profilePic?: string;
 }
 
 export interface Comments {
