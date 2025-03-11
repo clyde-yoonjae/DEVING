@@ -6,13 +6,16 @@ import {
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query';
-import { getMyMeetingManage } from 'service/api/mymeeting';
+import {
+  getMyMeetingManage,
+  getMyMeetingParticipated,
+} from 'service/api/mymeeting';
 import { getBanner } from 'service/api/mypageProfile';
 import { Paginated } from 'types/meeting';
 import { IMyMeetingManage } from 'types/myMeeting';
 
 import Created from '../_features/Created';
-// import Joined from '../../components/Joined';
+import Participated from '../_features/Participated';
 import Tab from '../_features/Tab';
 
 export default async function Page({
@@ -40,7 +43,14 @@ export default async function Page({
       initialPageParam: 0,
     });
   } else {
-    // 참여 중인 모임 prefetch
+    // 내가 참여하고있는 모임 prefetch
+    await queryClient.prefetchInfiniteQuery({
+      queryKey: myMeetingKeys.participated(),
+      queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
+      getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) =>
+        lastPage.nextCursor ?? false,
+      initialPageParam: 0,
+    });
   }
 
   return (
@@ -49,7 +59,7 @@ export default async function Page({
         <Tab type={type} />
       </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        {type === 'created' ? <Created /> : <NotYet />}
+        {type === 'created' ? <Created /> : <Participated />}
       </HydrationBoundary>
     </div>
   );
