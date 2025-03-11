@@ -1,28 +1,27 @@
 'use client';
 
-import ReviewItem from '@/app/meeting/_features/ReviewItem';
 import HorizonCard from '@/components/ui/HorizonCard';
 import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
-import { useInfiniteWrittenMyCommentQueries } from '@/hooks/queries/useMyCommentQueries';
+import { useInfiniteWritableMyMeetingsQueries } from '@/hooks/queries/useMyCommentQueries';
 import { translateCategoryNameToEng } from '@/util/searchFilter';
 import { useRouter } from 'next/navigation';
 import { MyComment } from 'types/myComment';
 
 import MeetingListSkeleton from './skeletons/SkeletonMeetingList';
 
-const Written = () => {
+const Writable = () => {
   const router = useRouter();
   const {
-    data: commentData,
+    data: meetingData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
     error,
-  } = useInfiniteWrittenMyCommentQueries();
+  } = useInfiniteWritableMyMeetingsQueries();
 
-  const allComments: MyComment[] =
-    commentData?.pages.flatMap((page) => page.content) || [];
+  const allMeetings: MyComment[] =
+    meetingData?.pages.flatMap((page) => page.content) || [];
 
   const lastMeetingRef = useInfiniteScroll({
     fetchNextPage,
@@ -49,67 +48,64 @@ const Written = () => {
   return (
     <div>
       <div>
-        {allComments.map((comment) => (
-          <div key={comment.meetingId}>
+        {allMeetings.map((meeting) => (
+          <div key={meeting.meetingId}>
             {/* 데스크탑 */}
             <div className="hidden border-b border-Cgray300 py-[42px] lg:flex">
               <HorizonCard
                 onClick={() =>
-                  handleMoveDetailPage(comment.meetingId, comment.categoryTitle)
+                  handleMoveDetailPage(meeting.meetingId, meeting.categoryTitle)
                 }
-                key={comment.meetingId}
-                title={comment.meetingTitle}
-                thumbnailUrl={comment.thumbnail}
-                location={comment.location}
-                total={comment.maxMember}
-                value={comment.memberCount}
+                key={meeting.meetingId}
+                title={meeting.meetingTitle}
+                thumbnailUrl={meeting.thumbnail}
+                location={meeting.location}
+                total={meeting.maxMember}
+                value={meeting.memberCount}
                 className="flex-row"
-                meetingId={comment.meetingId}
+                meetingId={meeting.meetingId}
                 category={''}
               ></HorizonCard>
-              <ReviewItem comment={comment} isMine={true}></ReviewItem>
             </div>
 
             {/* 태블릿 */}
             <div className="hidden flex-col border-b border-Cgray300 py-[42px] md:flex lg:hidden">
               <HorizonCard
                 onClick={() =>
-                  handleMoveDetailPage(comment.meetingId, comment.categoryTitle)
+                  handleMoveDetailPage(meeting.meetingId, meeting.categoryTitle)
                 }
-                key={comment.meetingId}
-                title={comment.meetingTitle}
-                thumbnailUrl={comment.thumbnail}
-                location={comment.location}
-                total={comment.maxMember}
-                value={comment.memberCount}
+                key={meeting.meetingId}
+                title={meeting.meetingTitle}
+                thumbnailUrl={meeting.thumbnail}
+                location={meeting.location}
+                total={meeting.maxMember}
+                value={meeting.memberCount}
                 thumbnailHeight={160}
                 thumbnailWidth={160}
                 className=""
-                meetingId={comment.meetingId}
+                meetingId={meeting.meetingId}
                 category={''}
               />
-              <ReviewItem comment={comment} isMine={true}></ReviewItem>
             </div>
 
             {/* 모바일 */}
             <div className="flex flex-col border-b border-Cgray300 py-[42px] md:hidden">
               <HorizonCard
                 onClick={() =>
-                  handleMoveDetailPage(comment.meetingId, comment.categoryTitle)
+                  handleMoveDetailPage(meeting.meetingId, meeting.categoryTitle)
                 }
-                key={comment.meetingId}
-                title={comment.meetingTitle}
-                thumbnailUrl={comment.thumbnail}
-                location={comment.location}
-                total={comment.maxMember}
-                value={comment.memberCount}
+                key={meeting.meetingId}
+                title={meeting.meetingTitle}
+                thumbnailUrl={meeting.thumbnail}
+                location={meeting.location}
+                total={meeting.maxMember}
+                value={meeting.memberCount}
                 thumbnailHeight={80}
                 thumbnailWidth={80}
                 className=""
-                meetingId={comment.meetingId}
+                meetingId={meeting.meetingId}
                 category={''}
               />
-              <ReviewItem comment={comment} isMine={true}></ReviewItem>
             </div>
           </div>
         ))}
@@ -126,4 +122,5 @@ const Written = () => {
     </div>
   );
 };
-export default Written;
+
+export default Writable;

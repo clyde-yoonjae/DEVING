@@ -1,6 +1,5 @@
 import { authAPI } from '@/lib/axios/authApi';
 import { basicAPI } from '@/lib/axios/basicApi';
-import { getAccessToken } from '@/lib/serverActions';
 import type {
   CategoryTitle,
   IMeetingSearchCondition,
@@ -12,9 +11,7 @@ import type {
 const getTopMeetings = async (
   categoryTitle: CategoryTitle,
 ): Promise<TopMeeting[]> => {
-  const token = await getAccessToken();
-
-  const res = await (token ? authAPI : basicAPI).get(`/api/v1/meetings/top`, {
+  const res = await authAPI.get(`/api/v1/meetings/top`, {
     params: { categoryTitle },
   });
 
@@ -27,9 +24,8 @@ const getMeetings = async (
   searchQueryObj: IMeetingSearchCondition,
 ): Promise<Paginated<SearchMeeting>> => {
   const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
-  const token = await getAccessToken();
 
-  const res = await (token ? authAPI : basicAPI).post(
+  const res = await authAPI.post(
     `/api/v1/meetings/search?categoryTitle=${category}`,
     newSearchQueryObj,
   );

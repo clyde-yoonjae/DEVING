@@ -14,4 +14,14 @@ const getMyWrittenComments = async (
   return res.data.data;
 };
 
-export { getMyWrittenComments };
+const getMyMeetingsWritableComments = async (
+  lastCommentId: number,
+): Promise<Paginated<MyComment>> => {
+  const res = await authAPI.get(
+    `${mypageURL.mettingComments}?lastMeetingId=${lastCommentId}&size=${3}`,
+  );
+
+  return res.data.data;
+};
+
+export { getMyWrittenComments, getMyMeetingsWritableComments };
