@@ -12,11 +12,13 @@ const ModalUserList = ({
   meetingId,
   currentUser,
   handlePrefetchProfile,
+  showPublicSelect = false,
 }: {
   memberList: Member[];
   currentUser: IBanner;
   className?: string;
   handlePrefetchProfile: (member: Member) => Promise<void>;
+  showPublicSelect?: boolean;
   meetingId: number;
 }) => {
   const router = useRouter();
@@ -58,10 +60,12 @@ const ModalUserList = ({
             </div>
             {user.userId !== currentUser?.userId && (
               <div className="flex gap-[6px]">
-                <Tag
-                  variant={user.memberStatus}
-                  className="w-[49px] justify-center"
-                />
+                {showPublicSelect && (
+                  <Tag
+                    variant={user.memberStatus}
+                    className="w-[49px] justify-center"
+                  />
+                )}
                 <div>
                   <Button
                     onClick={() => handleProfileClick(user)}
