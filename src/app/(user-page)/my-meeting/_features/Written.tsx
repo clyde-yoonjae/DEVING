@@ -3,7 +3,12 @@
 import ReviewItem from '@/app/meeting/_features/ReviewItem';
 import HorizonCard from '@/components/ui/HorizonCard';
 import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
-import { useInfiniteWrittenMyCommentQueries } from '@/hooks/queries/useMyCommentQueries';
+import {
+  MY_COMMENT_KEY,
+  useInfiniteWrittenMyCommentQueries,
+} from '@/hooks/queries/useMyCommentQueries';
+import { translateCategoryNameToEng } from '@/util/searchFilter';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { MyComment } from 'types/myComment';
 
@@ -11,7 +16,6 @@ import MeetingListSkeleton from './skeletons/SkeletonMeetingList';
 
 const Written = () => {
   const router = useRouter();
-
   const {
     data: commentData,
     fetchNextPage,
@@ -30,18 +34,20 @@ const Written = () => {
     hasNextPage,
   });
 
-  console.log('comentData::', commentData);
+  if (error) {
+    <div className="bg-main text-white">
+      에러가 발생했습니다. <hr />
+      다시 시도해주세요.
+    </div>;
+  }
 
-  if (isLoading || !commentData) {
+  if (isLoading) {
     return <MeetingListSkeleton />;
   }
 
-  const handleMoveDetailPage = (meetingId: number) => {
-    /**
-     * TODO
-     * 추후 category 수정
-     */
-    router.push(`/meeting/study/${meetingId}`);
+  const handleMoveDetailPage = (meetingId: number, category: string) => {
+    const categoryEng = translateCategoryNameToEng(category);
+    router.push(`/meeting/${categoryEng}/${meetingId}`);
   };
 
   return (
@@ -50,17 +56,11 @@ const Written = () => {
         {allComments.map((comment) => (
           <div key={comment.meetingId}>
             {/* 데스크탑 */}
-            <div
-              className="hidden border-b border-Cgray300 py-[42px] lg:flex"
-              ref={
-                allComments[allComments.length - 1].meetingId ===
-                comment.meetingId
-                  ? lastMeetingRef
-                  : null
-              }
-            >
+            <div className="hidden border-b border-Cgray300 py-[42px] lg:flex">
               <HorizonCard
-                onClick={handleMoveDetailPage}
+                onClick={() =>
+                  handleMoveDetailPage(comment.meetingId, comment.categoryTitle)
+                }
                 key={comment.meetingId}
                 title={comment.meetingTitle}
                 thumbnailUrl={comment.thumbnail}
@@ -75,17 +75,11 @@ const Written = () => {
             </div>
 
             {/* 태블릿 */}
-            <div
-              className="hidden flex-col border-b border-Cgray300 py-[42px] md:flex lg:hidden"
-              ref={
-                allComments[allComments.length - 1].meetingId ===
-                comment.meetingId
-                  ? lastMeetingRef
-                  : null
-              }
-            >
+            <div className="hidden flex-col border-b border-Cgray300 py-[42px] md:flex lg:hidden">
               <HorizonCard
-                onClick={handleMoveDetailPage}
+                onClick={() =>
+                  handleMoveDetailPage(comment.meetingId, comment.categoryTitle)
+                }
                 key={comment.meetingId}
                 title={comment.meetingTitle}
                 thumbnailUrl={comment.thumbnail}
@@ -102,17 +96,11 @@ const Written = () => {
             </div>
 
             {/* 모바일 */}
-            <div
-              className="flex flex-col border-b border-Cgray300 py-[42px] md:hidden"
-              ref={
-                allComments[allComments.length - 1].meetingId ===
-                comment.meetingId
-                  ? lastMeetingRef
-                  : null
-              }
-            >
+            <div className="flex flex-col border-b border-Cgray300 py-[42px] md:hidden">
               <HorizonCard
-                onClick={handleMoveDetailPage}
+                onClick={() =>
+                  handleMoveDetailPage(comment.meetingId, comment.categoryTitle)
+                }
                 key={comment.meetingId}
                 title={comment.meetingTitle}
                 thumbnailUrl={comment.thumbnail}
@@ -129,6 +117,15 @@ const Written = () => {
             </div>
           </div>
         ))}
+
+        {/* 무한 스크롤을 위한 별도의 Observer 요소 */}
+        {hasNextPage && (
+          <div
+            ref={lastMeetingRef}
+            className="h-20 w-full"
+            id="infinite-scroll-trigger"
+          />
+        )}
       </div>
     </div>
   );

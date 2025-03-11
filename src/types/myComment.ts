@@ -6,6 +6,7 @@ interface MyComment extends Comment {
   location: string;
   memberCount: number;
   maxMember: number;
+  categoryTitle: string;
 }
 
 export type { MyComment };
