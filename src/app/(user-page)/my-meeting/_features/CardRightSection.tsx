@@ -17,11 +17,13 @@ const CardRightSection = ({
   isPublic,
   className,
   meetingId,
+  showPublicSelect = false,
 }: {
   memberList: Member[];
   isPublic: boolean;
   className?: string;
   meetingId: number;
+  showPublicSelect?: boolean;
 }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -70,7 +72,7 @@ const CardRightSection = ({
       }}
     >
       <div className="hidden flex-col justify-center gap-[16px] lg:flex">
-        <h3 className="typo-head3  text-main">참가 중인 멤버</h3>
+        <h3 className="typo-head3 text-main">참가 중인 멤버</h3>
         <div className="h-[172px] overflow-y-auto">
           {memberList.map((member: Member) => (
             <div key={member.userId} className="flex items-center py-[8px]">
@@ -79,17 +81,19 @@ const CardRightSection = ({
                 alt="맴버 프로필"
                 width={40}
                 height={40}
-                className="rounded-[9.92px] "
+                className="rounded-[9.92px]"
               />
               <p className="typo-head3 w-[114px] p-[6px] text-Cgray700">
                 {member.name}
               </p>
               {member.userId !== currentUser?.userId && (
                 <div className="flex h-[40px] gap-[6px]">
-                  <Tag
-                    variant={member.memberStatus}
-                    className="w-[49px] justify-center"
-                  />
+                  {showPublicSelect && (
+                    <Tag
+                      variant={member.memberStatus}
+                      className="w-[49px] justify-center"
+                    />
+                  )}
                   <Button
                     variant={'outline'}
                     className="h-[40px] w-[93px]"
@@ -114,7 +118,9 @@ const CardRightSection = ({
       >
         맴버 명단 보기
       </Button>
-      <PublicSelect isPublic={isPublic} meetingId={meetingId} />
+      {showPublicSelect && (
+        <PublicSelect isPublic={isPublic} meetingId={meetingId} />
+      )}
     </div>
   );
 };
