@@ -20,7 +20,7 @@ const CardRightSection = ({
   showPublicSelect = false,
 }: {
   memberList: Member[];
-  isPublic: boolean;
+  isPublic?: boolean;
   className?: string;
   meetingId: number;
   showPublicSelect?: boolean;
@@ -61,7 +61,7 @@ const CardRightSection = ({
       memberList,
     );
     router.push(
-      `/my-meeting/my/user-list?meetingId=${meetingId}&type=${showPublicSelect ? 'created' : 'joined'}`,
+      `/my-meeting/my/user-list?meetingId=${meetingId}&type=${showPublicSelect ? 'created' : 'participated'}`,
     );
   };
 
@@ -129,7 +129,7 @@ const CardRightSection = ({
         맴버 명단 보기
       </Button>
       {showPublicSelect && (
-        <PublicSelect isPublic={isPublic} meetingId={meetingId} />
+        <PublicSelect isPublic={isPublic ?? false} meetingId={meetingId} />
       )}
     </div>
     // </div>

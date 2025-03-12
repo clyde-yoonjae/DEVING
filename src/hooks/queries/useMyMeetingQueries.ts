@@ -8,7 +8,11 @@ import {
   getMyMeetingParticipated,
 } from 'service/api/mymeeting';
 import { Paginated } from 'types/meeting';
-import { IMyMeetingLikes, IMyMeetingManage } from 'types/myMeeting';
+import {
+  IMyMeetingLikes,
+  IMyMeetingManage,
+  IMyMeetingParticipated,
+} from 'types/myMeeting';
 
 export const myMeetingKeys = {
   all: ['mymeeting'] as const,
@@ -40,7 +44,7 @@ export const useInfiniteMyMeetingParticipatedQueries = () => {
     queryKey: myMeetingKeys.participated(),
     queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) => {
+    getNextPageParam: (lastPage: Paginated<IMyMeetingParticipated>) => {
       return lastPage.nextCursor ?? null;
     },
   });

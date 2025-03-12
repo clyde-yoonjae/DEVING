@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 const tabList = [
   { label: '내가 만든 모임', value: 'created' },
-  { label: '내가 참여하고 있는 모임', value: 'joined' },
+  { label: '내가 참여하고 있는 모임', value: 'participated' },
 ];
 
 const Tab = ({ type }: { type: string }) => {

@@ -12,7 +12,7 @@ import {
 } from 'service/api/mymeeting';
 import { getBanner } from 'service/api/mypageProfile';
 import { Paginated } from 'types/meeting';
-import { IMyMeetingManage } from 'types/myMeeting';
+import { IMyMeetingManage, IMyMeetingParticipated } from 'types/myMeeting';
 
 import Created from '../_features/Created';
 import Participated from '../_features/Participated';
@@ -47,7 +47,7 @@ export default async function Page({
     await queryClient.prefetchInfiniteQuery({
       queryKey: myMeetingKeys.participated(),
       queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
-      getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) =>
+      getNextPageParam: (lastPage: Paginated<IMyMeetingParticipated>) =>
         lastPage.nextCursor ?? false,
       initialPageParam: 0,
     });

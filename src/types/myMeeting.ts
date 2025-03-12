@@ -31,7 +31,7 @@ interface IMyMeetingManage {
   memberList: Member[];
 }
 
-interface IMyMeetingAll {
+interface IMyMeetingParticipated {
   meetingId: number;
   title: string;
   thumbnail: string;
@@ -99,6 +99,6 @@ export type {
   IMemberProfile,
   IBanner,
   UserData,
-  IMyMeetingAll,
+  IMyMeetingParticipated,
   IMyMeetingLikes,
 };
