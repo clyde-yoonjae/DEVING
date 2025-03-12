@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 
 interface AlertModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   onConfirm?: () => void;
   confirmText?: string;
   cancelText?: string;
@@ -90,7 +90,21 @@ const ModalPortal: React.FC<AlertModalProps> = ({
     }
   }, []);
 
-  if (!isOpen) return null;
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (onClose) {
+      onClose();
+    } else {
+      router.back();
+    }
+  };
+
+  const handleConfirm = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
+    onConfirm?.();
+  };
 
   return createPortal(
     <div
@@ -106,7 +120,7 @@ const ModalPortal: React.FC<AlertModalProps> = ({
         aria-modal="true"
         tabIndex={-1}
         ref={dialogRef}
-        aria-labelledBy="modal-title"
+        aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
         <div className={`p-6 ${contentClassName}`}>{children}</div>
@@ -114,16 +128,16 @@ const ModalPortal: React.FC<AlertModalProps> = ({
         {!showOnly && (
           <div className={`flex justify-end gap-2 p-4 ${buttonClassName}`}>
             {closeOnly ? (
-              <Button onClick={onClose} type="button" className="w-full">
+              <Button onClick={handleClose} type="button" className="w-full">
                 {cancelText}
               </Button>
             ) : (
               <>
-                <Button onClick={onClose} variant={'outline'} type="button">
+                <Button onClick={handleClose} variant={'outline'} type="button">
                   {cancelText}
                 </Button>
                 <Button
-                  onClick={onConfirm}
+                  onClick={handleConfirm}
                   type="button"
                   disabled={disableConfirm}
                   className={
