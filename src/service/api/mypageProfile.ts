@@ -108,7 +108,11 @@ export const updateSkills = async (
 };
 
 // 배너 정보 불러오기
-export const getBanner = async (): Promise<IBanner> => {
-  const res = await axiosInstance.get('/api/v1/mypage/banner');
-  return res.data.data;
+export const getBanner = async (): Promise<IBanner | null> => {
+  try {
+    const res = await axiosInstance.get('/api/v1/mypage/banner');
+    return res.data.data;
+  } catch (error) {
+    return null;
+  }
 };

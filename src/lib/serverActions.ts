@@ -27,7 +27,6 @@ export async function setAccessToken(token: string) {
   const isProd = process.env.NODE_ENV === 'production';
   cookieStore.set('token', token, {
     httpOnly: true,
-    // sameSite: 'strict', // 개발환경에서는 불필요
     sameSite: 'none',
     secure: true,
     path: '/',
