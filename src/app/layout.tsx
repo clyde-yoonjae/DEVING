@@ -53,6 +53,7 @@ export default async function RootLayout({
             <div className="m-auto max-w-[1340px]">{children}</div>
           </ToastProvider>
         </ReactQueryProviders>
+        <div id="modal-root" />
       </body>
     </html>
   );
