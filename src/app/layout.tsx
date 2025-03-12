@@ -2,12 +2,9 @@ import Header from '@/components/common/Header';
 import { ToastProvider } from '@/components/common/ToastContext';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import axiosInstance from '@/lib/axios/axiosInstance';
-import axiosServer from '@/lib/axios/axiosServer';
-import { getAllToken } from '@/lib/serverActions';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import { cookies } from 'next/headers';
 
 import '../styles/globals.css';
 
