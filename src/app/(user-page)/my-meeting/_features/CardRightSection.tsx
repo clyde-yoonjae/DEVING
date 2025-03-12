@@ -124,7 +124,9 @@ const CardRightSection = ({
       <Button
         variant="outline"
         className="flex h-[40px] flex-1 md:h-[46px] lg:hidden"
-        onClick={handleShowMemberList}
+        onClick={() =>
+          router.push(`/my-meeting/my/user-list?meetingId=${meetingId}`)
+        }
       >
         맴버 명단 보기
       </Button>
