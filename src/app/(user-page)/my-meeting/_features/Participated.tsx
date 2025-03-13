@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 import { IMyMeetingParticipated } from 'types/myMeeting';
 
 import CardRightSection from './CardRightSection';
+import LeaveMeetingButton from './LeaveMeetingButton';
+import PendingStatusChip from './PendingStatusChip';
 import MeetingListSkeleton from './skeletons/SkeletonMeetingList';
 
 interface IStatusOverlay {
@@ -40,7 +42,6 @@ const Participated = () => {
   }
 
   // 클릭 불가능한 상태인지 확인하는 함수 (오버레이 표시 여부만 결정)
-
   const isDisabledStatus = (
     status: IMyMeetingParticipated['myMemberStatus'],
   ): boolean => {
@@ -64,12 +65,12 @@ const Participated = () => {
       <div className={`max-w-md p-4 text-center text-xl font-bold text-white`}>
         {meeting.myMemberStatus === 'REJECTED' ? (
           <p className="text-2xl leading-relaxed">
-            죄송합니다. 가입이 <span className="text-red">거절</span>된
+            죄송합니다. 가입이 <span className="text-warning">거절</span>된
             모임입니다.
           </p>
         ) : (
           <p className="text-2xl leading-relaxed">
-            더 이상 참여가 <span className="text-red"> 불가능</span>한
+            더 이상 참여가 <span className="text-warning">불가능</span>한
             모임입니다.
           </p>
         )}
@@ -104,18 +105,25 @@ const Participated = () => {
                     meetingId={meeting.meetingId}
                     category={''}
                   >
-                    <div className="flex">
-                      <CardRightSection
-                        memberList={meeting.memberList}
-                        className="hidden lg:flex"
-                        meetingId={meeting.meetingId}
-                      />
-
-                      <button className="text-white">
-                        {meeting.myMemberStatus}
-                      </button>
-                    </div>
+                    <CardRightSection
+                      memberList={meeting.memberList}
+                      className="hidden lg:flex"
+                      meetingId={meeting.meetingId}
+                    />
                   </HorizonCard>
+
+                  {/* PENDING 상태일 때 승인 대기중 칩 표시 */}
+                  {meeting.myMemberStatus === 'PENDING' && (
+                    <PendingStatusChip meetingId={meeting.meetingId} />
+                  )}
+
+                  {/* APPROVED 상태일 때 모임 탈퇴하기 버튼 표시 */}
+                  {meeting.myMemberStatus === 'APPROVED' && (
+                    <LeaveMeetingButton
+                      meetingId={meeting.meetingId}
+                      className="bg-warning text-white"
+                    />
+                  )}
 
                   {/* 비활성화된 상태일 때 오버레이 */}
                   {isDisabledStatus(meeting.myMemberStatus) && (
@@ -146,7 +154,17 @@ const Participated = () => {
                   meetingId={meeting.meetingId}
                 />
 
-                {/* 비활성화된 상태일 때 오버레이 */}
+                {meeting.myMemberStatus === 'PENDING' && (
+                  <PendingStatusChip meetingId={meeting.meetingId} />
+                )}
+
+                {meeting.myMemberStatus === 'APPROVED' && (
+                  <LeaveMeetingButton
+                    meetingId={meeting.meetingId}
+                    className="bg-warning text-white"
+                  />
+                )}
+
                 {isDisabledStatus(meeting.myMemberStatus) && (
                   <StatusOverlay meeting={meeting} />
                 )}
@@ -174,7 +192,17 @@ const Participated = () => {
                   meetingId={meeting.meetingId}
                 />
 
-                {/* 비활성화된 상태일 때 오버레이 */}
+                {meeting.myMemberStatus === 'PENDING' && (
+                  <PendingStatusChip meetingId={meeting.meetingId} />
+                )}
+
+                {meeting.myMemberStatus === 'APPROVED' && (
+                  <LeaveMeetingButton
+                    meetingId={meeting.meetingId}
+                    className="bg-warning px-2 py-1 text-xs text-white"
+                  />
+                )}
+
                 {isDisabledStatus(meeting.myMemberStatus) && (
                   <StatusOverlay meeting={meeting} />
                 )}
@@ -196,22 +224,20 @@ const Participated = () => {
       {/* 추가 데이터 로딩 중 표시 */}
       {isFetchingNextPage && (
         <div className="flex justify-center py-4">
-          <div className="text-gray-500 animate-pulse text-white">
-            로딩 중...
-          </div>
+          <div className="animate-pulse text-white">로딩 중...</div>
         </div>
       )}
 
       {/* 데이터가 없는 경우 표시 */}
       {meetingData.pages[0].content.length === 0 && (
-        <div className="text-gray-500 py-8 text-center text-white">
+        <div className="py-8 text-center text-white">
           참여한 모임이 없습니다.
         </div>
       )}
 
       {/* 더 이상 데이터가 없음을 표시 */}
       {!hasNextPage && meetingData.pages[0].content.length > 0 && (
-        <div className="text-gray-500 py-4 text-center text-white">
+        <div className="py-4 text-center text-white">
           모든 모임을 불러왔습니다.
         </div>
       )}
