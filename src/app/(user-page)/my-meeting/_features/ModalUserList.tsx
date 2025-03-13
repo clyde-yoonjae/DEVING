@@ -64,7 +64,7 @@ const ModalUserList = ({
                   <Tag
                     variant={user.memberStatus}
                     className="w-[49px] justify-center"
-                  />             
+                  />
                 )}
                 <div>
                   <Button
