@@ -63,6 +63,7 @@ const Writable = () => {
                 total={meeting.maxMember}
                 value={meeting.memberCount}
                 className="flex-row"
+                showLikeButton={false}
                 meetingId={meeting.meetingId}
                 category={''}
               ></HorizonCard>
@@ -82,9 +83,9 @@ const Writable = () => {
                 value={meeting.memberCount}
                 thumbnailHeight={160}
                 thumbnailWidth={160}
-                className=""
                 meetingId={meeting.meetingId}
                 category={''}
+                showLikeButton={false}
               />
             </div>
 
@@ -102,9 +103,9 @@ const Writable = () => {
                 value={meeting.memberCount}
                 thumbnailHeight={80}
                 thumbnailWidth={80}
-                className=""
                 meetingId={meeting.meetingId}
                 category={''}
+                showLikeButton={false}
               />
             </div>
           </div>

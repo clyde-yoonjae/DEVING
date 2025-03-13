@@ -3,15 +3,21 @@ import { getRelativeTime } from '@/util/date';
 import Image from 'next/image';
 import { Comment } from 'service/api/comment';
 
+interface ReviewItemProps {
+  className?: string;
+  comment: Comment;
+  isMine?: boolean;
+}
+
 const ReviewItem = ({
   comment,
   isMine = false,
-}: {
-  comment: Comment;
-  isMine?: boolean;
-}) => {
+  className,
+}: ReviewItemProps) => {
   return (
-    <div className="flex flex-col gap-[16px] py-[16px] sm:p-[24px]">
+    <div
+      className={`flex flex-col gap-[16px] py-[16px] sm:p-[24px] ${className}`}
+    >
       <div
         className={`flex items-center ${isMine ? 'justify-end' : 'justify-between'}`}
       >

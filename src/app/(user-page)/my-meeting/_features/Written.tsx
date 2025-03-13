@@ -63,11 +63,16 @@ const Written = () => {
                 location={comment.location}
                 total={comment.maxMember}
                 value={comment.memberCount}
-                className="flex-row"
+                className="flex-row p-0"
                 meetingId={comment.meetingId}
+                showLikeButton={false}
                 category={''}
               ></HorizonCard>
-              <ReviewItem comment={comment} isMine={true}></ReviewItem>
+              <ReviewItem
+                comment={comment}
+                isMine={true}
+                className="px-6"
+              ></ReviewItem>
             </div>
 
             {/* 태블릿 */}
@@ -84,11 +89,16 @@ const Written = () => {
                 value={comment.memberCount}
                 thumbnailHeight={160}
                 thumbnailWidth={160}
-                className=""
+                className="p-0"
                 meetingId={comment.meetingId}
+                showLikeButton={false}
                 category={''}
               />
-              <ReviewItem comment={comment} isMine={true}></ReviewItem>
+              <ReviewItem
+                comment={comment}
+                isMine={true}
+                className="px-6"
+              ></ReviewItem>
             </div>
 
             {/* 모바일 */}
@@ -108,8 +118,13 @@ const Written = () => {
                 className=""
                 meetingId={comment.meetingId}
                 category={''}
+                showLikeButton={false}
               />
-              <ReviewItem comment={comment} isMine={true}></ReviewItem>
+              <ReviewItem
+                comment={comment}
+                isMine={true}
+                className="px-6"
+              ></ReviewItem>
             </div>
           </div>
         ))}

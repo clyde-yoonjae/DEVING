@@ -1,4 +1,4 @@
-import { authAPI } from '@/lib/axios/authApi';
+import axiosInstance from '@/lib/axios/axiosInstance';
 import { Paginated } from 'types/meeting';
 import { MyComment } from 'types/myComment';
 
@@ -7,7 +7,7 @@ import { mypageURL } from './endpoints';
 const getMyWrittenComments = async (
   lastCommentId: number,
 ): Promise<Paginated<MyComment>> => {
-  const res = await authAPI.get(
+  const res = await axiosInstance.get(
     `${mypageURL.comments}?lastCommentId=${lastCommentId}&size=${3}`,
   );
 
@@ -17,7 +17,7 @@ const getMyWrittenComments = async (
 const getMyMeetingsWritableComments = async (
   lastCommentId: number,
 ): Promise<Paginated<MyComment>> => {
-  const res = await authAPI.get(
+  const res = await axiosInstance.get(
     `${mypageURL.mettingComments}?lastMeetingId=${lastCommentId}&size=${3}`,
   );
 
