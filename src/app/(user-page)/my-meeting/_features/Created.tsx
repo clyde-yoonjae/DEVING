@@ -67,6 +67,7 @@ const Created = () => {
                     isPublic={meeting.isPublic}
                     className="hidden lg:flex"
                     meetingId={meeting.meetingId}
+                    showPublicSelect={true}
                   />
                 </HorizonCard>
               </div>
@@ -96,6 +97,7 @@ const Created = () => {
                   isPublic={meeting.isPublic}
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
+                  showPublicSelect={true}
                 />
               </div>
 
@@ -124,6 +126,7 @@ const Created = () => {
                   isPublic={meeting.isPublic}
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
+                  showPublicSelect={true}
                 />
               </div>
             </div>

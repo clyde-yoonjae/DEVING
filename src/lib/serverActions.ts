@@ -19,17 +19,7 @@ export async function getRefreshToken() {
 
 export async function removeAccessToken() {
   const cookieStore = cookies();
-  // cookieStore.delete('access_token');
-
-  // ✅ Set-Cookie를 통해 access_token을 삭제 (Max-Age=0)
-  cookieStore.set('access_token', '', {
-    path: '/',
-    maxAge: 0, // 쿠키 만료
-    httpOnly: true, // 백엔드와 일관성 유지
-    secure: true,
-    domain: 'deving.shop',
-    sameSite: 'none',
-  });
+  cookieStore.delete('accessToken');
 }
 
 export async function removeRefreshToken() {
