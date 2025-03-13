@@ -97,6 +97,18 @@ const putIsPublic = async (meetingId: number) => {
   return res.data.data;
 };
 
+// 참가중인 모임 나가기
+const DeleteQuit = async (meetingId: number) => {
+  const res = await axiosInstance.delete(`${myMeetingURL.quit(meetingId)}`);
+  return res.data.data;
+};
+
+// 승인 대기중인 모임 취소하기
+const DeleteCancel = async (meetingId: number) => {
+  const res = await axiosInstance.delete(`${myMeetingURL.cancel(meetingId)}`);
+  return res.data.data;
+};
+
 export {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
@@ -105,4 +117,6 @@ export {
   putMemberStatus,
   putExpel,
   putIsPublic,
+  DeleteQuit,
+  DeleteCancel,
 };
