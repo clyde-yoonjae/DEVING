@@ -116,12 +116,13 @@ const Participated = () => {
                   )}
 
                   {/* APPROVED 상태일 때 모임 탈퇴하기 버튼 표시 */}
-                  {meeting.myMemberStatus === 'APPROVED' && (
-                    <LeaveMeetingButton
-                      meetingId={meeting.meetingId}
-                      className="bg-warning text-white"
-                    />
-                  )}
+                  {meeting.myMemberStatus === 'APPROVED' &&
+                    !meeting.isMeetingManager && (
+                      <LeaveMeetingButton
+                        meetingId={meeting.meetingId}
+                        className="bg-warning text-white"
+                      />
+                    )}
 
                   {/* 비활성화된 상태일 때 오버레이 */}
                   {isDisabledStatus(meeting.myMemberStatus) && (
@@ -157,12 +158,13 @@ const Participated = () => {
                   <PendingStatusChip meetingId={meeting.meetingId} />
                 )}
 
-                {meeting.myMemberStatus === 'APPROVED' && (
-                  <LeaveMeetingButton
-                    meetingId={meeting.meetingId}
-                    className="bg-warning text-white"
-                  />
-                )}
+                {meeting.myMemberStatus === 'APPROVED' &&
+                  !meeting.isMeetingManager && (
+                    <LeaveMeetingButton
+                      meetingId={meeting.meetingId}
+                      className="bg-warning text-white"
+                    />
+                  )}
 
                 {isDisabledStatus(meeting.myMemberStatus) && (
                   <StatusOverlay meeting={meeting} />
@@ -196,12 +198,13 @@ const Participated = () => {
                   <PendingStatusChip meetingId={meeting.meetingId} />
                 )}
 
-                {meeting.myMemberStatus === 'APPROVED' && (
-                  <LeaveMeetingButton
-                    meetingId={meeting.meetingId}
-                    className="bg-warning px-2 py-1 text-xs text-white"
-                  />
-                )}
+                {meeting.myMemberStatus === 'APPROVED' &&
+                  !meeting.isMeetingManager && (
+                    <LeaveMeetingButton
+                      meetingId={meeting.meetingId}
+                      className="bg-warning px-2 py-1 text-xs text-white"
+                    />
+                  )}
 
                 {isDisabledStatus(meeting.myMemberStatus) && (
                   <StatusOverlay meeting={meeting} />

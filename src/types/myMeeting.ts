@@ -42,6 +42,7 @@ interface IMyMeetingParticipated {
   likesCount: number;
   myMemberStatus: 'APPROVED' | 'REJECTED' | 'PENDING' | 'EXPEL';
   memberList: Member[];
+  isMeetingManager: boolean;
 }
 
 interface IMyMeetingLikes {
