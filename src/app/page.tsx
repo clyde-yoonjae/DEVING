@@ -174,9 +174,20 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // 컴포넌트 마운트 즉시 상태 변경
     setIsClient(true);
 
-    // 모바일 감지
+    // 동적 모듈 사전 로드
+    const preloadModules = async () => {
+      try {
+        await import('@fullpage/react-fullpage');
+        console.log('FullPage 모듈 로드 성공');
+      } catch (error) {
+        console.error('FullPage 모듈 로드 실패:', error);
+      }
+    };
+
+    // 기존 모바일 감지 로직
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -187,17 +198,19 @@ export default function Home() {
     // 리사이즈 이벤트에 대응
     window.addEventListener('resize', checkMobile);
 
-    // 글로벌 콘솔 오류 필터링도 추가
+    // 모듈 사전 로드
+    preloadModules();
+
+    // 글로벌 콘솔 오류 필터링
     const originalConsoleError = console.error;
     console.error = (...args) => {
-      // fullPage 라이센스 관련 메시지 필터링
       if (
         typeof args[0] === 'string' &&
         (args[0].includes('fullPage:') ||
           args[0].includes('licenseKey') ||
           args[0].includes('alvarotrigo'))
       ) {
-        return; // fullPage 라이센스 메시지 무시
+        return;
       }
       originalConsoleError(...args);
     };
@@ -213,7 +226,7 @@ export default function Home() {
   if (!isClient) {
     // 서버 사이드 렌더링 또는 초기 로드 시 기본 레이아웃 표시
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-screen items-center justify-center text-white">
         Loading...
       </div>
     );
@@ -451,7 +464,7 @@ export default function Home() {
 
             {/* 푸터 섹션 - 중요 클래스: section fp-auto-height */}
             <div className="section fp-auto-height">
-              <footer className="flex h-[350px] flex-col items-center gap-[24px] px-[24px] pt-[60px] md:h-[400px] md:gap-[32px] md:px-[48px] md:pb-[60px] md:pt-[66px] lg:h-[400px] lg:px-[230px]">
+              <footer className="flex h-[300px] flex-col items-center gap-[24px] px-[24px] pt-[60px] md:gap-[32px] md:px-[48px] md:pb-[60px] md:pt-[66px] lg:px-[230px]">
                 <motion.div
                   className="flex w-full justify-center gap-[12px]"
                   initial={{ opacity: 0 }}
