@@ -120,25 +120,15 @@ const Likes = () => {
       )}
 
       {/* 추가 데이터 로딩 중 표시 */}
-      {isFetchingNextPage && (
-        <div className="flex justify-center py-4">
-          <div className="text-gray-500 animate-pulse text-white">
-            로딩 중...
-          </div>
-        </div>
-      )}
+      {isFetchingNextPage && <MeetingListSkeleton />}
 
       {/* 데이터가 없는 경우 표시 */}
       {meetingData.pages[0].content.length === 0 && (
-        <div className="text-gray-500 py-8 text-center text-white">
-          찜한 모임이 없습니다.
-        </div>
-      )}
-
-      {/* 더 이상 데이터가 없음을 표시 */}
-      {!hasNextPage && meetingData.pages[0].content.length > 0 && (
-        <div className="text-gray-500 py-4 text-center text-white">
-          모든 모임을 불러왔습니다.
+        <div className="flex h-[60vh] w-full items-center justify-center text-center text-Cgray500">
+          <div>
+            <p className="mb-2">찜한 모임이 없어요.</p>
+            <p>원하는 모임을 찜해보세요!</p>
+          </div>
         </div>
       )}
     </div>
