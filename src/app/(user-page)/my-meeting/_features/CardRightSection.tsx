@@ -14,7 +14,7 @@ import PublicSelect from './PublicDropdown';
 
 const CardRightSection = ({
   memberList,
-  isPublic,
+  isPublic = false,
   className,
   meetingId,
   showPublicSelect = false,
@@ -129,7 +129,7 @@ const CardRightSection = ({
         맴버 명단 보기
       </Button>
       {showPublicSelect && (
-        <PublicSelect isPublic={isPublic ?? false} meetingId={meetingId} />
+        <PublicSelect isPublic={isPublic} meetingId={meetingId} />
       )}
     </div>
     // </div>
