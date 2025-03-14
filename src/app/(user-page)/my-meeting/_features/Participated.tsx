@@ -103,6 +103,7 @@ const Participated = () => {
                     value={meeting.memberCount}
                     className="flex-row"
                     meetingId={meeting.meetingId}
+                    showLikeButton={false}
                     category={''}
                   >
                     <CardRightSection
