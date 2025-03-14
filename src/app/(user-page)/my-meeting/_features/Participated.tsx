@@ -147,6 +147,7 @@ const Participated = () => {
                   thumbnailWidth={160}
                   className=""
                   meetingId={meeting.meetingId}
+                  showLikeButton={false}
                   category={''}
                 />
                 <CardRightSection
@@ -185,6 +186,7 @@ const Participated = () => {
                   thumbnailWidth={80}
                   className=""
                   meetingId={meeting.meetingId}
+                  showLikeButton={false}
                   category={''}
                 />
                 <CardRightSection
@@ -214,13 +216,7 @@ const Participated = () => {
       ))}
 
       {/* 무한 스크롤을 위한 별도의 Observer 요소 */}
-      {hasNextPage && (
-        <div
-          ref={lastMeetingRef}
-          className="h-20 w-full"
-          id="infinite-scroll-trigger"
-        />
-      )}
+      {hasNextPage && <div ref={lastMeetingRef} id="infinite-scroll-trigger" />}
 
       {/* 추가 데이터 로딩 중 표시 */}
       {isFetchingNextPage && (
@@ -231,15 +227,11 @@ const Participated = () => {
 
       {/* 데이터가 없는 경우 표시 */}
       {meetingData.pages[0].content.length === 0 && (
-        <div className="py-8 text-center text-white">
-          참여한 모임이 없습니다.
-        </div>
-      )}
-
-      {/* 더 이상 데이터가 없음을 표시 */}
-      {!hasNextPage && meetingData.pages[0].content.length > 0 && (
-        <div className="py-4 text-center text-white">
-          모든 모임을 불러왔습니다.
+        <div className="flex h-[60vh] w-full items-center justify-center text-center text-Cgray500">
+          <div>
+            <p className="mb-2">내가 참여하고있는 모임이 없어요.</p>
+            <p>원하는 모임에 참가하세요!</p>
+          </div>
         </div>
       )}
     </div>
