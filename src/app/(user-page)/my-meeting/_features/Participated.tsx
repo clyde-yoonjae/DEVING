@@ -48,16 +48,13 @@ const Participated = () => {
     return status === 'REJECTED' || status === 'EXPEL';
   };
 
-  // 카드 클릭 핸들러 - 모든 상태에서 라우팅 가능하도록 변경
-  const handleCardClick = (meeting: IMyMeetingParticipated) => {
-    router.push(
-      `/meeting/${translateCategoryNameToEng(meeting.categoryTitle)}/${meeting.meetingId}`,
-    );
-  };
-
   // 모임 상세 페이지 URL 생성 함수
   const getMeetingDetailUrl = (meeting: IMyMeetingParticipated) =>
     `/meeting/${translateCategoryNameToEng(meeting.categoryTitle)}/${meeting.meetingId}`;
+
+  const handleCardClick = (meeting: IMyMeetingParticipated) => {
+    router.push(getMeetingDetailUrl(meeting));
+  };
 
   // 오버레이 컴포넌트 (수정된 버전)
   const StatusOverlay = ({ meeting }: IStatusOverlay) => (
