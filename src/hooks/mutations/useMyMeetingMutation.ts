@@ -2,23 +2,11 @@ import { useToast } from '@/components/common/ToastContext';
 import axiosInstance from '@/lib/axios/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { myMeetingURL } from 'service/api/endpoints';
 import { putExpel, putIsPublic, putMemberStatus } from 'service/api/mymeeting';
+import { deleteCancel, deleteQuit } from 'service/api/mymeeting';
 
 import { meetingKeys } from '../queries/useMeetingQueries';
 import { myMeetingKeys } from '../queries/useMyMeetingQueries';
-
-// 참가중인 모임 나가기
-const DeleteQuit = async (meetingId: number) => {
-  const res = await axiosInstance.delete(`${myMeetingURL.quit(meetingId)}`);
-  return res.data.data;
-};
-
-// 승인 대기중인 모임 취소하기
-const DeleteCancel = async (meetingId: number) => {
-  const res = await axiosInstance.delete(`${myMeetingURL.cancel(meetingId)}`);
-  return res.data.data;
-};
 
 // 참가중인 모임 나가기 훅
 const useQuitMeetingMutation = () => {
@@ -26,7 +14,7 @@ const useQuitMeetingMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (meetingId: number) => DeleteQuit(meetingId),
+    mutationFn: (meetingId: number) => deleteQuit(meetingId),
     onSuccess: (_, meetingId) => {
       showToast('모임에서 탈퇴했습니다.', 'success');
       queryClient.invalidateQueries({
@@ -60,7 +48,7 @@ const useCancelPendingMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (meetingId: number) => DeleteCancel(meetingId),
+    mutationFn: (meetingId: number) => deleteCancel(meetingId),
     onSuccess: (_, meetingId) => {
       showToast('승인 대기를 취소했습니다.', 'success');
       queryClient.invalidateQueries({
