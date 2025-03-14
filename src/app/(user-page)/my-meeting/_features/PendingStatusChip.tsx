@@ -25,9 +25,9 @@ export const PendingStatusChip = ({
       <div className="flex items-center bg-main bg-opacity-90 px-3 py-1 text-sm font-medium text-white">
         <span>승인 대기중</span>
         <span className="ml-1 inline-flex">
-          <span style={{ animation: 'bounce 1s infinite 100ms' }}>.</span>
-          <span style={{ animation: 'bounce 1s infinite 200ms' }}>.</span>
-          <span style={{ animation: 'bounce 1s infinite 300ms' }}>.</span>
+          <span className="animate-delay-100">.</span>
+          <span className="animate-delay-200">.</span>
+          <span className="animate-delay-300">.</span>
         </span>
       </div>
 
