@@ -216,11 +216,7 @@ const Participated = () => {
       {hasNextPage && <div ref={lastMeetingRef} id="infinite-scroll-trigger" />}
 
       {/* 추가 데이터 로딩 중 표시 */}
-      {isFetchingNextPage && (
-        <div className="flex justify-center py-4">
-          <div className="animate-pulse text-white">로딩 중...</div>
-        </div>
-      )}
+      {isFetchingNextPage && <MeetingListSkeleton />}
 
       {/* 데이터가 없는 경우 표시 */}
       {meetingData.pages[0].content.length === 0 && (
