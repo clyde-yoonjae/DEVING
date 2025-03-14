@@ -56,6 +56,7 @@ export interface MeetingDetail {
   isLike: boolean;
   isMember: boolean;
   meetingSkillArray: string[];
+  categoryTitle: string;
 }
 
 export interface MeetingManager {
