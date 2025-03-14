@@ -27,14 +27,14 @@ async function MeetingListPage({ params }: { params: { category: string } }) {
     size: 4,
   };
 
-  await queryClient.prefetchQuery({
+  await queryClient.fetchQuery({
     queryKey: MEETING_QUERY_KEYS.topMeetings(
       translateCategoryNameToKor(category),
     ),
     queryFn: () => getTopMeetings(translateCategoryNameToKor(category)),
   });
 
-  await queryClient.prefetchInfiniteQuery({
+  await queryClient.fetchInfiniteQuery({
     queryKey: MEETING_QUERY_KEYS.meetings(
       translateCategoryNameToKor(category),
       initialSearchQueryObj,
