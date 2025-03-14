@@ -10,6 +10,18 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 import { MAX_FILE_SIZE } from '../../../../constants/mypage/mypageConstant';
+import {
+  BUTTON_ROUND,
+  ERROR_MESSAGE,
+  LABEL_VIEW,
+  MODAL_CONTENT,
+  PROFILE_CONTAINER,
+  PROFILE_IMAGE_CONTAINER,
+  PROFILE_IMAGE_EDIT_BUTTON,
+  PROFILE_IMAGE_MODAL,
+  PROFILE_IMAGE_MODAL_OVERLAY,
+  PROFILE_IMAGE_WRAPPER,
+} from '../../../../constants/mypage/mypageCss';
 import SkeletonProfileImage from './skeletons/SkeletonProfileImage';
 
 const ProfileImage = () => {
@@ -95,10 +107,10 @@ const ProfileImage = () => {
   }
 
   return (
-    <div className="flex flex-col pt-[83px]">
-      <div className="typo-head3 text-Cgray700">프로필 이미지</div>
-      <div className="flex justify-center gap-[24px] py-[24px]">
-        <div className="relative flex h-[163px] w-[163px] items-center justify-center rounded-[20px] border border-Cgray300 bg-Cgray200 md:h-[255px] md:w-[255px]">
+    <div className={PROFILE_CONTAINER}>
+      <div className={LABEL_VIEW}>프로필 이미지</div>
+      <div className={PROFILE_IMAGE_WRAPPER}>
+        <div className={PROFILE_IMAGE_CONTAINER}>
           {profileImageUrl ? (
             <Image
               src={profileImageUrl}
@@ -112,10 +124,10 @@ const ProfileImage = () => {
           ) : (
             <EditLogo className="text-Cgray700" width={86} height={86} />
           )}
-          <div className="absolute bottom-[8px] right-[8px] md:bottom-[15px] md:right-[15px]">
+          <div className={PROFILE_IMAGE_EDIT_BUTTON}>
             <Button
               onClick={() => setIsModalOpen(true)}
-              className="h-[28px] w-[28px] rounded-full md:h-[34px] md:w-[34px]"
+              className={BUTTON_ROUND}
               icon={<Pencil />}
             />
           </div>
@@ -142,12 +154,12 @@ const ProfileImage = () => {
         buttonClassName="pt-0 px-[24px] pb-[24px]"
         disableConfirm={!!fileSizeError || !selectedFile}
       >
-        <div className="flex flex-col items-center justify-center gap-[16px]">
-          <div className="typo-head3 text-Cgray700">프로필 이미지</div>
+        <div className={MODAL_CONTENT}>
+          <div className={LABEL_VIEW}>프로필 이미지</div>
           <div className="flex justify-center">
             <button
               type="button"
-              className="relative flex h-[123px] w-[123px] cursor-pointer items-center justify-center overflow-hidden rounded-[20px] border border-Cgray300 bg-Cgray200 p-0 md:h-[163px] md:w-[163px] lg:h-[203px] lg:w-[203px]"
+              className={PROFILE_IMAGE_MODAL}
               onClick={handleFileSelect}
               onKeyDown={(e) => e.key === 'Enter' && handleFileSelect()}
               aria-label="프로필 이미지 변경하기"
@@ -172,7 +184,7 @@ const ProfileImage = () => {
               ) : (
                 <EditLogo className="text-Cgray700" width={86} height={86} />
               )}
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 transition-opacity hover:opacity-100 focus:opacity-100">
+              <div className={PROFILE_IMAGE_MODAL_OVERLAY}>
                 <p className="font-medium text-white">클릭하여 이미지 선택</p>
               </div>
             </button>
@@ -180,9 +192,7 @@ const ProfileImage = () => {
 
           {/* 파일 크기 에러 메시지 */}
           {fileSizeError && (
-            <div className="mt-2 text-center text-sm text-warning">
-              {fileSizeError}
-            </div>
+            <div className={ERROR_MESSAGE}>{fileSizeError}</div>
           )}
         </div>
       </Modal>

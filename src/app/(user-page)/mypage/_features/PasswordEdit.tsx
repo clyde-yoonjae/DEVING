@@ -5,6 +5,16 @@ import { Input } from '@/components/ui/Input';
 import { useUpdatePasswordMutation } from '@/hooks/mutations/useMyPageMutation';
 import { useForm } from 'react-hook-form';
 
+import {
+  BUTTON_ACTIONS,
+  BUTTON_OUTLINE,
+  BUTTON_PRIMARY,
+  FIELD_CONTAINER,
+  FORM_CONTAINER,
+  LABEL_EDIT,
+  SECTION_CONTAINER,
+} from '../../../../constants/mypage/mypageCss';
+
 interface PasswordFormData {
   currentPassword: string;
   newPassword: string;
@@ -78,13 +88,10 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-full rounded-[16px] border border-Cgray300 p-[32px]"
-    >
-      <div className="flex flex-col gap-[32px]">
-        <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="currentPassword" className="typo-head3 text-main">
+    <form onSubmit={handleSubmit(onSubmit)} className={FORM_CONTAINER}>
+      <div className={SECTION_CONTAINER}>
+        <div className={FIELD_CONTAINER}>
+          <label htmlFor="currentPassword" className={LABEL_EDIT}>
             기존 비밀번호
           </label>
           <Input
@@ -97,8 +104,8 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
           />
         </div>
 
-        <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="newPassword" className="typo-head3 text-main">
+        <div className={FIELD_CONTAINER}>
+          <label htmlFor="newPassword" className={LABEL_EDIT}>
             새 비밀번호
           </label>
           <Input
@@ -115,8 +122,8 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
           />
         </div>
 
-        <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="passwordCheck" className="typo-head3 text-main">
+        <div className={FIELD_CONTAINER}>
+          <label htmlFor="passwordCheck" className={LABEL_EDIT}>
             비밀번호 확인
           </label>
           <Input
@@ -131,18 +138,18 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
           />
         </div>
 
-        <div className="flex justify-between">
+        <div className={BUTTON_ACTIONS}>
           <Button
             type="button"
             variant="outline"
-            className="h-[40px] w-[140px] md:h-[46px]"
+            className={BUTTON_OUTLINE}
             onClick={handleCancel}
           >
             취소
           </Button>
           <Button
             type="submit"
-            className="h-[40px] w-[140px] select-none md:h-[46px]"
+            className={BUTTON_PRIMARY}
             disabled={isSubmitting || isUpdating}
           >
             {isUpdating ? '변경 중...' : '비밀번호 변경'}

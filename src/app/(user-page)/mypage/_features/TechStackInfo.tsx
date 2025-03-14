@@ -3,6 +3,17 @@ import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { getIconColor, getIconComponent } from '@/util/getIconDetail';
 import React from 'react';
 
+import {
+  BUTTON_CENTER,
+  BUTTON_WIDE,
+  EMPTY_STATE,
+  LABEL_VIEW,
+  TECH_CONTAINER,
+  TECH_HEADER,
+  TECH_LIST,
+  TECH_TAG,
+  TECH_TAG_TEXT,
+} from '../../../../constants/mypage/mypageCss';
 import SkeletonTechStackInfo from './skeletons/SkeletonTechStackInfo';
 
 interface TechStackInfoProps {
@@ -21,28 +32,22 @@ const TechStackInfo = ({ onEnableEdit }: TechStackInfoProps) => {
   }
 
   return (
-    <div className="rounded-[16px] border border-Cgray300 bg-BG p-[32px]">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="typo-head3 text-Cgray700">기술 스택</div>
+    <div className={TECH_CONTAINER}>
+      <div className={TECH_HEADER}>
+        <div className={LABEL_VIEW}>기술 스택</div>
       </div>
 
       {userSkills.length > 0 ? (
-        <div className="flex flex-wrap gap-2">
+        <div className={TECH_LIST}>
           {userSkills.map((skill) => {
             const color = getIconColor(skill);
             const Icon = getIconComponent(skill);
             return (
-              <div
-                key={skill}
-                className="flex items-center gap-1 rounded-full border border-main bg-Cgray100 px-2 py-1 shadow-sm"
-              >
+              <div key={skill} className={TECH_TAG}>
                 <span className="flex-shrink-0">
                   <Icon size={20} color={color} />
                 </span>
-                <span
-                  style={{ color }}
-                  className="cursor-default text-xs font-medium sm:inline-block"
-                >
+                <span style={{ color }} className={TECH_TAG_TEXT}>
                   {skill}
                 </span>
               </div>
@@ -50,12 +55,12 @@ const TechStackInfo = ({ onEnableEdit }: TechStackInfoProps) => {
           })}
         </div>
       ) : (
-        <p className=" text-Cgray500">등록된 기술 스택이 없습니다.</p>
+        <p className={EMPTY_STATE}>등록된 기술 스택이 없습니다.</p>
       )}
-      <div className="flex justify-center pt-[32px] md:justify-start">
+      <div className={BUTTON_CENTER + ' pt-[32px]'}>
         <Button
           variant="outline"
-          className="h-[40px] w-[295px] md:h-[46px] md:w-[280px]"
+          className={BUTTON_WIDE}
           onClick={onEnableEdit}
         >
           기술스택 변경
