@@ -7,6 +7,8 @@ import type {
   TopMeeting,
 } from 'types/meeting';
 
+import { likesURL, meetingURL, memberURL, myMeetingURL } from './endpoints';
+
 const getTopMeetings = async (
   categoryTitle: CategoryTitle,
 ): Promise<TopMeeting[]> => {
@@ -24,7 +26,7 @@ const getMeetings = async (
 ): Promise<Paginated<SearchMeeting>> => {
   const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
   const res = await axiosInstance.post(
-    `/api/v1/meetings/search?categoryTitle=${category}`,
+    `${meetingURL.search}?categoryTitle=${category}`,
     newSearchQueryObj,
   );
 
@@ -32,13 +34,13 @@ const getMeetings = async (
 };
 
 const likeMeeting = async (meetingId: number) => {
-  const res = await axiosInstance.post(`/api/v1/meetings/${meetingId}/likes`);
+  const res = await axiosInstance.post(likesURL.create(meetingId));
 
   return res.data.data;
 };
 
 const cancelLikeMeeting = async (meetingId: number) => {
-  const res = await axiosInstance.delete(`/api/v1/meetings/${meetingId}/likes`);
+  const res = await axiosInstance.delete(likesURL.delete(meetingId));
 
   return res.data.data;
 };
@@ -71,12 +73,12 @@ export interface MeetingManager {
 }
 
 const getMeetingDetail = async (id: number): Promise<MeetingDetail> => {
-  const res = await axiosInstance.get(`/api/v1/meetings/detail/${id}`);
+  const res = await axiosInstance.get(meetingURL.detail(id));
   return res.data.data;
 };
 
 const getMeetingDetailManager = async (id: number): Promise<MeetingManager> => {
-  const res = await axiosInstance.get(`/api/v1/meetings/detail/manager/${id}`);
+  const res = await axiosInstance.get(meetingURL.managerDetail(id));
   return res.data.data;
 };
 
@@ -88,7 +90,7 @@ const postMeetingRegister = async ({
   meetingId: number;
   message: string;
 }) => {
-  const res = await axiosInstance.post(`/api/v1/members/${meetingId}`, {
+  const res = await axiosInstance.post(memberURL.create(meetingId), {
     message,
   });
   return res.data.data;
@@ -96,9 +98,7 @@ const postMeetingRegister = async ({
 
 // Approve 상태에서 모임 탈퇴
 const deleteMeetingQuit = async (meetingId: number) => {
-  const res = await axiosInstance.delete(
-    `/api/v1/mymeetings/quit/${meetingId}`,
-  );
+  const res = await axiosInstance.delete(myMeetingURL.quit(meetingId));
 
   return res.data.data;
 };

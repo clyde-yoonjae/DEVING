@@ -14,13 +14,13 @@ import PublicSelect from './PublicDropdown';
 
 const CardRightSection = ({
   memberList,
-  isPublic,
+  isPublic = false,
   className,
   meetingId,
   showPublicSelect = false,
 }: {
   memberList: Member[];
-  isPublic: boolean;
+  isPublic?: boolean;
   className?: string;
   meetingId: number;
   showPublicSelect?: boolean;
@@ -61,7 +61,7 @@ const CardRightSection = ({
       memberList,
     );
     router.push(
-      `/my-meeting/my/user-list?meetingId=${meetingId}&type=${showPublicSelect ? 'created' : 'joined'}`,
+      `/my-meeting/my/user-list?meetingId=${meetingId}&type=${showPublicSelect ? 'created' : 'participated'}`,
     );
   };
 
