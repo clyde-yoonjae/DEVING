@@ -7,17 +7,6 @@ import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import {
-  BUTTON_ACTIONS,
-  BUTTON_OUTLINE,
-  BUTTON_PRIMARY,
-  ERROR_TEXT,
-  FIELD_CONTAINER,
-  FORM_CONTAINER,
-  LABEL_EDIT,
-  LOADING_STATE,
-  SECTION_CONTAINER,
-} from '../../../../constants/mypage/mypageCss';
 import { IContactInfoUpdateRequest } from '../../../../types/mypageTypes';
 
 interface ContactEditProps {
@@ -81,14 +70,17 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
 
   // 로딩 중이면 로딩 표시
   if (isLoading) {
-    return <div className={LOADING_STATE}>데이터를 불러오는 중...</div>;
+    return <div className="p-4 text-center">데이터를 불러오는 중...</div>;
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={FORM_CONTAINER}>
-      <div className={SECTION_CONTAINER}>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="phone" className={LABEL_EDIT}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full rounded-[16px] border border-Cgray300 p-[32px]"
+    >
+      <div className="flex flex-col gap-[32px]">
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="phone" className="typo-head3 text-main">
             전화번호
           </label>
           <Input
@@ -106,8 +98,8 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           />
         </div>
 
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="kakao" className={LABEL_EDIT}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="kakao" className="typo-head3 text-main">
             카카오톡 ID
           </label>
           <Input
@@ -124,8 +116,8 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           />
         </div>
 
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="github" className={LABEL_EDIT}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="github" className="typo-head3 text-main">
             깃허브
           </label>
           <Input
@@ -158,8 +150,8 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           />
         </div>
 
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="blog" className={LABEL_EDIT}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="blog" className="typo-head3 text-main">
             블로그
           </label>
           <Input
@@ -204,23 +196,23 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
         </div>
 
         {isError && (
-          <div className={ERROR_TEXT}>
+          <div className="text-red-500 text-sm">
             연락처 정보를 업데이트하는 중 오류가 발생했습니다.
           </div>
         )}
 
-        <div className={BUTTON_ACTIONS}>
+        <div className="flex justify-between">
           <Button
             type="button"
             variant="outline"
-            className={BUTTON_OUTLINE}
+            className="h-[40px] w-[140px] md:h-[46px]"
             onClick={handleCancel}
           >
             취소
           </Button>
           <Button
             type="submit"
-            className={BUTTON_PRIMARY}
+            className="h-[40px] w-[140px] select-none md:h-[46px]"
             disabled={isSubmitting || isUpdating}
           >
             {isUpdating ? '저장 중...' : '변경사항 저장'}

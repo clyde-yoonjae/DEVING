@@ -3,14 +3,6 @@
 import { Button } from '@/components/ui/Button';
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 
-import {
-  BUTTON_CENTER,
-  BUTTON_WIDE,
-  FIELD_CONTAINER,
-  FORM_CONTAINER,
-  LABEL_VIEW,
-  SECTION_CONTAINER,
-} from '../../../../constants/mypage/mypageCss';
 import SkeletonPasswordInfo from './skeletons/SkeletonPasswordInfo';
 
 interface PasswordInfoProps {
@@ -27,16 +19,16 @@ const PasswordInfo = ({ onEnableEdit }: PasswordInfoProps) => {
   }
 
   return (
-    <div className={FORM_CONTAINER}>
-      <div className={SECTION_CONTAINER}>
-        <div className={FIELD_CONTAINER}>
-          <div className={LABEL_VIEW}>비밀번호</div>
+    <div className="w-full rounded-[16px] border border-Cgray300 p-[32px]">
+      <div className="flex flex-col gap-[32px]">
+        <div className="flex flex-col gap-[8px]">
+          <div className="typo-head3 text-Cgray700">비밀번호</div>
         </div>
 
-        <div className={BUTTON_CENTER}>
+        <div className="flex justify-center md:justify-start">
           <Button
             variant="outline"
-            className={BUTTON_WIDE}
+            className="h-[40px] w-[295px] md:h-[46px] md:w-[280px]"
             onClick={onEnableEdit}
           >
             비밀번호 변경
