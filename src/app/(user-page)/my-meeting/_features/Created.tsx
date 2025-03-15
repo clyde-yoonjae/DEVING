@@ -61,6 +61,7 @@ const Created = () => {
                   className="flex-row"
                   meetingId={meeting.meetingId}
                   category={''}
+                  showLikeButton={false}
                 >
                   <CardRightSection
                     memberList={meeting.memberList}
@@ -91,6 +92,7 @@ const Created = () => {
                   className=""
                   meetingId={meeting.meetingId}
                   category={''}
+                  showLikeButton={false}
                 />
                 <CardRightSection
                   memberList={meeting.memberList}
@@ -120,6 +122,7 @@ const Created = () => {
                   className=""
                   meetingId={meeting.meetingId}
                   category={''}
+                  showLikeButton={false}
                 />
                 <CardRightSection
                   memberList={meeting.memberList}
