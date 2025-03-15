@@ -17,12 +17,13 @@ const TechStackField = ({
     control,
     setValue,
     formState: { errors },
-  } = useFormContext<CreateMeetingPayload>();
+  } = useFormContext<CreateMeetingPayload & { imageUrl?: string }>();
 
   const handleTechStackChange = (selection: string[]) => {
     setValue('skillArray', selection);
   };
 
+  // Controller를 사용하여 값 변경 시에만 컴포넌트 업데이트
   return (
     <div className="space-y-2">
       <label
@@ -36,13 +37,17 @@ const TechStackField = ({
         name="skillArray"
         control={control}
         rules={required ? { required: techStackValidation.required } : {}}
-        render={({ field }) => (
+        render={({ field: { value, onChange } }) => (
           <TechSelector
             id="skillArray"
             maxSelections={maxSelections}
+            initialSelection={value || []}
             onSelectionChange={(selection) => {
-              field.onChange(selection);
-              handleTechStackChange(selection);
+              // 값이 실제로 변경된 경우만 업데이트
+              if (JSON.stringify(selection) !== JSON.stringify(value)) {
+                onChange(selection);
+                handleTechStackChange(selection);
+              }
             }}
           />
         )}
