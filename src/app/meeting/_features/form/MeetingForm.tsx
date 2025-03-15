@@ -17,16 +17,17 @@ import {
 import { useToast } from '@/components/common/ToastContext';
 import useMeetingFormMutation from '@/hooks/mutations/useMeetingFormMutation';
 import { convertImageToBase64 } from '@/util/base64';
+import { AxiosError } from 'axios';
 import { MEETING_TYPES } from 'constants/category/category';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload, UpdateMeetingPayload } from 'types/meetingForm';
 
 interface MeetingFormProps {
   mode: 'create' | 'edit';
-  initialData?: Partial<CreateMeetingPayload>;
-  meetingId?: string;
+  initialData?: Partial<CreateMeetingPayload> & { imageUrl?: string };
+  meetingId?: number;
 }
 
 export default function MeetingForm({
@@ -47,25 +48,34 @@ export default function MeetingForm({
     return category ? category.id : '';
   };
 
-  const { createMeeting, isLoading } = useMeetingFormMutation({
+  const { createMeeting, updateMeeting, isLoading } = useMeetingFormMutation({
     onSuccessCallback: (response, formData) => {
-      if (mode === 'create') {
-        showToast('모임이 성공적으로 생성되었습니다', 'success', {
-          duration: 3000,
-        });
-        const categoryId = getCategoryId(formData.categoryTitle);
-        router.push(`/meeting/${categoryId}/${response.data.meetingId}`);
-      } else if (mode === 'edit') {
-        showToast('모임이 성공적으로 수정되었습니다', 'success');
-        const categoryId = getCategoryId(formData.categoryTitle);
-        router.push(`/meeting/${categoryId}/${meetingId}`);
-      }
+      const isCreateMode = mode === 'create';
+      const message = isCreateMode
+        ? '모임이 성공적으로 생성되었습니다'
+        : '모임이 성공적으로 수정되었습니다';
+
+      showToast(message, 'success', { duration: 3000 });
+
+      const categoryId = getCategoryId(formData.categoryTitle);
+      router.push(
+        `/meeting/${categoryId}/${response.data.meetingId || meetingId}`,
+      );
     },
-    onErrorCallback: () => {
-      // 실패 시 토스트 표시
-      showToast('모임 생성에 실패했습니다', 'error', {
-        duration: 3000,
-      });
+
+    onErrorCallback: (error: AxiosError) => {
+      let message;
+
+      if (mode !== 'create' && error?.response?.status === 403) {
+        message = '모임 수정 권한이 없습니다';
+      } else {
+        message =
+          mode === 'create'
+            ? '모임 생성에 실패했습니다'
+            : '모임 수정에 실패했습니다';
+      }
+
+      showToast(message, 'error', { duration: 3000 });
     },
   });
 
@@ -84,30 +94,63 @@ export default function MeetingForm({
     ...initialData,
   };
 
+  const defaultValuesRef = useRef(defaultValues);
+
   const methods = useForm<CreateMeetingPayload>({
     defaultValues,
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
+
+  // 초기 데이터가 변경되면 폼 재설정
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (initialData && Object.keys(initialData).length > 0) {
+      reset({
+        ...defaultValuesRef,
+        ...initialData,
+      });
+    }
+  }, [initialData, reset]);
 
   const onSubmit = async (formData: CreateMeetingPayload) => {
     try {
       // 이미지 처리
       const fileInput = document.getElementById('image') as HTMLInputElement;
-      if (fileInput?.files && fileInput.files.length > 0) {
-        const imageData = await convertImageToBase64(fileInput.files[0]);
-        formData.imageName = imageData.name;
-        formData.imageEncodedBase64 = imageData.base64;
-      }
 
       if (mode === 'create') {
+        // 생성 모드에서는 모든 필드 포함
+        if (fileInput?.files && fileInput.files.length > 0) {
+          const imageData = await convertImageToBase64(fileInput.files[0]);
+          formData.imageName = imageData.name;
+          formData.imageEncodedBase64 = imageData.base64;
+        }
+
         await createMeeting.mutateAsync(formData);
       } else if (mode === 'edit' && meetingId) {
-        // 모임 수정 (TODO: API 구현 시 수정)
-        // await updateMeeting.mutateAsync({ id: meetingId, data: formData });
-        // API가 구현되지 않았으므로 수정 성공으로 처리
+        // 수정 모드용 데이터 생성
+        // imageUrl 덮어 없애기 위한 구조분해
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        const { imageUrl: _, ...formDataWithoutUrl } = formData as any;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+        const updateData: UpdateMeetingPayload = {
+          ...formDataWithoutUrl,
+          imageName: null,
+          imageEncodedBase64: null,
+        };
+
+        // 이미지가 변경된 경우에만 이미지 데이터 설정
+        if (fileInput?.files && fileInput.files.length > 0) {
+          const imageData = await convertImageToBase64(fileInput.files[0]);
+          updateData.imageName = imageData.name;
+          updateData.imageEncodedBase64 = imageData.base64;
+        }
+
+        await updateMeeting.mutateAsync({ meetingId, formData: updateData });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error('폼 제출 오류:', error);
+    }
   };
 
   return (
@@ -124,7 +167,10 @@ export default function MeetingForm({
           <DateField required />
           <MemberLimitField required />
           <TechStackField maxSelections={5} />
-          <ImageField required={true} />
+          <ImageField
+            required={mode === 'create'}
+            imageUrl={initialData.imageUrl}
+          />
           <DescriptionField required />
           <RequireApprovalField />
           <PrivacyField />
