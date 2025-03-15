@@ -3,7 +3,7 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import { useInfiniteMyMeetingLikesQueries } from '@/hooks/queries/useMyMeetingQueries';
-import { translateCategoryNameToEng } from '@/util/CategoryNameToEng';
+import { translateCategoryNameToEng } from '@/util/searchFilter';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
