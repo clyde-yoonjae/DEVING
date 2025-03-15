@@ -2,12 +2,12 @@ import useLikeHandler from '@/hooks/common/useLikeHandler';
 import { getIconComponent } from '@/util/getIconDetail';
 import { translateCategoryNameToEng } from '@/util/searchFilter';
 import { Heart, Map } from 'lucide-react';
-import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IMeetingSearchCondition } from 'types/meeting';
 
 import { Button } from './Button';
+import CardImage from './CardImage';
 import { Progress } from './Progress';
 import Modal from './modal/Modal';
 import TechButton from './tech-stack/tech-stack-components/TechButton';
@@ -61,12 +61,17 @@ const HorizonCard = ({
       ),
   });
 
+  const [like, setLike] = useState(false);
+
   const handleLikeButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     toggleLike(isLike);
+    setLike(true);
+    setTimeout(() => {
+      setLike(false);
+    }, 500);
   };
 
-  // TODO: 리팩토링 예정
   const { id } = useParams();
 
   const handleClickCard = () => {
@@ -80,9 +85,6 @@ const HorizonCard = ({
   const handleLogin = () => {
     router.push('/login');
   };
-
-  const [thumbnail, setThumbnail] = useState(thumbnailUrl);
-  const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
 
   return (
     <div
@@ -102,7 +104,7 @@ const HorizonCard = ({
       </Modal>
       {showLikeButton && (
         <Button
-          className="absolute right-4 top-4 h-auto w-auto"
+          className={`absolute right-4 top-4 h-auto w-auto ${like ? 'animate-heartbeat' : ''}`}
           variant="text"
           size="sm"
           onClick={(e) => handleLikeButton(e)}
@@ -122,15 +124,10 @@ const HorizonCard = ({
         className="relative flex-shrink-0"
         style={{ height: `${thumbnailHeight}px`, width: `${thumbnailWidth}px` }}
       >
-        {!thumbnailLoaded && (
-          <div className="h-full w-full animate-pulse rounded-[20px] bg-Cgray200"></div>
-        )}
-        <Image
-          className="rounded-[20px] object-cover"
-          src={thumbnail ? thumbnail : '/thumbnail.jpg'}
-          alt="card_thumbnail"
-          fill
-          onError={() => setThumbnail('/thumbnail.jpg')}
+        <CardImage
+          src={thumbnailUrl ? thumbnailUrl : '/thumbnail.jpg'}
+          width={thumbnailWidth}
+          height={thumbnailHeight}
         />
       </div>
       <div className="flex min-w-0 flex-1 flex-col justify-center px-[10px] md:px-[30px] lg:px-[40px]">

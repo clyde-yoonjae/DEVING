@@ -107,6 +107,34 @@ export default {
     fontFamily: {
       sans: ['var(--font-pretendard)', 'sans-serif'],
     },
+    keyframes: {
+      fadeInUp: {
+        '0%': { opacity: '0', transform: 'translateY(40px)' },
+        '100%': { opacity: '1', transform: 'translateY(0)' },
+      },
+      slideUp: {
+        '0%': { transform: 'translateY(0)' },
+        '100%': { transform: 'translateY(-10px)' },
+      },
+      slideDown: {
+        '0%': { transform: 'translateY(-10px)' },
+        '100%': { transform: 'translateY(0)' },
+      },
+      heartbeat: {
+        '0%': { transform: 'scale(1)' },
+        '20%': { transform: 'scale(1.2)' },
+        '40%': { transform: 'scale(0.8)' },
+        '60%': { transform: 'scale(1.0)' },
+        '80%': { transform: 'scale(0.95)' },
+        '100%': { transform: 'scale(1)' },
+      },
+    },
+    animation: {
+      fadeInUp: 'fadeInUp 0.5s ease-out forwards',
+      slideUp: 'slideUp 0.5s ease-out forwards',
+      slideDown: 'slideDown 0.5s ease-out forwards',
+      heartbeat: 'heartbeat 0.5s ease-out',
+    },
   },
   plugins: [
     function ({ addComponents }: PluginAPI) {
