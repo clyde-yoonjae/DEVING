@@ -14,10 +14,12 @@ const useCommentMutation = (meetingId: number) => {
     mutationFn: ({ req }: { req: { score: number; content: string } }) =>
       postComment(meetingId, req),
     onSuccess: async (res) => {
-      // onSuccessCallback?.();
       showToast('댓글 작성이 완료되었어요.');
       queryClient.invalidateQueries({
         queryKey: commentKeys.comments(meetingId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: commentKeys.count(meetingId),
       });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
