@@ -1,7 +1,6 @@
 'use client';
 
 import Logo from '@/assets/icon/logo.svg';
-import { useLogoutMutation } from '@/hooks/mutations/useUserMutation';
 import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
 import { removeAccessToken } from '@/lib/serverActions';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
@@ -41,8 +40,6 @@ const BeforeLogin = () => {
 const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   const router = useRouter();
   const { showToast } = useToast();
-
-  const { mutate } = useLogoutMutation();
   const menu = [
     {
       value: 'mymeeting',
@@ -57,7 +54,11 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
     {
       value: 'logout',
       label: '로그아웃',
-      onSelect: () => mutate(),
+      onSelect: async () => {
+        await removeAccessToken();
+        // 로그아웃 관련 토스트바 노출
+        showToast('로그아웃 되었습니다.', 'success');
+      },
     },
   ];
   return (
@@ -118,14 +119,15 @@ const MobileBeforeLogin = () => {
 
 const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   const { showToast } = useToast();
-  const { mutate } = useLogoutMutation();
-
   return (
     <div className="flex flex-col py-[24px]">
       <div className="flex items-center justify-between">
         <button
           className="typo-head3 p-[16px] text-Cgray500 hover:text-Cgray700"
-          onClick={() => mutate()}
+          onClick={async () => {
+            await removeAccessToken();
+            showToast('로그아웃 되었습니다.', 'success');
+          }}
         >
           로그아웃
         </button>
@@ -207,7 +209,7 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
     <div>
       {/* desktop */}
       <header
-        className={`flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'} fixed left-0 top-0 z-50 w-full`}
+        className={`flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'}`}
       >
         <div className="item-center mx-auto flex w-full max-w-[1340px] items-center justify-between">
           <Link href="/" className="mr-[40px] flex-shrink-0">

@@ -1,3 +1,4 @@
+import { CategoryTitle } from './meeting';
 import { IContactResponse } from './mypageTypes';
 
 interface Member {
@@ -28,6 +29,31 @@ interface IMyMeetingManage {
   likesCount: number;
   isPublic: boolean;
   memberList: Member[];
+}
+
+interface IMyMeetingParticipated {
+  categoryTitle: CategoryTitle;
+  meetingId: number;
+  title: string;
+  thumbnail: string;
+  location: string;
+  memberCount: number;
+  maxMember: number;
+  likesCount: number;
+  myMemberStatus: 'APPROVED' | 'REJECTED' | 'PENDING' | 'EXPEL';
+  memberList: Member[];
+  isMeetingManager: boolean;
+}
+
+interface IMyMeetingLikes {
+  meetingId: number;
+  categoryTitle: CategoryTitle;
+  title: string;
+  thumbnail: string;
+  location: string;
+  memberCount: number;
+  maxMember: number;
+  likesCount: number;
 }
 
 interface IUserProfile {
@@ -75,4 +101,6 @@ export type {
   IMemberProfile,
   IBanner,
   UserData,
+  IMyMeetingParticipated,
+  IMyMeetingLikes,
 };

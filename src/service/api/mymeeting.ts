@@ -1,6 +1,7 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
 import { Paginated } from 'types/meeting';
 import type { IMemberProfile, IMyMeetingManage } from 'types/myMeeting';
+import { IMyMeetingLikes, IMyMeetingParticipated } from 'types/myMeeting';
 
 import { myMeetingURL } from './endpoints';
 
@@ -15,12 +16,23 @@ const getMyMeetingManage = async (
   return res.data.data;
 };
 
-// 내가 참여하고있는 모임 불러오기기
+// 내가 참여하고있는 모임 불러오기
 const getMyMeetingParticipated = async (
   lastMeetingId: number,
-): Promise<Paginated<IMyMeetingManage>> => {
+): Promise<Paginated<IMyMeetingParticipated>> => {
   const res = await axiosInstance.get(
     `${myMeetingURL.all}?lastMeetingId=${lastMeetingId}&size=${6}`,
+  );
+
+  return res.data.data;
+};
+
+// 내가 찜한 모임 불러오기
+const getMyMeetingLikes = async (
+  lastMeetingId: number,
+): Promise<Paginated<IMyMeetingLikes>> => {
+  const res = await axiosInstance.get(
+    `${myMeetingURL.likes}?lastMeetingId=${lastMeetingId}&size=${6}`,
   );
 
   return res.data.data;
@@ -85,11 +97,26 @@ const putIsPublic = async (meetingId: number) => {
   return res.data.data;
 };
 
+// 참가중인 모임 나가기
+const deleteQuit = async (meetingId: number) => {
+  const res = await axiosInstance.delete(`${myMeetingURL.quit(meetingId)}`);
+  return res.data.data;
+};
+
+// 승인 대기중인 모임 취소하기
+const deleteCancel = async (meetingId: number) => {
+  const res = await axiosInstance.delete(`${myMeetingURL.cancel(meetingId)}`);
+  return res.data.data;
+};
+
 export {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
   getMyMeetingParticipated,
+  getMyMeetingLikes,
   putMemberStatus,
   putExpel,
   putIsPublic,
+  deleteQuit,
+  deleteCancel,
 };
