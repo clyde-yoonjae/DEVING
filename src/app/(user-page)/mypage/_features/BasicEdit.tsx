@@ -164,11 +164,39 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
           <input
             id="name-input"
             type="text"
-            {...register('name', { required: true })}
+            {...register('name', {
+              required: true,
+              validate: (value) => {
+                // 한글만 있는지 확인
+                const isKoreanOnly = /^[가-힣]+$/.test(value);
+
+                // 영어만 있는지 확인
+                const isEnglishOnly = /^[a-zA-Z\s]+$/.test(value);
+
+                if (isKoreanOnly) {
+                  return (
+                    value.length <= 5 ||
+                    '한글 이름은 최대 5글자까지 입력 가능합니다'
+                  );
+                } else if (isEnglishOnly) {
+                  return (
+                    value.length <= 8 ||
+                    '영어 이름은 최대 8글자까지 입력 가능합니다'
+                  );
+                } else {
+                  // 혼합 또는 다른 언어인 경우
+                  return '한글 또는 영어로만 이름을 입력해주세요';
+                }
+              },
+            })}
             className="typo-button1 h-[40px] rounded-[16px] border-b border-Cgray300 bg-Cgray200 px-4 py-2 text-Cgray700 focus:outline-none md:h-[50px]"
           />
           {errors.name && (
-            <span className="text-sm text-warning">이름을 입력해주세요</span>
+            <span className="text-sm text-warning">
+              {errors.name.type === 'required'
+                ? '이름을 입력해주세요'
+                : errors.name.message}
+            </span>
           )}
         </div>
 
