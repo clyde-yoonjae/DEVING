@@ -1,10 +1,12 @@
 'use client';
 
+import Section1Image from '@/assets/images/section1.png';
+import Section2Image from '@/assets/images/section2.png';
 import { Button } from '@/components/ui/Button';
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { ComponentProps, ReactNode, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import DevingLogo from '../assets/icon/devingLogo.svg';
 import GithubIcon from '../assets/icon/github_icon.svg';
@@ -12,10 +14,8 @@ import LandingLogo from '../assets/icon/landing_logo.svg';
 import MediumCheckIcon from '../assets/icon/medium_check_icon.svg';
 import NotionIcon from '../assets/icon/notion_icon.svg';
 import SmallCheckIcon from '../assets/icon/small_check_Icon.svg';
-import Section1Image from '../assets/images/section1.png';
-import Section2Image from '../assets/images/section2.png';
 
-// 타입 정의 - 라이브러리에서 필요한 최소 속성만 정의
+// 타입 정의 - 라이브러리에서 필요한 속성 정확하게 지정
 interface FullPageProps {
   credits: {
     enabled: boolean;
@@ -25,14 +25,12 @@ interface FullPageProps {
   scrollingSpeed: number;
   navigation: boolean;
   navigationPosition: string;
-  responsiveWidth?: number; // 선택적으로 만들어 비활성화 가능
+  responsiveWidth?: number;
   scrollOverflow: boolean;
-  licenseKey?: string;
-  afterLoad?: (destination: { index: number }) => void;
-  // 모바일 터치 관련 옵션 추가
-  touchSensitivity?: number;
-  // bigSectionsDestination 타입을 정확하게 지정
-  bigSectionsDestination?: 'top' | 'bottom' | null;
+  licenseKey: string;
+  afterLoad: (destination: { index: number }) => void;
+  touchSensitivity: number;
+  bigSectionsDestination: 'top' | 'bottom' | null;
   render: (props: { fullpageApi?: unknown }) => JSX.Element;
 }
 
@@ -43,53 +41,48 @@ const FullPage = dynamic(
 );
 
 const FullPageWrapper = dynamic(
-  () =>
-    import('@fullpage/react-fullpage').then((mod) => {
-      return mod.default.Wrapper;
-    }),
+  () => import('@fullpage/react-fullpage').then((mod) => mod.default.Wrapper),
   { ssr: false },
 );
 
-// 애니메이션 설정
-const fadeInUp = {
-  hidden: { opacity: 0, y: 60 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: 'easeOut' },
-  },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
+// 애니메이션 설정을 객체로 분리하여 관리
+const animations = {
+  fadeInUp: {
+    hidden: { opacity: 0, y: 60 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
     },
   },
-};
-
-const popIn = {
-  hidden: { scale: 0.8, opacity: 0 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 200,
-      damping: 10,
+  staggerContainer: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
     },
   },
-};
-
-// 이미지 애니메이션
-const imageAnimation = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.7, ease: 'easeOut' },
+  popIn: {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 200,
+        damping: 10,
+      },
+    },
+  },
+  imageAnimation: {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.7, ease: 'easeOut' },
+    },
   },
 };
 
@@ -100,10 +93,11 @@ const SafeFullPage: React.FC<FullPageProps> = (props) => {
   useEffect(() => {
     setMounted(true);
 
-    // console.error를 재정의하여 라이센스 경고를 제거
+    // 콘솔 경고 필터링을 위한 원본 콘솔 참조 저장
     const originalConsoleError = console.error;
-    console.error = (...args) => {
-      // fullPage 라이센스 관련 메시지 필터링
+
+    // fullPage 라이센스 경고 필터링 함수
+    const filterConsoleError = (...args: Parameters<typeof console.error>) => {
       if (
         typeof args[0] === 'string' &&
         (args[0].includes('fullPage:') ||
@@ -115,7 +109,10 @@ const SafeFullPage: React.FC<FullPageProps> = (props) => {
       originalConsoleError(...args);
     };
 
-    // credits 버튼 숨기기 위한 CSS 추가
+    // 콘솔 오류 필터링 적용
+    console.error = filterConsoleError;
+
+    // 스타일 요소 생성 및 적용
     const style = document.createElement('style');
     style.innerHTML = `
       .fp-watermark, #fp-nav ul li .fp-tooltip, .fp-warning {
@@ -124,7 +121,7 @@ const SafeFullPage: React.FC<FullPageProps> = (props) => {
 
       /* 첫 번째 섹션 스크롤 제거 */
       #fp-nav + .fp-section:first-of-type {
-      overflow: hidden !important;
+        overflow: hidden !important;
       } 
       
       /* fp-auto-height 섹션이 올바르게 표시되도록 스타일 조정 */
@@ -168,31 +165,38 @@ const SafeFullPage: React.FC<FullPageProps> = (props) => {
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
-  // 현재 섹션 상태 추가
   const [currentSection, setCurrentSection] = useState(0);
-  // 모바일 화면 여부 감지
   const [isMobile, setIsMobile] = useState(false);
+
+  // 모바일 감지 함수를 useCallback으로 최적화
+  const checkMobile = useCallback(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  // afterLoad 핸들러를 useCallback으로 최적화
+  const handleAfterLoad = useCallback(
+    (destination: { index: number }): void => {
+      setCurrentSection(destination.index);
+    },
+    [],
+  );
+
+  // 동적 모듈 사전 로드 함수
+  const preloadModules = useCallback(async () => {
+    try {
+      await import('@fullpage/react-fullpage');
+      // console.log 대신 주석으로 처리
+      // console.log('FullPage 모듈 로드 성공');
+    } catch (error) {
+      console.error('FullPage 모듈 로드 실패:', error);
+    }
+  }, []);
 
   useEffect(() => {
     // 컴포넌트 마운트 즉시 상태 변경
     setIsClient(true);
 
-    // 동적 모듈 사전 로드
-    const preloadModules = async () => {
-      try {
-        await import('@fullpage/react-fullpage');
-        console.log('FullPage 모듈 로드 성공');
-      } catch (error) {
-        console.error('FullPage 모듈 로드 실패:', error);
-      }
-    };
-
-    // 기존 모바일 감지 로직
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // 초기 체크
+    // 초기 모바일 체크
     checkMobile();
 
     // 리사이즈 이벤트에 대응
@@ -201,58 +205,38 @@ export default function Home() {
     // 모듈 사전 로드
     preloadModules();
 
-    // 글로벌 콘솔 오류 필터링
-    const originalConsoleError = console.error;
-    console.error = (...args) => {
-      if (
-        typeof args[0] === 'string' &&
-        (args[0].includes('fullPage:') ||
-          args[0].includes('licenseKey') ||
-          args[0].includes('alvarotrigo'))
-      ) {
-        return;
-      }
-      originalConsoleError(...args);
-    };
-
     return () => {
       // 이벤트 리스너 정리
       window.removeEventListener('resize', checkMobile);
-      // 원래의 console.error 복원
-      console.error = originalConsoleError;
     };
-  }, []);
+  }, [checkMobile, preloadModules]);
 
+  // 로딩 상태일 때 표시될 컴포넌트
   if (!isClient) {
-    // 서버 사이드 렌더링 또는 초기 로드 시 기본 레이아웃 표시
     return (
-      <div className="flex h-screen items-center justify-center text-white">
+      <div
+        className="flex h-screen items-center justify-center text-white"
+        role="status"
+      >
+        <span className="sr-only">로딩 중...</span>
         Loading...
       </div>
     );
   }
 
-  // afterLoad 핸들러
-  const handleAfterLoad = (destination: { index: number }): void => {
-    setCurrentSection(destination.index);
-  };
-
   return (
     <SafeFullPage
-      //fullpage options
       credits={{
-        enabled: true, // 라이센스가 없어서 필수로 true 지정
+        enabled: true, // 프로덕션에서는 라이센스 구매 필요
         position: 'right',
       }}
-      scrollingSpeed={1000} // 스크롤 속도
-      navigation={true} // 네비게이션 도트 표시
-      navigationPosition={'right'} // 네비게이션 위치
-      // 모바일에서 스와이프 민감도를 낮춤 (숫자가 클수록 덜 민감)
+      scrollingSpeed={1000}
+      navigation={true}
+      navigationPosition={'right'}
       touchSensitivity={50}
-      // 큰 섹션의 스크롤 동작 설정 (top, bottom, null)
       bigSectionsDestination="top"
       scrollOverflow={false}
-      licenseKey={'null'} // 값을 'null'로 설정하면 라이센스 경고를 최소화할 수 있습니다
+      licenseKey={'YOUR_LICENSE_KEY'} // 프로덕션 환경에서는 라이센스 키 구매 및 입력 필요
       afterLoad={handleAfterLoad}
       render={() => {
         return (
@@ -265,9 +249,9 @@ export default function Home() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={staggerContainer}
+                  variants={animations.staggerContainer}
                 >
-                  <motion.span variants={fadeInUp}>
+                  <motion.span variants={animations.fadeInUp}>
                     개발자와 디자이너의 공간,
                     <br />
                     Deving에서 함께해요!
@@ -278,7 +262,7 @@ export default function Home() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={imageAnimation}
+                  variants={animations.imageAnimation}
                 >
                   <div className="h-[450px] w-full"></div>
                 </motion.div>
@@ -293,17 +277,15 @@ export default function Home() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={imageAnimation}
+                  variants={animations.imageAnimation}
                 >
                   <div className="relative flex w-[375px] items-center justify-center md:w-[648px] lg:w-[436px]">
-                    <Image
-                      src={Section1Image}
+                    <img
+                      src="/section1.png"
                       alt="코드만큼 성장하는 모임"
                       className="md:h-[406px] md:w-[287px] md:rounded-[10px] lg:h-[406px]"
                       width={148}
                       height={210}
-                      style={{ objectFit: 'cover' }}
-                      unoptimized // Next.js의 이미지 최적화를 건너뛰기
                     />
                     <div className="absolute left-[43px] flex flex-col gap-[2.4px] md:left-[99px] md:top-[206px] lg:left-[2px] lg:top-[196px]">
                       <div className="text-[10px] font-semibold leading-[13px] text-Cgray500 md:text-[19.5px] md:leading-[25.5px]">
@@ -321,9 +303,12 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-                    <div className="absolute left-[231px] top-[167px] flex h-[18px] w-[97px] items-center justify-center rounded-[3px] bg-main text-[6px] text-white md:left-[364px] md:top-[293px]  md:h-[33px] md:w-[187px] md:text-[11px] lg:left-[265px] lg:top-[293px]">
+                    <button
+                      className="absolute left-[231px] top-[167px] flex h-[18px] w-[97px] items-center justify-center rounded-[3px] bg-main text-[6px] text-white md:left-[364px] md:top-[293px] md:h-[33px] md:w-[187px] md:text-[11px] lg:left-[265px] lg:top-[293px]"
+                      aria-label="모임 신청하기"
+                    >
                       신청하기
-                    </div>
+                    </button>
                   </div>
                 </motion.div>
                 <motion.div
@@ -331,12 +316,12 @@ export default function Home() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={staggerContainer}
+                  variants={animations.staggerContainer}
                 >
                   <div className="flex w-[375px] flex-col gap-[24px] overflow-hidden whitespace-nowrap px-[16px] md:w-[498px] md:px-0 lg:w-[498px] lg:justify-center lg:pl-[90px]">
                     <motion.h2
                       className="typo-head2 text-Cgray800 md:text-[42px] md:font-extrabold md:leading-[54px] lg:text-[42px] lg:leading-[54px]"
-                      variants={fadeInUp}
+                      variants={animations.fadeInUp}
                     >
                       코드만큼 성장하는 모임,
                       <br />
@@ -344,7 +329,7 @@ export default function Home() {
                     </motion.h2>
                     <motion.div
                       className="typo-head4 text-Cgray700 md:text-[20px] md:font-semibold md:leading-[28px] lg:text-[20px] lg:font-semibold lg:leading-[28px]"
-                      variants={fadeInUp}
+                      variants={animations.fadeInUp}
                     >
                       스터디/모각코/사이드프로젝트/취미까지
                       <br />
@@ -363,12 +348,12 @@ export default function Home() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={staggerContainer}
+                  variants={animations.staggerContainer}
                 >
                   <div className="flex w-[375px] flex-col gap-[24px] overflow-hidden whitespace-nowrap px-[16px] md:w-[498px] md:px-0 lg:justify-center">
                     <motion.h2
                       className="typo-head2 text-Cgray800 md:text-[42px] md:font-extrabold md:leading-[54px] lg:text-[42px] lg:leading-[54px]"
-                      variants={fadeInUp}
+                      variants={animations.fadeInUp}
                     >
                       모임 스타일에 맞게
                       <br />
@@ -376,7 +361,7 @@ export default function Home() {
                     </motion.h2>
                     <motion.div
                       className="typo-head4 text-Cgray700 md:text-[20px] md:font-semibold md:leading-[28px] lg:text-[20px] lg:font-semibold lg:leading-[28px]"
-                      variants={fadeInUp}
+                      variants={animations.fadeInUp}
                     >
                       신청자 정보를 확인하고 승인할 수 있어요.
                       <br />
@@ -389,17 +374,15 @@ export default function Home() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={imageAnimation}
+                  variants={animations.imageAnimation}
                 >
                   <div className="relative flex w-[375px] items-center justify-center md:w-[498px]">
-                    <Image
-                      src={Section2Image}
-                      alt="코드만큼 성장하는 모임"
+                    <img
+                      src="/section2.png"
+                      alt="모임 스타일에 맞는 모임 개설"
                       className="h-[210px] md:h-[406px] md:w-[287px] md:rounded-[10px] lg:h-[406px]"
                       width={148}
                       height={210}
-                      style={{ objectFit: 'cover' }}
-                      unoptimized // Next.js의 이미지 최적화를 건너뛰기
                     />
                     <div className="absolute left-[62px] top-[73px] flex flex-col gap-[2.4px] md:left-0 md:top-[95px] md:gap-[6px]">
                       <div className="text-[5.35px] font-semibold leading-[7px] text-Cgray700 md:text-[12.6px] md:leading-[11.2px]">
@@ -426,9 +409,12 @@ export default function Home() {
                           모임 생성이 완료 되었습니다!
                         </div>
                       </div>
-                      <div className="flex h-[10px] w-[23.5px] items-center justify-center rounded-[2.5px] bg-main text-[4.5px] text-white md:h-[22px] md:w-[48px] md:text-[9.5px]">
+                      <button
+                        className="flex h-[10px] w-[23.5px] items-center justify-center rounded-[2.5px] bg-main text-[4.5px] text-white md:h-[22px] md:w-[48px] md:text-[9.5px]"
+                        aria-label="모임 생성 확인하기"
+                      >
                         확인하기
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -442,7 +428,7 @@ export default function Home() {
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={fadeInUp}
+                  variants={animations.fadeInUp}
                 >
                   <h2 className="typo-head2 text-center text-white md:text-[42px] md:leading-[54px] lg:text-[42px] lg:leading-[54px]">
                     DEVING에서
@@ -451,20 +437,24 @@ export default function Home() {
                   </h2>
                 </motion.div>
                 <motion.div
-                  className=""
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
-                  variants={popIn}
+                  variants={animations.popIn}
                 >
-                  <Button className="">지금 시작하기</Button>
+                  <Button className="" aria-label="Deving 모임 시작하기">
+                    지금 시작하기
+                  </Button>
                 </motion.div>
               </section>
             </div>
 
             {/* 푸터 섹션 - 중요 클래스: section fp-auto-height */}
             <div className="section fp-auto-height">
-              <footer className="flex h-[300px] flex-col items-center gap-[24px] px-[24px] pt-[60px] md:gap-[32px] md:px-[48px] md:pb-[60px] md:pt-[66px] lg:px-[230px]">
+              <footer
+                className="flex h-[300px] flex-col items-center gap-[24px] px-[24px] pt-[60px] md:h-[300px] md:gap-[32px] md:px-[48px] md:pb-[60px] md:pt-[66px] lg:h-[300px] lg:px-[230px]"
+                role="contentinfo"
+              >
                 <motion.div
                   className="flex w-full justify-center gap-[12px]"
                   initial={{ opacity: 0 }}
@@ -484,12 +474,18 @@ export default function Home() {
                 </div>
                 <div className="w-full border border-Cgray200 lg:w-[1460px]"></div>
                 <div className="flex gap-2">
-                  <div>
+                  <a
+                    href="https://github.com/your-github"
+                    aria-label="GitHub 계정 방문하기"
+                  >
                     <GithubIcon />
-                  </div>
-                  <div>
+                  </a>
+                  <a
+                    href="https://notion.so/your-notion"
+                    aria-label="Notion 페이지 방문하기"
+                  >
                     <NotionIcon />
-                  </div>
+                  </a>
                 </div>
               </footer>
             </div>
