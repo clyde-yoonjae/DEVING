@@ -44,11 +44,12 @@ const RecommendMeeting = () => {
           scrollbarWidth: 'thin',
           scrollbarColor: '#a0aec0 transparent',
         }}
-        className="hidden overflow-hidden overflow-x-auto pb-4 md:flex lg:flex"
+        className={`hidden overflow-hidden overflow-x-auto pb-4 md:flex lg:flex`}
       >
         {meetings?.map((meeting: TopMeeting) => (
           <VerticalCard
             onClick={handleMoveDetailPage}
+            className="animate-slideDown hover:animate-slideUp"
             category={translateCategoryNameToKor(categoryStr)}
             key={meeting.meetingId}
             meetingId={meeting.meetingId}

@@ -61,6 +61,10 @@ interface Paginated<T> {
   empty: boolean;
 }
 
+interface ErrorData {
+  data: { entityType: string; errorMessage: string; request: string };
+}
+
 export type {
   CategoryTitle,
   TopMeeting,
@@ -69,4 +73,5 @@ export type {
   SearchMeeting,
   IMeetingSearchCondition,
   Paginated,
+  ErrorData,
 };

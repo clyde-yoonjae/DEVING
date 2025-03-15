@@ -107,7 +107,7 @@ const MeetingList = () => {
   }
 
   return (
-    <div className="mt-[126px]">
+    <div className="mt-12">
       <div className="typo-head1 mb-10 px-4 text-Cgray800">
         {translateCategoryNameToKor(categoryStr)} 모임 목록
       </div>
@@ -143,8 +143,9 @@ const MeetingList = () => {
       {/* 모임 리스트 웹뷰 */}
       {breakpoint === 'desktop' && (
         <div className="flex-col sm:hidden lg:flex">
-          {allMeetings.map((meeting) => (
+          {allMeetings.map((meeting, index) => (
             <HorizonCard
+              className={`animate-fadeInUp ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
               onClick={handleMoveDetailPage}
               key={meeting.meetingId}
               meetingId={meeting.meetingId}
@@ -179,10 +180,10 @@ const MeetingList = () => {
       {/* 모임 리스트 테블릿뷰 */}
       {breakpoint === 'tablet' && (
         <div className="hidden flex-col md:flex lg:hidden">
-          {allMeetings.map((meeting) => (
+          {allMeetings.map((meeting, index) => (
             <HorizonCard
               onClick={handleMoveDetailPage}
-              className="items-center"
+              className={`animate-fadeInUp items-center ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
               key={meeting.meetingId}
               meetingId={meeting.meetingId}
               category={translateCategoryNameToKor(categoryStr)}
@@ -218,10 +219,10 @@ const MeetingList = () => {
       {/* 모임 리스트 모바일뷰 */}
       {breakpoint === 'mobile' && (
         <div className="flex w-full flex-wrap items-center justify-center md:hidden lg:hidden">
-          {allMeetings.map((meeting) => (
+          {allMeetings.map((meeting, index) => (
             <VerticalCard
               onClick={handleMoveDetailPage}
-              className="h-[380px]"
+              className={`h-[380px] animate-fadeInUp items-center ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
               thumbnailHeight={160}
               thumbnailWidth={311}
               category={translateCategoryNameToKor(categoryStr)}
