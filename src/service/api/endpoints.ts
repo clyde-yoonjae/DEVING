@@ -54,6 +54,8 @@ export const memberURL = {
 // 미팅 관련 API 엔드포인트
 export const meetingURL = {
   create: `${CURRENT_API_VERSION}/meetings`,
+  update: (meetingId: number) =>
+    `${CURRENT_API_VERSION}/mymeetings/manage/${meetingId}`,
   search: `${CURRENT_API_VERSION}/meetings/search`,
   top: `${CURRENT_API_VERSION}/meetings/top`,
   detail: (meetingId: number) =>
