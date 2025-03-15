@@ -19,8 +19,6 @@ import {
 } from 'service/api/user';
 import { ISignupFormData } from 'types/auth';
 
-import { QUERY_KEYS } from '../queries/useMyPageQueries';
-
 const useLoginMutation = ({
   onSuccessCallback,
 }: {
@@ -121,11 +119,18 @@ const useSignupMutation = ({
 // 로그아웃
 const useLogoutMutation = () => {
   const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: () => deleteLogout(),
     onSuccess: async () => {
+      // 토큰 삭제
       await removeAccessToken();
       await removeRefreshToken();
+
+      // 모든 캐시 지우기
+      queryClient.invalidateQueries();
+
       // 로그아웃 관련 토스트바 노출
       showToast('로그아웃 되었습니다.', 'success');
     },
