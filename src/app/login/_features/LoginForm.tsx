@@ -16,7 +16,7 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex w-[544px] flex-col gap-[28px] rounded-[16px] bg-BG_2 p-[40px]"
+      className="flex min-w-[343px] flex-col gap-[28px] rounded-[16px] bg-BG_2 p-[40px] md:min-w-[544px]"
     >
       <div>
         <h2 className="typo-head2 mb-[40px] text-center text-white">로그인</h2>
