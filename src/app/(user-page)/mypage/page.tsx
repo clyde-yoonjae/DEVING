@@ -21,7 +21,6 @@ export default async function MyPage() {
         <div className="md:mb-8">
           <ProfileImage />
         </div>
-
         <Suspense fallback={<SkeletonBasicInfo />}>
           <MyPageClient />
         </Suspense>

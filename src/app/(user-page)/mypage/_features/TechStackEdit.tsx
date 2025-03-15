@@ -2,17 +2,24 @@
 
 import { Button } from '@/components/ui/Button';
 import { useUpdateSkillsMutation } from '@/hooks/mutations/useMyPageMutation';
-// Button 컴포넌트 import 추가
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import useTechSelection from '@/hooks/useTechSelection';
 import { getIconColor, getIconsByCategory } from '@/util/getIconDetail';
-import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { CategoryType } from 'types/techStack';
 
 import CategoryTabs from '../../../../components/ui/tech-stack/tech-stack-components/CategoryTabs';
 import SelectedTechList from '../../../../components/ui/tech-stack/tech-stack-components/SelectedTechList';
 import TechButtonList from '../../../../components/ui/tech-stack/tech-stack-components/TechButtonList';
+import {
+  BUTTON_ACTIONS,
+  BUTTON_OUTLINE,
+  BUTTON_PRIMARY,
+  LABEL_EDIT,
+  LOADING_STATE,
+  TECH_CONTAINER,
+  TECH_HEADER,
+} from '../../../../constants/mypage/mypageCss';
 
 interface TechStackEditProps {
   onEditComplete: () => void;
@@ -23,7 +30,6 @@ const TechStackEdit = ({
   onEditComplete,
   maxSelections = 999,
 }: TechStackEditProps) => {
-  const queryClient = useQueryClient(); // 추가: 직접 queryClient 참조
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
 
   // 초기화 여부를 추적하는 플래그
@@ -64,22 +70,19 @@ const TechStackEdit = ({
   const handleSave = () => {
     updateSkills(selectedNames, {
       onSuccess: () => {
-        // 추가: 성공 후 강제로 프로필 데이터를 다시 불러오기
-        queryClient.invalidateQueries({ queryKey: ['profile'] });
-        queryClient.refetchQueries({ queryKey: ['profile'] });
         onEditComplete();
       },
     });
   };
 
   if (isLoading) {
-    return <div className="py-4 text-center">로딩 중...</div>;
+    return <div className={LOADING_STATE}>로딩 중...</div>;
   }
 
   return (
-    <div className="rounded-lg border border-Cgray300 bg-BG p-[32px]">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="typo-head3 text-main">기술 스택 편집</div>
+    <div className={TECH_CONTAINER}>
+      <div className={TECH_HEADER}>
+        <div className={LABEL_EDIT}>기술 스택 편집</div>
       </div>
 
       {/* 선택된 기술 목록 */}
@@ -110,18 +113,18 @@ const TechStackEdit = ({
         className="bg-transparent"
       />
 
-      <div className="mt-4 flex justify-between">
+      <div className={BUTTON_ACTIONS}>
         <Button
           type="button"
           variant="outline"
-          className="h-[40px] w-[140px] md:h-[46px]"
+          className={BUTTON_OUTLINE}
           onClick={onEditComplete}
         >
           취소
         </Button>
         <Button
           type="button"
-          className="h-[40px] w-[140px] select-none md:h-[46px]"
+          className={BUTTON_PRIMARY}
           disabled={isUpdating}
           onClick={handleSave}
         >
