@@ -331,9 +331,9 @@ export default function Home() {
           <FullPageWrapper>
             <div className="section">
               {/* 히어로 섹션 */}
-              <main className="md:short:h-auto md:short:pt-[40px] md:h-[1085px] lg:h-[1168px] lg:pt-[83px]">
+              <main className="md:h-[1085px] lg:h-[1168px] lg:pt-[83px] md:short:h-auto md:short:pt-[40px]">
                 <motion.h1
-                  className="md:short:pt-[80px] md:short:text-[32px] md:short:leading-[41px] flex justify-center overflow-hidden whitespace-nowrap pt-[140px] text-center text-[32px] font-semibold leading-[41px] text-solid md:pt-[151px] md:text-[56px] md:leading-[90px] lg:pt-[100px] lg:text-[72px] lg:leading-[90px]"
+                  className="flex justify-center overflow-hidden whitespace-nowrap pt-[180px] text-center text-[32px] font-semibold leading-[41px] text-solid md:pt-[180px] md:text-[56px] md:leading-[90px] lg:pt-[100px] lg:text-[72px] lg:leading-[90px] md:short:pt-[80px] md:short:text-[32px] md:short:leading-[41px]"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
@@ -346,14 +346,66 @@ export default function Home() {
                   </motion.span>
                 </motion.h1>
                 <motion.div
-                  className="md:short:px-0 md:short:pb-[40px] md:short:pt-[40px] flex justify-center py-[60px] md:px-[48px] md:pb-[102px] md:pt-[124px] lg:px-[115px] lg:pb-[76px] lg:pt-[124px]"
+                  className="flex justify-center py-[60px] md:px-[48px] md:pb-[102px] md:pt-[40px] lg:px-[115px] lg:pb-[76px] lg:pt-[124px] md:short:px-0 md:short:pb-[40px] md:short:pt-[40px]"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={animations.imageAnimation}
                 >
                   {/* Next.js Image 대신 일반 img 태그 사용 */}
-                  <div className="md:short:h-[300px] relative flex h-[450px] w-full justify-center"></div>
+                  <div className="relative flex h-[450px] w-[375px] justify-center md:w-[744px] lg:w-[1110px] md:short:h-[300px]">
+                    <img
+                      src="/white_cat.png"
+                      alt="고양이"
+                      className="absolute left-[164px] top-[30px] h-[62px] w-[61px] md:left-[342px] md:h-[82px] md:w-[81px] lg:left-[480px] lg:top-[0px] lg:h-[122px] lg:w-[121px]"
+                    />
+                    <img
+                      src="/headset.png"
+                      alt="고양이"
+                      className="absolute left-[164px] top-[32px] h-[30px] w-[57px] md:left-[342px] md:top-[30px] md:h-[40px] md:w-[76px] lg:left-[480px] lg:top-[0px] lg:h-[59px] lg:w-[113px]"
+                    />
+                    <img
+                      src="/basketball.png"
+                      alt="고양이"
+                      className="absolute left-[165px] top-[72px] h-[18px] w-[18px] md:left-[342px] md:top-[90px] md:h-[24px] md:w-[24px] lg:left-[480px] lg:top-[80px] lg:h-[36px] lg:w-[36px]"
+                    />
+                    <img
+                      src="/heart_notebook.png"
+                      alt="고양이"
+                      className="absolute left-[52px] top-[154px] h-[44px] w-[55px] md:left-[80px] md:top-[136px] md:h-[58px] md:w-[73px] lg:left-[130px] lg:top-[130px] lg:h-[86px] lg:w-[109px]"
+                    />
+                    <img
+                      src="/beige_cat.png"
+                      alt="고양이"
+                      className="absolute left-[32px] top-[175px] h-[66px] w-[54px] md:left-[40px] md:top-[170px] md:h-[88px] md:w-[71px] lg:left-[70px] lg:top-[180px] lg:h-[131px] lg:w-[106px]"
+                    />
+                    <img
+                      src="/yellow_cat.png"
+                      alt="고양이"
+                      className="absolute left-[0px] top-[163px] h-[59px] w-[60px] md:left-[0px] md:top-[145px] md:h-[79px] md:w-[80px] lg:left-[10px] lg:top-[140px] lg:h-[117px] lg:w-[119px]"
+                    />
+                    <img
+                      src="/read_cat.png"
+                      alt="고양이"
+                      className="absolute left-[300px] top-[132px] h-[73px] w-[66px] md:left-[617px] md:top-[128px] md:h-[97px] md:w-[87px] lg:left-[900px] lg:top-[120px] lg:h-[144px] lg:w-[130px]"
+                    />
+
+                    <img
+                      src="/white_notebook_cat.png"
+                      alt="고양이"
+                      className="absolute left-[114px] top-[355px] h-[74px] w-[57px] md:left-[244px] md:top-[319px] md:h-[98px] md:w-[75px] lg:left-[372px] lg:top-[324px] lg:h-[146px] lg:w-[112px]"
+                    />
+                    <img
+                      src="/front_notebook.png"
+                      alt="고양이"
+                      className="absolute left-[263px] top-[298px] h-[51px] w-[40px] md:left-[456px] md:top-[269px] md:h-[67px] md:w-[53px] lg:left-[598px] lg:top-[280px] lg:h-[100px] lg:w-[79px]"
+                    />
+                    <img
+                      src="/gray_cat.png"
+                      alt="고양이"
+                      className="absolute left-[300px] top-[290px] h-[67px] w-[54px] md:left-[502px] md:top-[259px] md:h-[89px] md:w-[72px] lg:left-[668px] lg:top-[270px] lg:h-[133px] lg:w-[108px]"
+                    />
+                  </div>
                 </motion.div>
               </main>
             </div>
@@ -362,15 +414,15 @@ export default function Home() {
               {/* 섹션 1: 성장하는 커뮤니티 */}
               <section className="flex flex-col gap-[32px] py-[65px] md:gap-[48px] md:px-[48px] md:py-[44px] lg:flex-row lg:px-[115px] lg:py-[162px]">
                 <motion.div
-                  className="md:short:h-[220px] flex h-[220px] w-full justify-center md:h-[436px] lg:justify-start"
+                  className="flex h-[220px] w-full justify-center md:h-[436px] lg:justify-start md:short:h-[220px]"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={animations.imageAnimation}
                 >
-                  <div className="md:short:w-[375px] relative flex w-[375px] items-center justify-center md:w-[648px] lg:w-[436px]">
+                  <div className="relative flex w-[375px] items-center justify-center md:w-[648px] lg:w-[436px] md:short:w-[375px]">
                     {/* Next.js Image 대신 일반 img 태그 사용 */}
-                    <div className="md:short:h-[210px] md:short:w-[148px] relative h-[210px] w-[148px] md:h-[406px] md:w-[287px]">
+                    <div className="relative h-[210px] w-[148px] md:h-[406px] md:w-[287px] md:short:h-[210px] md:short:w-[148px]">
                       <img
                         src="/section1.png"
                         alt="코드만큼 성장하는 모임"
@@ -380,24 +432,24 @@ export default function Home() {
                         }
                       />
                     </div>
-                    <div className="md:short:left-[43px] md:short:top-auto absolute left-[43px] flex flex-col gap-[2.4px] md:left-[99px] md:top-[206px] lg:left-[2px] lg:top-[196px]">
-                      <div className="md:short:text-[10px] md:short:leading-[13px] text-[10px] font-semibold leading-[13px] text-Cgray500 md:text-[19.5px] md:leading-[25.5px]">
+                    <div className="absolute left-[43px] flex flex-col gap-[2.4px] md:left-[99px] md:top-[206px] lg:left-[2px] lg:top-[196px] md:short:left-[43px] md:short:top-auto">
+                      <div className="text-[10px] font-semibold leading-[13px] text-Cgray500 md:text-[19.5px] md:leading-[25.5px] md:short:text-[10px] md:short:leading-[13px]">
                         모임 시작
                       </div>
                       <div className="flex gap-[2.4px] text-[20px] leading-[24.5px] text-Cgray800">
-                        <div className="md:short:text-[20px] md:short:leading-[24.5px] text-[20px] font-semibold leading-[24.5px] md:text-[39px] md:leading-[47px]">
+                        <div className="text-[20px] font-semibold leading-[24.5px] md:text-[39px] md:leading-[47px] md:short:text-[20px] md:short:leading-[24.5px]">
                           D-
                         </div>
-                        <div className="md:short:text-[20px] md:short:leading-[24.5px] text-[20px] font-semibold leading-[24.5px] md:text-[39px] md:leading-[47px]">
+                        <div className="text-[20px] font-semibold leading-[24.5px] md:text-[39px] md:leading-[47px] md:short:text-[20px] md:short:leading-[24.5px]">
                           7
                         </div>
-                        <div className="md:short:text-[9.5px] md:short:leading-[13px] flex items-end pb-[3.5px] text-[9.5px] leading-[13px] md:text-[18.5px] md:leading-[25.4px]">
+                        <div className="flex items-end pb-[3.5px] text-[9.5px] leading-[13px] md:text-[18.5px] md:leading-[25.4px] md:short:text-[9.5px] md:short:leading-[13px]">
                           일
                         </div>
                       </div>
                     </div>
                     <button
-                      className="md:short:left-[231px] md:short:top-[167px] md:short:h-[18px] md:short:w-[97px] md:short:text-[6px] absolute left-[231px] top-[167px] flex h-[18px] w-[97px] items-center justify-center rounded-[3px] bg-main text-[6px] text-white md:left-[364px] md:top-[293px] md:h-[33px] md:w-[187px] md:text-[11px] lg:left-[265px] lg:top-[293px]"
+                      className="absolute left-[231px] top-[167px] flex h-[18px] w-[97px] items-center justify-center rounded-[3px] bg-main text-[6px] text-white md:left-[364px] md:top-[293px] md:h-[33px] md:w-[187px] md:text-[11px] lg:left-[265px] lg:top-[293px] md:short:left-[231px] md:short:top-[167px] md:short:h-[18px] md:short:w-[97px] md:short:text-[6px]"
                       aria-label="모임 신청하기"
                     >
                       신청하기
@@ -463,15 +515,15 @@ export default function Home() {
                   </div>
                 </motion.div>
                 <motion.div
-                  className="md:short:h-[220px] flex h-[220px] w-full justify-center md:h-[436px] lg:justify-end"
+                  className="flex h-[220px] w-full justify-center md:h-[436px] lg:justify-end md:short:h-[220px]"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={animations.imageAnimation}
                 >
-                  <div className="md:short:w-[375px] relative flex w-[375px] items-center justify-center md:w-[498px]">
+                  <div className="relative flex w-[375px] items-center justify-center md:w-[498px] md:short:w-[375px]">
                     {/* Next.js Image 대신 일반 img 태그 사용 */}
-                    <div className="md:short:h-[210px] md:short:w-[148px] relative h-[210px] w-[148px] md:h-[406px] md:w-[287px]">
+                    <div className="relative h-[210px] w-[148px] md:h-[406px] md:w-[287px] md:short:h-[210px] md:short:w-[148px]">
                       <img
                         src="/section2.png"
                         alt="모임 스타일에 맞는 모임 개설"
@@ -481,16 +533,16 @@ export default function Home() {
                         }
                       />
                     </div>
-                    <div className="md:short:left-[62px] md:short:top-[73px] md:short:gap-[2.4px] absolute left-[62px] top-[73px] flex flex-col gap-[2.4px] md:left-0 md:top-[95px] md:gap-[6px]">
-                      <div className="md:short:text-[5.35px] md:short:leading-[7px] text-[5.35px] font-semibold leading-[7px] text-Cgray700 md:text-[12.6px] md:leading-[11.2px]">
+                    <div className="absolute left-[62px] top-[73px] flex flex-col gap-[2.4px] md:left-0 md:top-[95px] md:gap-[6px] md:short:left-[62px] md:short:top-[73px] md:short:gap-[2.4px]">
+                      <div className="text-[5.35px] font-semibold leading-[7px] text-Cgray700 md:text-[12.6px] md:leading-[11.2px] md:short:text-[5.35px] md:short:leading-[7px]">
                         모임 공개 여부
                       </div>
-                      <div className="md:short:h-[16px] md:short:w-[63px] md:short:px-[5px] md:short:text-[5px] flex h-[16px] w-[63px] items-center rounded-[2.5px] border-[0.5px] border-main bg-Cgray200 px-[5px] text-[5px] text-Cgray700 md:h-[32.2px] md:w-[132px] md:px-[8.1px] md:text-[8px]">
+                      <div className="flex h-[16px] w-[63px] items-center rounded-[2.5px] border-[0.5px] border-main bg-Cgray200 px-[5px] text-[5px] text-Cgray700 md:h-[32.2px] md:w-[132px] md:px-[8.1px] md:text-[8px] md:short:h-[16px] md:short:w-[63px] md:short:px-[5px] md:short:text-[5px]">
                         비공개
                       </div>
                     </div>
-                    <div className="md:short:left-[210px] md:short:top-[156px] md:short:h-[20px] md:short:w-[101px] md:short:gap-[5px] md:short:px-[5px] absolute left-[210px] top-[156px] flex h-[20px] w-[101px] items-center justify-center gap-[5px] rounded-[6.25px] border-[0.5px] border-main bg-BG px-[5px] md:left-[282px] md:top-[293px] md:h-[45px] md:w-[220px] md:gap-[10px]">
-                      <div className="md:short:gap-[3.1px] flex gap-[3.1px] md:gap-[6.2px]">
+                    <div className="absolute left-[210px] top-[156px] flex h-[20px] w-[101px] items-center justify-center gap-[5px] rounded-[6.25px] border-[0.5px] border-main bg-BG px-[5px] md:left-[282px] md:top-[293px] md:h-[45px] md:w-[220px] md:gap-[10px] md:short:left-[210px] md:short:top-[156px] md:short:h-[20px] md:short:w-[101px] md:short:gap-[5px] md:short:px-[5px]">
+                      <div className="flex gap-[3.1px] md:gap-[6.2px] md:short:gap-[3.1px]">
                         {typeof isMobile !== 'undefined' &&
                           (isMobile ? (
                             <SmallCheckIcon
@@ -503,12 +555,12 @@ export default function Home() {
                               aria-hidden="true"
                             />
                           ))}
-                        <div className="md:short:text-[4px] text-[4px] text-white md:text-[9px]">
+                        <div className="text-[4px] text-white md:text-[9px] md:short:text-[4px]">
                           모임 생성이 완료 되었습니다!
                         </div>
                       </div>
                       <button
-                        className="md:short:h-[10px] md:short:w-[23.5px] md:short:text-[4.5px] flex h-[10px] w-[23.5px] items-center justify-center rounded-[2.5px] bg-main text-[4.5px] text-white md:h-[22px] md:w-[48px] md:text-[9.5px]"
+                        className="flex h-[10px] w-[23.5px] items-center justify-center rounded-[2.5px] bg-main text-[4.5px] text-white md:h-[22px] md:w-[48px] md:text-[9.5px] md:short:h-[10px] md:short:w-[23.5px] md:short:text-[4.5px]"
                         aria-label="모임 생성 확인하기"
                       >
                         확인하기
