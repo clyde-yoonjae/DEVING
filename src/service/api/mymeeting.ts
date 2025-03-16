@@ -1,7 +1,11 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
 import { Paginated } from 'types/meeting';
 import type { IMemberProfile, IMyMeetingManage } from 'types/myMeeting';
-import { IMyMeetingLikes, IMyMeetingParticipated } from 'types/myMeeting';
+import {
+  IMyMeetingLikes,
+  IMyMeetingParticipated,
+  IMyMeetingPending,
+} from 'types/myMeeting';
 
 import { myMeetingURL } from './endpoints';
 
@@ -22,6 +26,17 @@ const getMyMeetingParticipated = async (
 ): Promise<Paginated<IMyMeetingParticipated>> => {
   const res = await axiosInstance.get(
     `${myMeetingURL.all}?lastMeetingId=${lastMeetingId}&size=${6}`,
+  );
+
+  return res.data.data;
+};
+
+// 승인 대기중인 모임 불러오기
+const getMyMeetingPending = async (
+  lastMeetingId: number,
+): Promise<Paginated<IMyMeetingPending>> => {
+  const res = await axiosInstance.get(
+    `${myMeetingURL.pending}?lastMeetingId=${lastMeetingId}&size=${2}`,
   );
 
   return res.data.data;
@@ -119,4 +134,5 @@ export {
   putIsPublic,
   deleteQuit,
   deleteCancel,
+  getMyMeetingPending,
 };

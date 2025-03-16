@@ -10,10 +10,15 @@ import { MY_MEETING_TAB_LIST } from 'constants/mypage/mypageConstant';
 import {
   getMyMeetingManage,
   getMyMeetingParticipated,
+  getMyMeetingPending,
 } from 'service/api/mymeeting';
 import { getBanner } from 'service/api/mypageProfile';
 import { Paginated } from 'types/meeting';
-import { IMyMeetingManage, IMyMeetingParticipated } from 'types/myMeeting';
+import {
+  IMyMeetingManage,
+  IMyMeetingParticipated,
+  IMyMeetingPending,
+} from 'types/myMeeting';
 
 import Created from '../_features/Created';
 import Participated from '../_features/Participated';
@@ -45,13 +50,22 @@ export default async function Page({
     });
   } else {
     // 내가 참여하고있는 모임 prefetch
-    await queryClient.prefetchInfiniteQuery({
-      queryKey: myMeetingKeys.participated(),
-      queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
-      getNextPageParam: (lastPage: Paginated<IMyMeetingParticipated>) =>
-        lastPage.nextCursor ?? false,
-      initialPageParam: 0,
-    });
+    await Promise.all([
+      queryClient.prefetchInfiniteQuery({
+        queryKey: myMeetingKeys.participated(),
+        queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
+        getNextPageParam: (lastPage: Paginated<IMyMeetingParticipated>) =>
+          lastPage.nextCursor ?? false,
+        initialPageParam: 0,
+      }),
+      queryClient.prefetchInfiniteQuery({
+        queryKey: myMeetingKeys.pending(),
+        queryFn: ({ pageParam }) => getMyMeetingPending(pageParam),
+        getNextPageParam: (lastPage: Paginated<IMyMeetingPending>) =>
+          lastPage.nextCursor ?? false,
+        initialPageParam: 0,
+      }),
+    ]);
   }
 
   return (

@@ -28,6 +28,7 @@ export const myMeetingURL = {
   manage: `${CURRENT_API_VERSION}/mymeetings/manage`,
   likes: `${CURRENT_API_VERSION}/mymeetings/likes`,
   all: `${CURRENT_API_VERSION}/mymeetings/all`,
+  pending: `${CURRENT_API_VERSION}/mymeetings/pending`,
   quit: (meetingId: number) =>
     `${CURRENT_API_VERSION}/mymeetings/quit/${meetingId}`,
   cancel: (meetingId: number) =>
