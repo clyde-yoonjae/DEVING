@@ -35,14 +35,12 @@ const LoginForm = () => {
             errors={errors}
             trigger={trigger}
           />
-          <div className="flex justify-between sm:hidden sm:flex-col sm:gap-[8px]">
-            <p className="text-Cgray700 sm:text-[14px]">
-              비밀번호를 잊으셨나요?
-            </p>
-            <Link href="/" className="text-main underline sm:text-[14px]">
+          {/* <div className="flex justify-between">
+            <p className="text-Cgray700">비밀번호를 잊으셨나요?</p>
+            <Link href="/" className="text-main underline">
               비밀번호 수정
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex flex-col gap-[16px] sm:gap-[12px]">

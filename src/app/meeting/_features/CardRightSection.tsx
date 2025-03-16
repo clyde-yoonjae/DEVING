@@ -1,15 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import { meetingKeys } from '@/hooks/queries/useMeetingQueries';
-import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
 import { getAccessToken } from '@/lib/serverActions';
 import { getDDay } from '@/util/date';
 import { translateCategoryNameToEng } from '@/util/searchFilter';
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { MeetingDetail, MeetingManager } from 'service/api/meeting';
-import { IBanner } from 'types/myMeeting';
+import { MeetingDetail } from 'service/api/meeting';
 
 const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
   const router = useRouter();
@@ -35,14 +31,7 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
     router.push('/my-meeting/my?type=created');
   };
 
-  const queryClient = useQueryClient();
-  const leader = queryClient.getQueryData<MeetingManager>(
-    meetingKeys.detailInfoUser(meeting.meetingId),
-  );
-  const user = queryClient.getQueryData<IBanner>(QUERY_KEYS.banner());
-
-  const status =
-    leader?.email === user?.email ? 'LEADER' : meeting.memberStatus;
+  const status = meeting.isMeetingManager ? 'LEADER' : meeting.memberStatus;
 
   return (
     <div className="flex w-full flex-col justify-end gap-[24px] py-[16px] md:p-[16px] lg:h-[208px] lg:w-[318px]">
