@@ -36,7 +36,7 @@ const getMyMeetingPending = async (
   lastMeetingId: number,
 ): Promise<Paginated<IMyMeetingPending>> => {
   const res = await axiosInstance.get(
-    `${myMeetingURL.pending}?lastMeetingId=${lastMeetingId}&size=${2}`,
+    `${myMeetingURL.pending}?lastMeetingId=${lastMeetingId}&size=${6}`,
   );
 
   return res.data.data;
