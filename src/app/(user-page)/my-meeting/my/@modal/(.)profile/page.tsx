@@ -41,9 +41,10 @@ export default function UserListModal({
         setMemberStatus: 'APPROVED',
         userId: selectedUser.userId,
       });
+      router.replace(`/my-meeting/my?type=created`, { scroll: false });
+    } else {
+      router.back();
     }
-
-    router.back();
   };
 
   const handleSecondModalCancel = () => {
@@ -54,14 +55,16 @@ export default function UserListModal({
         setMemberStatus: 'REJECTED',
         userId: selectedUser.userId,
       });
+      router.replace(`/my-meeting/my?type=created`, { scroll: false });
     } else if (memberStatus === 'APPROVED') {
       expelMutate({
         setMemberStatus: 'EXPEL',
         userId: selectedUser.userId,
       });
+      router.replace(`/my-meeting/my?type=created`, { scroll: false });
+    } else {
+      router.back();
     }
-
-    router.back();
   };
 
   if (!selectedUser) return <SkeletonProfile />;

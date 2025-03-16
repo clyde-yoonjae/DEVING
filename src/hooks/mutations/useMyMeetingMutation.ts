@@ -91,6 +91,9 @@ const useMemberStatusMutation = (meetingId: number) => {
       queryClient.invalidateQueries({
         queryKey: myMeetingKeys.memberProfile(meetingId, variables.userId),
       });
+      queryClient.invalidateQueries({
+        queryKey: ['mymeeting', 'memberList', meetingId],
+      });
     },
     onError: (error: AxiosError) => {
       if (error.response?.status) {
