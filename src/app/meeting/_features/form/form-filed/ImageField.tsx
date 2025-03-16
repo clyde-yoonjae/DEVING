@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/Button';
 import { validateImageSize, validateImageType } from '@/util/base64';
 import { IMAGE_CONFIG } from 'constants/meeting-form/meetingConstants';
@@ -12,9 +14,14 @@ import { imageValidationMessages } from '../validation';
 interface ImageFieldProps {
   required?: boolean;
   maxSizeMB?: number;
+  imageUrl?: string; // 추가: 이미지 URL을 위한 프로퍼티
 }
 
-const ImageField = ({ required = true, maxSizeMB = 5 }: ImageFieldProps) => {
+const ImageField = ({
+  required = true,
+  maxSizeMB = 5,
+  imageUrl: initialImageUrl,
+}: ImageFieldProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [showError, setShowError] = useState(false);
 
@@ -25,24 +32,31 @@ const ImageField = ({ required = true, maxSizeMB = 5 }: ImageFieldProps) => {
     formState: { errors, isSubmitted },
     getValues,
     watch,
-  } = useFormContext<CreateMeetingPayload>();
+  } = useFormContext<CreateMeetingPayload & { imageUrl?: string }>();
 
   const imageName = watch('imageName');
 
   // 컴포넌트 초기 렌더링 시 기존 이미지가 있으면 미리보기 설정
   useEffect(() => {
+    // 기존 이미지 URL이 있는 경우 (수정 모드)
+    if (initialImageUrl) {
+      setImagePreview(initialImageUrl);
+      return;
+    }
+
+    // 기존 base64 이미지가 있는 경우
     const existingImageName = getValues('imageName');
     const imageBase64 = getValues('imageEncodedBase64');
 
     if (existingImageName && imageBase64) {
       setImagePreview(`data:image/jpeg;base64,${imageBase64}`);
     }
-  }, [getValues]);
+  }, [initialImageUrl, getValues]);
 
   // 사용자가 상호작용한 경우에만 에러 메시지 표시
   useEffect(() => {
     if (isSubmitted || showError) {
-      if (required && !imageName) {
+      if (required && !imageName && !imagePreview) {
         setError('imageName', {
           type: 'manual',
           message: imageValidationMessages.required,
@@ -51,7 +65,15 @@ const ImageField = ({ required = true, maxSizeMB = 5 }: ImageFieldProps) => {
         clearErrors('imageName');
       }
     }
-  }, [imageName, isSubmitted, required, setError, clearErrors, showError]);
+  }, [
+    imageName,
+    imagePreview,
+    isSubmitted,
+    required,
+    setError,
+    clearErrors,
+    showError,
+  ]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;

@@ -7,6 +7,7 @@ import { translateCategoryNameToKor } from '@/util/searchFilter';
 import { useQueryClient } from '@tanstack/react-query';
 import { MEETING_TYPES } from 'constants/category/category';
 import { Menu } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -68,7 +69,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
           sideOffset={10}
           imageProps={{
             component: (
-              <div className="flex items-center bg-transparent">
+              <div className="flex flex-row items-center bg-transparent">
                 <div className="group relative h-10 w-10">
                   <div className="absolute inset-0 -m-1 rounded-full border-2 border-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                   <Image
@@ -117,29 +118,31 @@ const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   const { mutate } = useLogoutMutation();
   return (
     <div className="flex flex-col py-[24px]">
-      <div className="flex items-center justify-between">
-        <button
-          className="typo-head3 p-[16px] text-Cgray500 hover:text-Cgray700"
-          onClick={() => mutate()}
-        >
-          로그아웃
-        </button>
-        <div className="flex">
+      <div className="flex flex-col items-center justify-between">
+        <div className="flex flex-col items-center gap-4">
           <Image
             width={40}
             height={40}
-            className="h-[40px] w-[40px] rounded-full"
+            className="h-[60px] w-[60px] rounded-full"
             src={userInfo.profilePic}
             alt="프로필 이미지"
           />
           <span
             title={userInfo.name}
-            className="typo-head3 m-auto w-[77px] truncate text-center text-white"
+            className="typo-head3 m-auto mb-4 w-full whitespace-nowrap text-center text-white"
           >
             {userInfo.name}
           </span>
         </div>
       </div>
+      <button
+        className="typo-head3 flex items-center gap-2 self-start p-[16px] text-left text-warning hover:text-Cgray700"
+        onClick={() => mutate()}
+      >
+        로그아웃
+        <LogOut size={16} />
+      </button>
+
       <Link
         className="typo-head4 p-[16px] text-Cgray400 hover:text-Cgray500"
         href="/mypage"
@@ -177,7 +180,7 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
             href={item.href}
             className={`flex items-center ${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
           >
-            {!isMobile && <span className="mr-2">{item.icon}</span>}
+            {isMobile && <span className="mr-2">{item.icon}</span>}
             {item.label}
           </Link>
         </li>
@@ -202,7 +205,7 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
     <div>
       {/* desktop */}
       <header
-        className={`flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'}`}
+        className={`fixed left-0 right-0 top-0 z-50 flex h-20 items-center bg-BG px-[24px] md:bg-main ${!isOpen && 'bg-main'}`}
       >
         <div className="item-center mx-auto flex w-full max-w-[1340px] items-center justify-between">
           <Link href="/" className="mr-[40px] flex-shrink-0">
@@ -211,7 +214,7 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
           <NavLinks />
           {!isLogIn ? <BeforeLogin /> : <AfterLogin userInfo={userInfo} />}
           <Menu
-            className="text-white md:hidden"
+            className="cursor-pointer text-white md:hidden"
             onClick={() => setIsOpen((prev) => !prev)}
           />
         </div>
@@ -219,7 +222,7 @@ const Header = ({ userInfo }: { userInfo: IBanner }) => {
 
       {/* mobile */}
       <div
-        className={`fixed right-0 z-50 h-screen w-screen transform overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 z-50 h-screen w-screen transform cursor-default overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } md:hidden`}
         role="button"

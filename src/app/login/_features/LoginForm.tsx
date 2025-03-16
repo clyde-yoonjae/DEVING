@@ -16,10 +16,12 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex min-w-[343px] flex-col gap-[28px] rounded-[16px] bg-BG_2 p-[40px] md:min-w-[544px]"
+      className="flex w-full max-w-[544px] flex-col gap-[48px] rounded-[16px] bg-BG_2 p-[40px] sm:gap-[24px] sm:p-[20px]"
     >
       <div>
-        <h2 className="typo-head2 mb-[40px] text-center text-white">로그인</h2>
+        <h2 className="typo-head2 mb-[40px] text-center text-white sm:mb-[24px]">
+          로그인
+        </h2>
         <div>
           <EmailInput
             control={control}
@@ -41,7 +43,7 @@ const LoginForm = () => {
           </div> */}
         </div>
       </div>
-      <div className="flex flex-col gap-[16px]">
+      <div className="flex flex-col gap-[16px] sm:gap-[12px]">
         <Button type="submit" className="w-full">
           로그인
         </Button>
@@ -58,3 +60,4 @@ const LoginForm = () => {
   );
 };
 export default LoginForm;
+``;

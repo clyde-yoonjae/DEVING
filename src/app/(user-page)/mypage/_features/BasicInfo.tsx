@@ -1,17 +1,6 @@
 import { Button } from '@/components/ui/Button';
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 
-import {
-  BUTTON_CENTER,
-  BUTTON_WIDE,
-  ERROR_STATE,
-  FIELD_CONTAINER,
-  FORM_CONTAINER_SM,
-  INPUT_FIELD_VIEW,
-  LABEL_VIEW,
-  SECTION_CONTAINER,
-  TEXTAREA_FIELD_VIEW,
-} from '../../../../constants/mypage/mypageCss';
 import SkeletonBasicInfo from './skeletons/SkeletonBasicInfo';
 
 interface BasicInfoProps {
@@ -39,14 +28,18 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
 
   // 오류가 발생하면 오류 메시지 표시
   if (error) {
-    return <div className={ERROR_STATE}>데이터를 불러오는데 실패했습니다.</div>;
+    return (
+      <div className="text-red-500 p-4 text-center">
+        데이터를 불러오는데 실패했습니다.
+      </div>
+    );
   }
 
   return (
-    <div className={FORM_CONTAINER_SM}>
-      <div className={SECTION_CONTAINER}>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="name-input" className={LABEL_VIEW}>
+    <div className="w-full rounded-[16px] border border-Cgray300 p-[16px] md:p-[32px]">
+      <div className="flex flex-col gap-[32px]">
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="name-input" className="typo-head3 text-Cgray700">
             이름
           </label>
           <input
@@ -54,11 +47,11 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.name}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="intro-input" className={LABEL_VIEW}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="intro-input" className="typo-head3 text-Cgray700">
             소개글
           </label>
           <textarea
@@ -66,11 +59,11 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             rows={3}
             value={userData.intro}
             readOnly
-            className={TEXTAREA_FIELD_VIEW}
+            className="h-[140px] resize-none rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="position-input" className={LABEL_VIEW}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="position-input" className="typo-head3 text-Cgray700">
             포지션
           </label>
           <input
@@ -78,11 +71,11 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.position}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="gender-input" className={LABEL_VIEW}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="gender-input" className="typo-head3 text-Cgray700">
             성별
           </label>
           <input
@@ -90,11 +83,11 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.gender}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="age-input" className={LABEL_VIEW}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="age-input" className="typo-head3 text-Cgray700">
             연령대
           </label>
           <input
@@ -102,11 +95,11 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.age}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="area-input" className={LABEL_VIEW}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="area-input" className="typo-head3 text-Cgray700">
             지역
           </label>
           <input
@@ -114,13 +107,13 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.location}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={BUTTON_CENTER}>
+        <div className="flex justify-center md:justify-start">
           <Button
             variant="outline"
-            className={BUTTON_WIDE}
+            className="h-[40px] w-[295px] md:h-[46px] md:w-[280px]"
             onClick={onEnableEdit}
           >
             사용자 정보 변경
