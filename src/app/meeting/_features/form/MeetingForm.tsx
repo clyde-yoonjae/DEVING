@@ -15,12 +15,13 @@ import {
   TitleField,
 } from '@/app/meeting/_features/form/form-filed';
 import { useToast } from '@/components/common/ToastContext';
+import Modal from '@/components/ui/modal/Modal';
 import useMeetingFormMutation from '@/hooks/mutations/useMeetingFormMutation';
 import { convertImageToBase64 } from '@/util/base64';
 import { AxiosError } from 'axios';
 import { MEETING_TYPES } from 'constants/category/category';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { CreateMeetingPayload, UpdateMeetingPayload } from 'types/meetingForm';
 
@@ -37,6 +38,7 @@ export default function MeetingForm({
 }: MeetingFormProps) {
   const router = useRouter();
   const { showToast } = useToast();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // 날짜 YYYY-MM-DD 형식으로 변환
   const today = new Date();
@@ -46,6 +48,10 @@ export default function MeetingForm({
   const getCategoryId = (label: string) => {
     const category = MEETING_TYPES.find((type) => type.label === label);
     return category ? category.id : '';
+  };
+
+  const handleLogin = () => {
+    router.push('/login');
   };
 
   const { createMeeting, updateMeeting, isLoading } = useMeetingFormMutation({
@@ -66,7 +72,10 @@ export default function MeetingForm({
     onErrorCallback: (error: AxiosError) => {
       let message;
 
-      if (mode !== 'create' && error?.response?.status === 403) {
+      if (mode === 'create' && error?.response?.status === 403) {
+        setIsLoginModalOpen(true);
+        return;
+      } else if (mode !== 'create' && error?.response?.status === 403) {
         message = '모임 수정 권한이 없습니다';
       } else {
         message =
@@ -155,6 +164,16 @@ export default function MeetingForm({
 
   return (
     <FormProvider {...methods}>
+      <Modal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onConfirm={handleLogin}
+        confirmText="로그인"
+        cancelText="취소"
+        modalClassName="w-96"
+      >
+        <p className="text-center text-white">로그인이 필요한 서비스 입니다.</p>
+      </Modal>
       <div className="mx-auto w-full max-w-3xl p-6">
         <h1 className="typo-heading1 mb-8 text-center">
           {mode === 'create' ? '모임 생성하기' : '모임 수정하기'}
