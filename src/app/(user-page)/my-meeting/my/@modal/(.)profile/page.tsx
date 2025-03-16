@@ -43,7 +43,7 @@ export default function UserListModal({
       });
     }
 
-    router.replace(`/my-meeting/my/user-list?meetingId=${meetingId}`);
+    router.back();
   };
 
   const handleSecondModalCancel = () => {
@@ -61,7 +61,7 @@ export default function UserListModal({
       });
     }
 
-    router.replace(`/my-meeting/my/user-list?meetingId=${meetingId}`);
+    router.back();
   };
 
   if (!selectedUser) return <SkeletonProfile />;
