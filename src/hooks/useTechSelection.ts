@@ -15,6 +15,9 @@ const useTechSelection = ({
   const [clickedButtons, setClickedButtons] =
     useState<ClickedButtonsState>(initialSelection);
 
+  // 초기화 과정인지 판단하기 위한 ref
+  const isInitialRender = useRef(true);
+
   // 이전 선택 값을 저장하기 위한 ref
   const prevSelectionRef = useRef<string[]>([]);
 
@@ -30,6 +33,13 @@ const useTechSelection = ({
 
   // 외부 콜백을 useEffect 내에서 호출하되, 선택 값이 실제로 변경됐을 때만 호출
   useEffect(() => {
+    // 첫 렌더링에서는 콜백 호출하지 않고 초기 상태만 저장
+    if (isInitialRender.current) {
+      prevSelectionRef.current = [...selectedNames];
+      isInitialRender.current = false;
+      return;
+    }
+
     // 현재 선택과 이전 선택을 비교
     const currentSelection = selectedNames;
     const prevSelection = prevSelectionRef.current;
@@ -46,12 +56,6 @@ const useTechSelection = ({
       prevSelectionRef.current = [...currentSelection];
     }
   }, [selectedNames, onSelectionChange]);
-
-  // 컴포넌트 마운트 시 초기 선택 상태 설정
-  useEffect(() => {
-    prevSelectionRef.current = selectedNames;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // 버튼 클릭 핸들러
   const handleButtonClick = (iconName: string): void => {
@@ -93,13 +97,28 @@ const useTechSelection = ({
     });
   };
 
-  // 추가: 초기 선택 설정 함수
+  // 초기 선택 설정 함수
   const setInitialSelection = (skills: string[]): void => {
+    if (!skills || skills.length === 0) return;
+
+    // 배열과 현재 선택 값을 비교
+    const currentSkills = selectedNames;
+    const isSameSelection =
+      skills.length === currentSkills.length &&
+      skills.every((skill) => currentSkills.includes(skill));
+
+    // 같은 선택이라면 상태 업데이트 하지 않음
+    if (isSameSelection) return;
+
     const initialState: ClickedButtonsState = {};
     skills.forEach((skill) => {
       initialState[skill] = true;
     });
+
     setClickedButtons(initialState);
+
+    // 이전 선택 값 업데이트
+    prevSelectionRef.current = [...skills];
   };
 
   return {
@@ -110,7 +129,7 @@ const useTechSelection = ({
     handleReset,
     handleRemoveSelection,
     setClickedButtons,
-    setInitialSelection, // 새로 추가된 함수
+    setInitialSelection,
   };
 };
 
