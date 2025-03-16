@@ -103,6 +103,7 @@ const useSignupMutation = ({
 }: {
   onSuccessCallback: () => void;
 }) => {
+  const { showToast } = useToast();
   return useMutation({
     mutationFn: (data: ISignupFormData) => postSignup(data),
     onSuccess: () => {
@@ -112,6 +113,7 @@ const useSignupMutation = ({
        * - 회원가입 성공 토스트바
        */
       onSuccessCallback();
+      showToast('회원가입에 성공했습니다', 'success');
     },
   });
 };

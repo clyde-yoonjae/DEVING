@@ -90,6 +90,11 @@ const useSignUpForm = () => {
     if (Object.keys(errors).length) {
       return;
     }
+
+    if (!isNameCheck || !isEmailCheck) {
+      return;
+    }
+
     singupMutate(data);
   };
 
