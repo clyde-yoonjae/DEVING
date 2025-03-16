@@ -2,6 +2,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
   getMyMeetingManage,
   getMyMeetingMemberProfile,
+  getMyMeetingPending,
 } from 'service/api/mymeeting';
 import {
   getMyMeetingLikes,
@@ -13,6 +14,7 @@ import {
   IMyMeetingManage,
   IMyMeetingParticipated,
 } from 'types/myMeeting';
+import { IMyMeetingPending } from 'types/myMeeting';
 
 export const myMeetingKeys = {
   all: ['mymeeting'] as const,
@@ -24,6 +26,7 @@ export const myMeetingKeys = {
     'profile',
     { meetingId, userId },
   ],
+  pending: () => [...myMeetingKeys.all, 'pending'] as const,
 };
 
 // 내가 생성한 모임
@@ -47,6 +50,20 @@ export const useInfiniteMyMeetingParticipatedQueries = () => {
     getNextPageParam: (lastPage: Paginated<IMyMeetingParticipated>) => {
       return lastPage.nextCursor ?? null;
     },
+  });
+};
+
+// 대기중인 모임
+export const useInfiniteMyMeetingPendingQueries = () => {
+  return useInfiniteQuery({
+    queryKey: myMeetingKeys.pending(),
+    queryFn: ({ pageParam }) => getMyMeetingPending(pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: Paginated<IMyMeetingPending>) => {
+      return lastPage.nextCursor ?? null;
+    },
+    staleTime: 0,
+    gcTime: 0,
   });
 };
 
