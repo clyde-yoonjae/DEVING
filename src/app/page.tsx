@@ -331,9 +331,9 @@ export default function Home() {
           <FullPageWrapper>
             <div className="section">
               {/* 히어로 섹션 */}
-              <main className="md:h-[1085px] lg:h-[1168px] lg:pt-[83px] md:short:h-auto md:short:pt-[40px]">
+              <main className="md:h-[1085px] lg:h-[1168px] lg:pt-[83px] md:short:h-auto">
                 <motion.h1
-                  className="flex justify-center overflow-hidden whitespace-nowrap pt-[180px] text-center text-[32px] font-semibold leading-[41px] text-solid md:pt-[180px] md:text-[56px] md:leading-[90px] lg:pt-[100px] lg:text-[72px] lg:leading-[90px] md:short:pt-[80px] md:short:text-[32px] md:short:leading-[41px]"
+                  className="flex justify-center overflow-hidden whitespace-nowrap pt-[120px] text-center text-[32px] font-semibold leading-[41px] text-solid md:pt-[180px] md:text-[56px] md:leading-[90px] lg:pt-[100px] lg:text-[72px] lg:leading-[90px] short:pt-[140px] md:short:pt-[20px] md:short:text-[32px] md:short:leading-[41px]"
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
