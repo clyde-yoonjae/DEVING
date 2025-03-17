@@ -112,8 +112,8 @@ const VerticalCard = ({
           height={thumbnailHeight}
         />
       </div>
-      <div className="mt-4">
-        <div className="typo-head2 relative flex h-[40px] justify-between truncate text-Cgray800 ">
+      <div className="w-full">
+        <div className="typo-head2 relative flex h-[40px] items-center justify-between truncate text-Cgray800 ">
           <span className="max-w-[270px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {title}
           </span>

@@ -70,7 +70,7 @@ const MeetingExtraInfo = ({
       </div>
 
       <Button
-        className={`mt-6 ${isTablet ? 'mt-[7px]' : 'mt-6'} ${
+        className={`mt-6 ${isTablet ? 'mt-[7px]' : isMobile ? 'mt-0' : 'mt-6'} ${
           isMobile
             ? 'h-[46px] w-[311px]'
             : 'md:h-[40px] md:w-[180px] lg:h-[46px] lg:w-[318px]'

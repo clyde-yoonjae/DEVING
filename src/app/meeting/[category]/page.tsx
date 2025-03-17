@@ -55,7 +55,7 @@ async function MeetingListPage({ params }: { params: { category: string } }) {
     notFound();
   }
   return (
-    <div className="mb-[130px] mt-[88px]">
+    <div className="mb-[130px] mt-[30px] md:mt-[50px] lg:mt-[50px]">
       <FloatingButtonGroup />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <RecommendMeeting />

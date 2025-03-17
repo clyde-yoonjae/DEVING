@@ -38,7 +38,7 @@ const RecommendMeeting = () => {
 
   return (
     <>
-      <div className="typo-head1 mb-6 flex items-center px-4 text-Cgray800">
+      <div className="typo-head2 mb-6 flex items-center px-4 text-Cgray800 md:typo-head1">
         <Image
           className="mr-5"
           src={imageUrlByCategory(categoryStr)}
