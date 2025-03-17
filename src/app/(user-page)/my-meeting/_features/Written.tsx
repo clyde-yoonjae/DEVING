@@ -62,7 +62,7 @@ const Written = () => {
         {allComments.map((comment) => (
           <div key={comment.meetingId}>
             {/* 데스크탑 */}
-            <div className="hidden border-b border-Cgray300 py-[42px] lg:flex">
+            <div className="flex hidden flex-col  border-b border-Cgray300 py-[42px] lg:flex">
               <HorizonCard
                 onClick={() =>
                   handleMoveDetailPage(comment.meetingId, comment.categoryTitle)
