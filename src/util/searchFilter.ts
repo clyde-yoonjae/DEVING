@@ -44,3 +44,18 @@ export const translateCategoryNameToEng = (category: string) => {
       return 'mogakco';
   }
 };
+
+export const imageUrlByCategory = (category: string) => {
+  switch (category) {
+    case 'mogakco':
+      return '/mogakco_cat.png';
+    case 'hobby':
+      return '/hobby_cat.png';
+    case 'study':
+      return '/read_cat.png';
+    case 'side-project':
+      return '/side-project_cat.png';
+    default:
+      return '/mogakco_cat.png';
+  }
+};

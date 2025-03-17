@@ -9,8 +9,13 @@ import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import useMediaQuery from '@/hooks/common/useMediaQuery';
 import { useInfiniteSearchMeetings } from '@/hooks/queries/useMeetingQueries';
 import useDebounce from '@/hooks/useDebounde';
-import { filterOptions, translateCategoryNameToKor } from '@/util/searchFilter';
+import {
+  filterOptions,
+  imageUrlByCategory,
+  translateCategoryNameToKor,
+} from '@/util/searchFilter';
 import { keepPreviousData } from '@tanstack/react-query';
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
 import type { IMeetingSearchCondition, SearchMeeting } from 'types/meeting';
@@ -108,7 +113,15 @@ const MeetingList = () => {
 
   return (
     <div className="mt-12">
-      <div className="typo-head1 mb-10 px-4 text-Cgray800">
+      <div className="typo-head1 mb-10 flex items-center px-4 text-Cgray800">
+        <Image
+          className="mr-5"
+          src={imageUrlByCategory(categoryStr)}
+          alt={`${categoryStr}_image`}
+          width={40}
+          height={40}
+          unoptimized
+        />
         {translateCategoryNameToKor(categoryStr)} 모임 목록
       </div>
       <SearchInput
