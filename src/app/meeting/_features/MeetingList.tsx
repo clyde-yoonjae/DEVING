@@ -155,10 +155,10 @@ const MeetingList = () => {
 
       {/* 모임 리스트 웹뷰 */}
       {breakpoint === 'desktop' && (
-        <div className="flex-col sm:hidden lg:flex">
-          {allMeetings.map((meeting, index) => (
+        <div className="animate-fadeIn flex-col sm:hidden lg:flex">
+          {allMeetings.map((meeting) => (
             <HorizonCard
-              className={`animate-fadeInUp ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
+              className={`transform animate-fadeIn transition-all duration-700 ease-in-out hover:scale-105`}
               onClick={handleMoveDetailPage}
               key={meeting.meetingId}
               meetingId={meeting.meetingId}
@@ -193,11 +193,11 @@ const MeetingList = () => {
 
       {/* 모임 리스트 테블릿뷰 */}
       {breakpoint === 'tablet' && (
-        <div className="hidden flex-col md:flex lg:hidden">
-          {allMeetings.map((meeting, index) => (
+        <div className="hidden animate-fadeIn flex-col md:flex lg:hidden">
+          {allMeetings.map((meeting) => (
             <HorizonCard
               onClick={handleMoveDetailPage}
-              className={`animate-fadeInUp items-center ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
+              className={`transform animate-fadeIn items-center transition-all duration-700 ease-in-out hover:scale-105`}
               key={meeting.meetingId}
               meetingId={meeting.meetingId}
               category={translateCategoryNameToKor(categoryStr)}
@@ -233,11 +233,11 @@ const MeetingList = () => {
 
       {/* 모임 리스트 모바일뷰 */}
       {breakpoint === 'mobile' && (
-        <div className="flex w-full flex-wrap items-center justify-center md:hidden lg:hidden">
-          {allMeetings.map((meeting, index) => (
+        <div className="flex w-full animate-fadeIn flex-wrap items-center justify-center md:hidden lg:hidden">
+          {allMeetings.map((meeting) => (
             <VerticalCard
               onClick={handleMoveDetailPage}
-              className={`h-[380px] animate-fadeInUp items-center ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
+              className={`h-[380px] transform animate-fadeIn items-center transition-all duration-700 ease-in-out hover:scale-105 `}
               thumbnailHeight={160}
               thumbnailWidth={311}
               category={translateCategoryNameToKor(categoryStr)}
