@@ -3,7 +3,11 @@
 import HorizonCard from '@/components/ui/HorizonCard';
 import VerticalCard from '@/components/ui/VerticalCard';
 import { useTopMeetings } from '@/hooks/queries/useMeetingQueries';
-import { translateCategoryNameToKor } from '@/util/searchFilter';
+import {
+  imageUrlByCategory,
+  translateCategoryNameToKor,
+} from '@/util/searchFilter';
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import type { TopMeeting } from 'types/meeting';
 
@@ -34,7 +38,15 @@ const RecommendMeeting = () => {
 
   return (
     <>
-      <div className="typo-head1 mb-6 px-4 text-Cgray800">
+      <div className="typo-head2 mb-6 flex items-center px-4 text-Cgray800 md:typo-head1">
+        <Image
+          className="mr-5"
+          src={imageUrlByCategory(categoryStr)}
+          alt={`${categoryStr}_image`}
+          width={40}
+          height={40}
+          unoptimized
+        />
         Deving의 {translateCategoryNameToKor(categoryStr)} 추천 모임
       </div>
 
