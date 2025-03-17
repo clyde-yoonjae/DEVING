@@ -1,7 +1,6 @@
 import useLikeHandler from '@/hooks/common/useLikeHandler';
 import { getIconComponent } from '@/util/getIconDetail';
 import { translateCategoryNameToEng } from '@/util/searchFilter';
-import { useQueryClient } from '@tanstack/react-query';
 import { Heart, Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -48,6 +47,7 @@ const VerticalCard = ({
   showLikeButton = true,
   searchQuery,
   value,
+  likesCount,
   total = 100,
   skills,
 }: VerticalCardProps) => {
@@ -113,23 +113,28 @@ const VerticalCard = ({
         />
       </div>
       <div className="w-full">
-        <div className="typo-head2 relative flex h-[40px] items-center justify-between truncate text-Cgray800 ">
+        <div className="typo-head2 relative flex h-[53px] items-center justify-between truncate text-Cgray800 ">
           <span className="max-w-[270px] overflow-hidden truncate text-ellipsis whitespace-nowrap">
             {title}
           </span>
           {showLikeButton && (
-            <Button
-              className={`relative h-auto w-auto ${like ? 'animate-heartbeat' : ''}`}
-              variant="text"
-              size="sm"
-              onClick={(e) => handleLikeButton(e)}
-              icon={
-                <Heart
-                  style={{ width: '24px', height: '24px' }}
-                  className={isLike ? 'fill-main' : 'stroke-Cgray500'}
-                />
-              }
-            ></Button>
+            <div className="flex justify-center">
+              <Button
+                className={`relative h-auto w-auto ${like ? 'animate-heartbeat' : ''}`}
+                variant="text"
+                size="sm"
+                onClick={(e) => handleLikeButton(e)}
+                icon={
+                  <Heart
+                    style={{ width: '24px', height: '24px' }}
+                    className={isLike ? 'fill-main' : 'stroke-Cgray500'}
+                  />
+                }
+              ></Button>
+              <div className="typo-caption2 absolute top-7 mt-3 text-Cgray500">
+                {likesCount}
+              </div>
+            </div>
           )}
         </div>
         <div className="relative flex items-center gap-1 truncate text-Cgray500">
