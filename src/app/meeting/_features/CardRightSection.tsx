@@ -1,15 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/Button';
-import { meetingKeys } from '@/hooks/queries/useMeetingQueries';
-import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
 import { getAccessToken } from '@/lib/serverActions';
 import { getDDay } from '@/util/date';
 import { translateCategoryNameToEng } from '@/util/searchFilter';
-import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { MeetingDetail, MeetingManager } from 'service/api/meeting';
-import { IBanner } from 'types/myMeeting';
+import { MeetingDetail } from 'service/api/meeting';
 
 const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
   const router = useRouter();
@@ -35,14 +31,8 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
     router.push('/my-meeting/my?type=created');
   };
 
-  const queryClient = useQueryClient();
-  const leader = queryClient.getQueryData<MeetingManager>(
-    meetingKeys.detailInfoUser(meeting.meetingId),
-  );
-  const user = queryClient.getQueryData<IBanner>(QUERY_KEYS.banner());
-
-  const status =
-    leader?.email === user?.email ? 'LEADER' : meeting.memberStatus;
+  const status = meeting.isMeetingManager ? 'LEADER' : meeting.memberStatus;
+  const isRejected = status === 'REJECTED' || status === 'EXPEL';
 
   return (
     <div className="flex w-full flex-col justify-end gap-[24px] py-[16px] md:p-[16px] lg:h-[208px] lg:w-[318px]">
@@ -59,6 +49,11 @@ const CardRightSection = ({ meeting }: { meeting: MeetingDetail }) => {
         // 주최자인 경우
         <Button className="w-full" onClick={handleLeader}>
           내 모임 보러가기
+        </Button>
+      ) : isRejected ? (
+        // 거절되거나 추방된 경우
+        <Button className="w-full" disabled>
+          신청이 불가능합니다
         </Button>
       ) : ['false', 'new user'].includes(status) ? (
         meeting.maxMember === meeting.memberCount ? (

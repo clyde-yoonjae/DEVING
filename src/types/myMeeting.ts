@@ -56,6 +56,20 @@ interface IMyMeetingLikes {
   likesCount: number;
 }
 
+interface IMyMeetingPending {
+  categoryTitle: CategoryTitle;
+  meetingId: number;
+  title: string;
+  thumbnail: string;
+  location: string;
+  memberCount: number;
+  maxMember: number;
+  likesCount: number;
+  myMemberStatus: 'APPROVED' | 'REJECTED' | 'PENDING' | 'EXPEL';
+  memberList: Member[];
+  isMeetingManager: boolean;
+}
+
 interface IUserProfile {
   userId: number;
   name: string;
@@ -103,4 +117,5 @@ export type {
   UserData,
   IMyMeetingParticipated,
   IMyMeetingLikes,
+  IMyMeetingPending,
 };

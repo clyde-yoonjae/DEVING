@@ -1,12 +1,13 @@
 'use client';
 
 import Logo from '@/assets/icon/logo.svg';
+import { useLogoutMutation } from '@/hooks/mutations/useUserMutation';
 import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
-import { removeAccessToken } from '@/lib/serverActions';
 import { translateCategoryNameToKor } from '@/util/searchFilter';
 import { useQueryClient } from '@tanstack/react-query';
 import { MEETING_TYPES } from 'constants/category/category';
 import { Menu } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -14,7 +15,6 @@ import { useEffect, useState } from 'react';
 import { IBanner } from 'types/myMeeting';
 
 import Dropdown from './Dropdown';
-import { useToast } from './ToastContext';
 
 interface IUserInfo {
   userId: number;
@@ -39,7 +39,8 @@ const BeforeLogin = () => {
 
 const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
   const router = useRouter();
-  const { showToast } = useToast();
+  const { mutate } = useLogoutMutation();
+
   const menu = [
     {
       value: 'mymeeting',
@@ -54,11 +55,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
     {
       value: 'logout',
       label: '로그아웃',
-      onSelect: async () => {
-        await removeAccessToken();
-        // 로그아웃 관련 토스트바 노출
-        showToast('로그아웃 되었습니다.', 'success');
-      },
+      onSelect: () => mutate(),
     },
   ];
   return (
@@ -72,7 +69,7 @@ const AfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
           sideOffset={10}
           imageProps={{
             component: (
-              <div className="flex items-center bg-transparent">
+              <div className="flex flex-row items-center bg-transparent">
                 <div className="group relative h-10 w-10">
                   <div className="absolute inset-0 -m-1 rounded-full border-2 border-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                   <Image
@@ -118,35 +115,34 @@ const MobileBeforeLogin = () => {
 };
 
 const MobileAfterLogin = ({ userInfo }: { userInfo: IUserInfo }) => {
-  const { showToast } = useToast();
+  const { mutate } = useLogoutMutation();
   return (
     <div className="flex flex-col py-[24px]">
-      <div className="flex items-center justify-between">
-        <button
-          className="typo-head3 p-[16px] text-Cgray500 hover:text-Cgray700"
-          onClick={async () => {
-            await removeAccessToken();
-            showToast('로그아웃 되었습니다.', 'success');
-          }}
-        >
-          로그아웃
-        </button>
-        <div className="flex">
+      <div className="flex flex-col items-center justify-between">
+        <div className="flex flex-col items-center gap-4">
           <Image
             width={40}
             height={40}
-            className="h-[40px] w-[40px] rounded-full"
+            className="h-[60px] w-[60px] rounded-full"
             src={userInfo.profilePic}
             alt="프로필 이미지"
           />
           <span
             title={userInfo.name}
-            className="typo-head3 m-auto w-[77px] truncate text-center text-white"
+            className="typo-head3 m-auto mb-4 w-full whitespace-nowrap text-center text-white"
           >
             {userInfo.name}
           </span>
         </div>
       </div>
+      <button
+        className="typo-head3 flex items-center gap-2 self-start p-[16px] text-left text-warning hover:text-Cgray700"
+        onClick={() => mutate()}
+      >
+        로그아웃
+        <LogOut size={16} />
+      </button>
+
       <Link
         className="typo-head4 p-[16px] text-Cgray400 hover:text-Cgray500"
         href="/mypage"
@@ -184,7 +180,7 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
             href={item.href}
             className={`flex items-center ${isMobile ? 'hover:text-Cgray500' : 'hover:text-white'}`}
           >
-            {!isMobile && <span className="mr-2">{item.icon}</span>}
+            {isMobile && <span className="mr-2">{item.icon}</span>}
             {item.label}
           </Link>
         </li>

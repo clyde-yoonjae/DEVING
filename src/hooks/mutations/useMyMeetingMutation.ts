@@ -1,5 +1,4 @@
 import { useToast } from '@/components/common/ToastContext';
-import axiosInstance from '@/lib/axios/axiosInstance';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { putExpel, putIsPublic, putMemberStatus } from 'service/api/mymeeting';
@@ -52,7 +51,7 @@ const useCancelPendingMutation = () => {
     onSuccess: (_, meetingId) => {
       showToast('승인 대기를 취소했습니다.', 'success');
       queryClient.invalidateQueries({
-        queryKey: myMeetingKeys.participated(),
+        queryKey: myMeetingKeys.pending(),
       });
       queryClient.invalidateQueries({
         queryKey: meetingKeys.detailInfo(meetingId),
@@ -90,6 +89,9 @@ const useMemberStatusMutation = (meetingId: number) => {
       });
       queryClient.invalidateQueries({
         queryKey: myMeetingKeys.memberProfile(meetingId, variables.userId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['mymeeting', 'memberList', meetingId],
       });
     },
     onError: (error: AxiosError) => {

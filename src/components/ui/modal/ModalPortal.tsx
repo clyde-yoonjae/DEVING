@@ -82,12 +82,27 @@ const ModalPortal: React.FC<AlertModalProps> = ({
   const router = useRouter();
 
   useEffect(() => {
-    if (!dialogRef.current?.open) {
-      dialogRef.current?.showModal();
-      dialogRef.current?.scrollTo({
-        top: 0,
-      });
+    if (isOpen && dialogRef.current) {
+      dialogRef.current.showModal();
     }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleBackdropClick = (event: Event) => {
+      if (event.target === dialogRef.current) {
+        router.back(); // 백드롭 클릭 시 뒤로 가기
+      }
+    };
+
+    if (dialogRef.current) {
+      dialogRef.current.addEventListener('click', handleBackdropClick);
+    }
+
+    return () => {
+      if (dialogRef.current) {
+        dialogRef.current.removeEventListener('click', handleBackdropClick);
+      }
+    };
   }, []);
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -109,10 +124,6 @@ const ModalPortal: React.FC<AlertModalProps> = ({
   return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-BG_2 bg-opacity-50"
-      onKeyDown={(e) => {
-        if (e.key === 'Escape') router.back();
-      }}
-      onClick={() => router.back()}
       role="presentation"
     >
       <dialog

@@ -7,16 +7,9 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { getProfile } from 'service/api/mypageProfile';
 
 import { TAB_TYPES } from '../../../constants/mypage/mypageConstant';
-import {
-  ACTIVE_SECTION,
-  TAB_ACTIVE,
-  TAB_BUTTON,
-  TAB_CONTAINER,
-  TAB_INACTIVE,
-  TAB_INDICATOR,
-} from '../../../constants/mypage/mypageCss';
 // 컴포넌트 임포트
 import BasicEdit from './_features/BasicEdit';
 import BasicInfo from './_features/BasicInfo';
@@ -134,10 +127,6 @@ const MyPageClient = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [updateIndicator]);
 
-  // 탭 버튼 클래스 생성 함수
-  const getTabButtonClass = (tab: string) =>
-    `${TAB_BUTTON} ${activeTab === tab ? TAB_ACTIVE : TAB_INACTIVE}`;
-
   // 5. 조건부 렌더링 최적화
   const renderContent = () => {
     const isEditMode = editModeSection === activeTab;
@@ -175,12 +164,16 @@ const MyPageClient = () => {
   return (
     <div className="profile-manager flex flex-col">
       {/* 탭 네비게이션 */}
-      <div className={TAB_CONTAINER}>
+      <div className="tabs-container relative flex w-full md:mb-6">
         <button
           ref={(el) => {
             tabRefs.current[TAB_TYPES.BASIC] = el;
           }}
-          className={getTabButtonClass(TAB_TYPES.BASIC)}
+          className={`w-1/4 px-5 py-3 text-center font-medium transition-colors ${
+            activeTab === TAB_TYPES.BASIC
+              ? 'text-main'
+              : 'text-Cgray500 hover:text-Cgray400'
+          }`}
           onClick={() => handleTabChange(TAB_TYPES.BASIC)}
         >
           기본정보
@@ -189,7 +182,11 @@ const MyPageClient = () => {
           ref={(el) => {
             tabRefs.current[TAB_TYPES.CONTACT] = el;
           }}
-          className={getTabButtonClass(TAB_TYPES.CONTACT)}
+          className={`w-1/4 px-5 py-3 text-center font-medium transition-colors ${
+            activeTab === TAB_TYPES.CONTACT
+              ? 'text-main'
+              : 'text-Cgray500 hover:text-Cgray400'
+          }`}
           onClick={() => handleTabChange(TAB_TYPES.CONTACT)}
         >
           연락수단
@@ -198,7 +195,11 @@ const MyPageClient = () => {
           ref={(el) => {
             tabRefs.current[TAB_TYPES.TECH] = el;
           }}
-          className={getTabButtonClass(TAB_TYPES.TECH)}
+          className={`w-1/4 px-5 py-3 text-center font-medium transition-colors ${
+            activeTab === TAB_TYPES.TECH
+              ? 'text-main'
+              : 'text-Cgray500 hover:text-Cgray400'
+          }`}
           onClick={() => handleTabChange(TAB_TYPES.TECH)}
         >
           기술스택
@@ -207,18 +208,25 @@ const MyPageClient = () => {
           ref={(el) => {
             tabRefs.current[TAB_TYPES.PASSWORD] = el;
           }}
-          className={getTabButtonClass(TAB_TYPES.PASSWORD)}
+          className={`w-1/4 px-5 py-3 text-center font-medium transition-colors ${
+            activeTab === TAB_TYPES.PASSWORD
+              ? 'text-main'
+              : 'text-Cgray500 hover:text-Cgray400'
+          }`}
           onClick={() => handleTabChange(TAB_TYPES.PASSWORD)}
         >
           비밀번호변경
         </button>
 
         {/* 애니메이션 underbar */}
-        <div className={TAB_INDICATOR} style={indicatorStyle} />
+        <div
+          className="absolute bottom-0 h-1 bg-main transition-all duration-200 ease-in-out"
+          style={indicatorStyle}
+        />
       </div>
 
       {/* 활성화된 섹션만 렌더링 */}
-      <div className={ACTIVE_SECTION}>{renderContent()}</div>
+      <div className="active-section mt-4">{renderContent()}</div>
     </div>
   );
 };

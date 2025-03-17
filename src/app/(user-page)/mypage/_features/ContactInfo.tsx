@@ -3,16 +3,6 @@
 import { Button } from '@/components/ui/Button';
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 
-import {
-  BUTTON_CENTER,
-  BUTTON_WIDE,
-  ERROR_STATE,
-  FIELD_CONTAINER,
-  FORM_CONTAINER,
-  INPUT_FIELD_VIEW,
-  LABEL_VIEW,
-  SECTION_CONTAINER,
-} from '../../../../constants/mypage/mypageCss';
 import SkeletonContactInfo from './skeletons/SkeletonContactInfo';
 
 interface ContactInfoProps {
@@ -32,7 +22,7 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
   if (error) {
     return (
       <div className="mb-6 w-full rounded-[16px] border border-Cgray300 p-[32px]">
-        <p className={ERROR_STATE}>
+        <p className="text-red-500">
           연락처 정보를 불러오는 중 오류가 발생했습니다.
         </p>
         <Button
@@ -55,10 +45,10 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
   };
 
   return (
-    <div className={FORM_CONTAINER}>
-      <div className={SECTION_CONTAINER}>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="phone-input" className={LABEL_VIEW}>
+    <div className="w-full rounded-[16px] border border-Cgray300 p-[32px]">
+      <div className="flex flex-col gap-[32px]">
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="phone-input" className="typo-head3 text-Cgray700">
             전화번호
           </label>
           <input
@@ -66,11 +56,11 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
             type="text"
             value={contactData.phone}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="kakao-input" className={LABEL_VIEW}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="kakao-input" className="typo-head3 text-Cgray700">
             카카오톡 ID
           </label>
           <input
@@ -78,11 +68,11 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
             type="text"
             value={contactData.kakao}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="github-input" className={LABEL_VIEW}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="github-input" className="typo-head3 text-Cgray700">
             깃허브
           </label>
           <input
@@ -90,11 +80,11 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
             type="text"
             value={contactData.github}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={FIELD_CONTAINER}>
-          <label htmlFor="blog-input" className={LABEL_VIEW}>
+        <div className="flex flex-col gap-[8px]">
+          <label htmlFor="blog-input" className="typo-head3 text-Cgray700">
             블로그
           </label>
           <input
@@ -102,13 +92,13 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
             type="text"
             value={contactData.blog}
             readOnly
-            className={INPUT_FIELD_VIEW}
+            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
-        <div className={BUTTON_CENTER}>
+        <div className="flex justify-center md:justify-start">
           <Button
             variant="outline"
-            className={BUTTON_WIDE}
+            className="h-[40px] w-[295px] md:h-[46px] md:w-[280px]"
             onClick={onEnableEdit}
           >
             연락 수단 변경

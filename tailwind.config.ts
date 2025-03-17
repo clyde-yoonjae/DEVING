@@ -10,11 +10,6 @@ export default {
   ],
   theme: {
     extend: {
-      animation: {
-        'delay-100': 'bounce 1s infinite 100ms',
-        'delay-200': 'bounce 1s infinite 200ms',
-        'delay-300': 'bounce 1s infinite 300ms',
-      },
       screens: {
         sm: {
           min: '375px',
@@ -109,6 +104,10 @@ export default {
       sans: ['var(--font-pretendard)', 'sans-serif'],
     },
     keyframes: {
+      fadeIn: {
+        '0%': { opacity: '0' },
+        '100%': { opacity: '1' },
+      },
       fadeInUp: {
         '0%': { opacity: '0', transform: 'translateY(40px)' },
         '100%': { opacity: '1', transform: 'translateY(0)' },
@@ -131,6 +130,7 @@ export default {
       },
     },
     animation: {
+      fadeIn: 'fadeIn 0.5s ease-out forwards',
       fadeInUp: 'fadeInUp 0.5s ease-out forwards',
       slideUp: 'slideUp 0.5s ease-out forwards',
       slideDown: 'slideDown 0.5s ease-out forwards',

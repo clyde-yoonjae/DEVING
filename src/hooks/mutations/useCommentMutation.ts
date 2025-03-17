@@ -2,6 +2,7 @@ import { useToast } from '@/components/common/ToastContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { postComment } from 'service/api/comment';
+import { ErrorResponse } from 'types/error';
 
 import { commentKeys } from '../queries/useCommentQueries';
 
@@ -13,14 +14,18 @@ const useCommentMutation = (meetingId: number) => {
     mutationFn: ({ req }: { req: { score: number; content: string } }) =>
       postComment(meetingId, req),
     onSuccess: async (res) => {
-      // onSuccessCallback?.();
       showToast('댓글 작성이 완료되었어요.');
       queryClient.invalidateQueries({
         queryKey: commentKeys.comments(meetingId),
       });
+      queryClient.invalidateQueries({
+        queryKey: commentKeys.count(meetingId),
+      });
     },
-    onError: (error: AxiosError) => {
-      if (error.response?.status) {
+    onError: (error: AxiosError<ErrorResponse>) => {
+      if (error.response?.data.data.request.startsWith('Comment exists')) {
+        showToast('모임 리뷰는 하나만 작성 가능합니다', 'error');
+      } else {
         showToast('모임 참여자만 댓글 작성이 가능합니다.', 'error');
       }
     },
