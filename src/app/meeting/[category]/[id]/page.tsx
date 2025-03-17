@@ -15,12 +15,12 @@ import {
 import { getMeetingDetail, getMeetingDetailManager } from 'service/api/meeting';
 import { Paginated } from 'types/meeting';
 
-import BackButton from '../../_features/BackButton';
 import CardWrapper from '../../_features/CardWrapper';
 import ContentLabel from '../../_features/ContextLabel';
 import MeetingInfo from '../../_features/MeetingInfo';
 import ReviewInput from '../../_features/ReviewInput';
 import ReviewList from '../../_features/ReviewList';
+import TopSection from '../../_features/TopSection';
 import UserInfo from '../../_features/UserInfo';
 
 export default async function page({ params }: { params: { id: string } }) {
@@ -52,9 +52,10 @@ export default async function page({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col gap-[48px]">
       <FloatingButtonGroup />
-      <BackButton />
+
       <HydrationBoundary state={dehydrate(queryClient)}>
         <div className="flex flex-col gap-[48px] p-[16px] md:px-[48px]">
+          <TopSection meetingId={meetingId} />
           <CardWrapper meetingId={meetingId} />
           <UserInfo meetingId={meetingId} />
           <MeetingInfo meetingId={meetingId} />
