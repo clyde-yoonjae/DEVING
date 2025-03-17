@@ -1,6 +1,7 @@
 'use client';
 
 import ModalRegisterInput from '@/app/meeting/_features/modal-content/ModalRegisterInput';
+import { useToast } from '@/components/common/ToastContext';
 import ModalPortal from '@/components/ui/modal/ModalPortal';
 import { useMeetingMutation } from '@/hooks/mutations/useMeetingMutation';
 import { translateCategoryNameToEng } from '@/util/searchFilter';
@@ -14,6 +15,7 @@ export default function UserListModal({
 }) {
   const router = useRouter();
   const [value, setValue] = useState('');
+  const { showToast } = useToast();
 
   const meetingId = Number(params.id);
   const category = params.category;
@@ -33,12 +35,16 @@ export default function UserListModal({
   });
 
   const handleConfirm = () => {
-    mutate({ message: value });
-    setValue('');
-    router.push(
-      `/meeting/${translateCategoryNameToEng(category)}/${meetingId}/intro-input`,
-      { scroll: false },
-    );
+    if (!value) {
+      showToast('인삿말을 입력해주세요!', 'error');
+    } else {
+      mutate({ message: value });
+      setValue('');
+      router.push(
+        `/meeting/${translateCategoryNameToEng(category)}/${meetingId}/intro-input`,
+        { scroll: false },
+      );
+    }
   };
 
   return (

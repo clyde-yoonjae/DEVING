@@ -12,6 +12,13 @@ export interface CreateMeetingPayload {
   skillArray: string[];
 }
 
+// 수정용 타입
+export interface UpdateMeetingPayload
+  extends Omit<CreateMeetingPayload, 'imageName' | 'imageEncodedBase64'> {
+  imageName: string | null;
+  imageEncodedBase64: string | null;
+}
+
 export interface CreateMeetingResponse {
   statusCode: number;
   data: {

@@ -9,8 +9,13 @@ import useInfiniteScroll from '@/hooks/common/useInfiniteScroll';
 import useMediaQuery from '@/hooks/common/useMediaQuery';
 import { useInfiniteSearchMeetings } from '@/hooks/queries/useMeetingQueries';
 import useDebounce from '@/hooks/useDebounde';
-import { filterOptions, translateCategoryNameToKor } from '@/util/searchFilter';
+import {
+  filterOptions,
+  imageUrlByCategory,
+  translateCategoryNameToKor,
+} from '@/util/searchFilter';
 import { keepPreviousData } from '@tanstack/react-query';
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
 import type { IMeetingSearchCondition, SearchMeeting } from 'types/meeting';
@@ -108,7 +113,15 @@ const MeetingList = () => {
 
   return (
     <div className="mt-12">
-      <div className="typo-head1 mb-10 px-4 text-Cgray800">
+      <div className="typo-head2 mb-10 flex items-center px-4 text-Cgray800 md:typo-head1">
+        <Image
+          className="mr-5"
+          src={imageUrlByCategory(categoryStr)}
+          alt={`${categoryStr}_image`}
+          width={40}
+          height={40}
+          unoptimized
+        />
         {translateCategoryNameToKor(categoryStr)} 모임 목록
       </div>
       <SearchInput
@@ -142,10 +155,10 @@ const MeetingList = () => {
 
       {/* 모임 리스트 웹뷰 */}
       {breakpoint === 'desktop' && (
-        <div className="flex-col sm:hidden lg:flex">
-          {allMeetings.map((meeting, index) => (
+        <div className="animate-fadeIn flex-col sm:hidden lg:flex">
+          {allMeetings.map((meeting) => (
             <HorizonCard
-              className={`animate-fadeInUp ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
+              className={`transform animate-fadeIn transition-all duration-700 ease-in-out hover:scale-105`}
               onClick={handleMoveDetailPage}
               key={meeting.meetingId}
               meetingId={meeting.meetingId}
@@ -171,6 +184,7 @@ const MeetingList = () => {
                 startDate={meeting.startDate}
                 meetingId={meeting.meetingId}
                 variant="desktop"
+                profilePic={meeting.profilePic}
               />
             </HorizonCard>
           ))}
@@ -179,11 +193,11 @@ const MeetingList = () => {
 
       {/* 모임 리스트 테블릿뷰 */}
       {breakpoint === 'tablet' && (
-        <div className="hidden flex-col md:flex lg:hidden">
-          {allMeetings.map((meeting, index) => (
+        <div className="hidden animate-fadeIn flex-col md:flex lg:hidden">
+          {allMeetings.map((meeting) => (
             <HorizonCard
               onClick={handleMoveDetailPage}
-              className={`animate-fadeInUp items-center ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
+              className={`transform animate-fadeIn items-center transition-all duration-700 ease-in-out hover:scale-105`}
               key={meeting.meetingId}
               meetingId={meeting.meetingId}
               category={translateCategoryNameToKor(categoryStr)}
@@ -210,6 +224,7 @@ const MeetingList = () => {
                 startDate={meeting.startDate}
                 meetingId={meeting.meetingId}
                 variant="tablet"
+                profilePic={meeting.profilePic}
               />
             </HorizonCard>
           ))}
@@ -218,11 +233,11 @@ const MeetingList = () => {
 
       {/* 모임 리스트 모바일뷰 */}
       {breakpoint === 'mobile' && (
-        <div className="flex w-full flex-wrap items-center justify-center md:hidden lg:hidden">
-          {allMeetings.map((meeting, index) => (
+        <div className="flex w-full animate-fadeIn flex-wrap items-center justify-center md:hidden lg:hidden">
+          {allMeetings.map((meeting) => (
             <VerticalCard
               onClick={handleMoveDetailPage}
-              className={`h-[380px] animate-fadeInUp items-center ${index % 2 === 0 ? 'delay-100' : 'delay-200'}`}
+              className={`h-[380px] transform animate-fadeIn items-center transition-all duration-700 ease-in-out hover:scale-105 `}
               thumbnailHeight={160}
               thumbnailWidth={311}
               category={translateCategoryNameToKor(categoryStr)}
@@ -249,6 +264,7 @@ const MeetingList = () => {
                 startDate={meeting.startDate}
                 meetingId={meeting.meetingId}
                 variant="mobile"
+                profilePic={meeting.profilePic}
               />
             </VerticalCard>
           ))}

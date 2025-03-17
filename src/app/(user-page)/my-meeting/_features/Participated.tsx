@@ -10,6 +10,7 @@ import { IMyMeetingParticipated } from 'types/myMeeting';
 
 import CardRightSection from './CardRightSection';
 import LeaveMeetingButton from './LeaveMeetingButton';
+import PendingSection from './PendingSection';
 import PendingStatusChip from './PendingStatusChip';
 import MeetingListSkeleton from './skeletons/SkeletonMeetingList';
 
@@ -83,6 +84,9 @@ const Participated = () => {
 
   return (
     <div>
+      {/* 승인 대기중인 모임 섹션 (상단에 배치) */}
+      <PendingSection />
+      <h1 className="typo-head1 mt-10 text-white">나의 Deving 모임</h1>
       {meetingData.pages.map((page, pageIdx) => (
         <div key={pageIdx}>
           {page.content.map((meeting) => (
@@ -193,11 +197,6 @@ const Participated = () => {
                   className="flex lg:hidden"
                   meetingId={meeting.meetingId}
                 />
-
-                {meeting.myMemberStatus === 'PENDING' && (
-                  <PendingStatusChip meetingId={meeting.meetingId} />
-                )}
-
                 {meeting.myMemberStatus === 'APPROVED' &&
                   !meeting.isMeetingManager && (
                     <LeaveMeetingButton
@@ -216,14 +215,19 @@ const Participated = () => {
       ))}
 
       {/* 무한 스크롤을 위한 별도의 Observer 요소 */}
-      {hasNextPage && <div ref={lastMeetingRef} id="infinite-scroll-trigger" />}
-
+      {hasNextPage && (
+        <div
+          ref={lastMeetingRef}
+          id="infinite-scroll-trigger"
+          className="mt-10 h-10" // 높이와 마진 추가
+        />
+      )}
       {/* 추가 데이터 로딩 중 표시 */}
       {isFetchingNextPage && <MeetingListSkeleton />}
 
       {/* 데이터가 없는 경우 표시 */}
       {meetingData.pages[0].content.length === 0 && (
-        <div className="flex h-[60vh] w-full items-center justify-center text-center text-Cgray500">
+        <div className="typo-head3 flex h-[60vh] w-full items-center justify-center text-center text-Cgray500">
           <div>
             <p className="mb-2">내가 참여하고있는 모임이 없어요.</p>
             <p>원하는 모임에 참가하세요!</p>
