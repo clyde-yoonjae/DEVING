@@ -80,7 +80,10 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
     >
       <div className="flex flex-col gap-[32px]">
         <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="currentPassword" className="typo-head3 text-main">
+          <label
+            htmlFor="currentPassword"
+            className="typo-head3 text-[20px] text-main"
+          >
             기존 비밀번호
           </label>
           <Input
@@ -94,7 +97,10 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
         </div>
 
         <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="newPassword" className="typo-head3 text-main">
+          <label
+            htmlFor="newPassword"
+            className="typo-head3 text-[20px] text-main"
+          >
             새 비밀번호
           </label>
           <Input
@@ -122,7 +128,10 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
         </div>
 
         <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="passwordCheck" className="typo-head3 text-main">
+          <label
+            htmlFor="passwordCheck"
+            className="typo-head3 text-[20px] text-main"
+          >
             비밀번호 확인
           </label>
           <Input

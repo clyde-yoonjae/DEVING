@@ -22,7 +22,7 @@ const PasswordInfo = ({ onEnableEdit }: PasswordInfoProps) => {
     <div className="w-full rounded-[16px] border border-Cgray300 p-[24px] md:p-[32px]">
       <div className="flex flex-col gap-[24px] md:gap-[32px]">
         <div className="flex flex-col gap-[8px]">
-          <div className="typo-head3 text-Cgray700">비밀번호</div>
+          <div className="typo-head3 text-[20px] text-white">비밀번호</div>
         </div>
 
         <div className="flex justify-center md:justify-start">

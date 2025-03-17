@@ -39,7 +39,10 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
     <div className="w-full rounded-[16px] border border-Cgray300 p-[24px] md:p-[32px]">
       <div className="flex flex-col gap-[24px] md:gap-[32px]">
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="name-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="name-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             이름
           </label>
           <input
@@ -51,7 +54,10 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="intro-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="intro-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             소개글
           </label>
           <textarea
@@ -63,7 +69,10 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="position-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="position-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             포지션
           </label>
           <input
@@ -75,7 +84,10 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="gender-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="gender-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             성별
           </label>
           <input
@@ -87,7 +99,10 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="age-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="age-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             연령대
           </label>
           <input
@@ -99,7 +114,10 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="area-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="area-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             지역
           </label>
           <input

@@ -48,7 +48,10 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
     <div className="w-full rounded-[16px] border border-Cgray300 p-[24px] md:p-[32px]">
       <div className="flex flex-col gap-[24px] md:gap-[32px]">
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="phone-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="phone-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             전화번호
           </label>
           <input
@@ -60,7 +63,10 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="kakao-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="kakao-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             카카오톡 ID
           </label>
           <input
@@ -72,7 +78,10 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="github-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="github-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             깃허브
           </label>
           <input
@@ -84,7 +93,10 @@ const ContactInfo = ({ onEnableEdit }: ContactInfoProps) => {
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="blog-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="blog-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             블로그
           </label>
           <input

@@ -80,7 +80,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
     >
       <div className="flex flex-col gap-[32px]">
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="phone" className="typo-head3 text-main">
+          <label htmlFor="phone" className="typo-head3 text-[20px] text-main">
             전화번호
           </label>
           <Input
@@ -99,7 +99,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
         </div>
 
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="kakao" className="typo-head3 text-main">
+          <label htmlFor="kakao" className="typo-head3 text-[20px] text-main">
             카카오톡 ID
           </label>
           <Input
@@ -117,7 +117,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
         </div>
 
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="github" className="typo-head3 text-main">
+          <label htmlFor="github" className="typo-head3 text-[20px] text-main">
             깃허브
           </label>
           <Input
@@ -151,7 +151,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
         </div>
 
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="blog" className="typo-head3 text-main">
+          <label htmlFor="blog" className="typo-head3 text-[20px] text-main">
             블로그
           </label>
           <Input

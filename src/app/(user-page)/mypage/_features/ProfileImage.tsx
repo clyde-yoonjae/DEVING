@@ -7,7 +7,7 @@ import { useUpdateProfileImageMutation } from '@/hooks/mutations/useMyPageMutati
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { Pencil } from 'lucide-react';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { MAX_FILE_SIZE } from '../../../../constants/mypage/mypageConstant';
 import SkeletonProfileImage from './skeletons/SkeletonProfileImage';
@@ -17,6 +17,7 @@ const ProfileImage = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [fileSizeError, setFileSizeError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 프로필 데이터 조회
@@ -28,6 +29,23 @@ const ProfileImage = () => {
 
   // 프로필 이미지 URL
   const profileImageUrl = profileData?.data?.profilePic || null;
+
+  // 반응형 화면 크기 감지
+  useEffect(() => {
+    const checkIsMobile = () => {
+      // md 사이즈 기준 (보통 768px)
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // 초기 로드 시 체크
+    checkIsMobile();
+
+    // 리사이즈 이벤트 리스너 등록
+    window.addEventListener('resize', checkIsMobile);
+
+    // 컴포넌트 언마운트 시 정리
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   // 파일 선택 핸들러
   const handleFileSelect = () => {
@@ -90,6 +108,13 @@ const ProfileImage = () => {
     resetImageState();
   };
 
+  // 프로필 이미지 클릭 처리
+  const handleProfileClick = () => {
+    if (isMobile) {
+      setIsModalOpen(true);
+    }
+  };
+
   if (isProfileLoading) {
     return <SkeletonProfileImage />;
   }
@@ -98,21 +123,54 @@ const ProfileImage = () => {
     <div className="flex flex-col pt-[83px]">
       <div className="typo-head3 text-Cgray700">프로필 이미지</div>
       <div className="flex justify-center gap-[24px] py-[24px]">
-        <div className="relative flex h-[163px] w-[163px] items-center justify-center rounded-[20px] border border-Cgray300 bg-Cgray200 md:h-[255px] md:w-[255px]">
+        <div
+          className={`relative flex h-[163px] w-[163px] items-center justify-center rounded-[20px] border border-Cgray300 bg-Cgray200 md:h-[255px] md:w-[255px] ${isMobile ? 'cursor-pointer hover:opacity-90 active:opacity-75' : ''}`}
+          onClick={isMobile ? handleProfileClick : undefined}
+          onKeyDown={
+            isMobile
+              ? (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleProfileClick();
+                  }
+                }
+              : undefined
+          }
+          role={isMobile ? 'button' : undefined}
+          tabIndex={isMobile ? 0 : undefined}
+          aria-label={isMobile ? '프로필 이미지 변경하기' : undefined}
+        >
           {profileImageUrl ? (
-            <Image
-              src={profileImageUrl}
-              alt="프로필 이미지"
-              priority
-              className="rounded-[20px] object-cover"
-              fill
-              unoptimized
-              sizes="(max-width: 768px) 163px, 255px"
-            />
+            <>
+              <Image
+                src={profileImageUrl}
+                alt="프로필 이미지"
+                priority
+                className="rounded-[20px] object-cover"
+                fill
+                unoptimized
+                sizes="(max-width: 768px) 163px, 255px"
+              />
+              {/* 모바일에서만 보이는 오버레이 효과 */}
+              {isMobile && (
+                <div className="absolute inset-0 flex items-center justify-center rounded-[20px] bg-black bg-opacity-30 opacity-0 transition-opacity hover:opacity-100 focus:opacity-100">
+                  <p className="font-medium text-white">이미지 변경</p>
+                </div>
+              )}
+            </>
           ) : (
-            <EditLogo className="text-Cgray700" width={86} height={86} />
+            <>
+              <EditLogo className="text-Cgray700" width={86} height={86} />
+              {/* 모바일에서만 보이는 오버레이 효과 */}
+              {isMobile && (
+                <div className="absolute inset-0 flex items-center justify-center rounded-[20px] bg-black bg-opacity-30 opacity-0 transition-opacity hover:opacity-100 focus:opacity-100">
+                  <p className="font-medium text-white">이미지 선택</p>
+                </div>
+              )}
+            </>
           )}
-          <div className="absolute bottom-[8px] right-[8px] md:bottom-[15px] md:right-[15px]">
+          {/* md 사이즈 이상에서만 보이는 편집 버튼 */}
+          <div className="absolute bottom-[8px] right-[8px] hidden md:bottom-[15px] md:right-[15px] md:block">
             <Button
               onClick={() => setIsModalOpen(true)}
               className="h-[28px] w-[28px] rounded-full md:h-[34px] md:w-[34px]"
