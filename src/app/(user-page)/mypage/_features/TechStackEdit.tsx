@@ -19,7 +19,7 @@ interface TechStackEditProps {
 
 const TechStackEdit = ({
   onEditComplete,
-  maxSelections = 999,
+  maxSelections = 10, // 변경: 기본값을 999에서 10으로 수정
 }: TechStackEditProps) => {
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
 
@@ -51,6 +51,7 @@ const TechStackEdit = ({
     if (!isInitialized && !isLoading && profileData?.data?.skillArray) {
       const skillArray = profileData.data.skillArray;
       if (skillArray.length > 0) {
+        // 기존 스킬이 maxSelections보다 많으면 경고 표시 또는 처리 로직을 추가할 수 있음
         setInitialSelection(skillArray);
       }
       setIsInitialized(true); // 초기화 완료 표시
@@ -73,7 +74,11 @@ const TechStackEdit = ({
   return (
     <div className="rounded-lg border border-Cgray300 bg-BG p-[32px]">
       <div className="mb-4 flex items-center justify-between">
-        <div className="typo-head3 text-main">기술 스택 편집</div>
+        <div className="typo-head3 text-[20px] text-main">기술 스택 편집</div>
+        {/* 선택 개수 표시 추가 */}
+        <div className="text-Cgray800">
+          {selectedCount}/{maxSelections}
+        </div>
       </div>
 
       {/* 선택된 기술 목록 */}
@@ -104,18 +109,25 @@ const TechStackEdit = ({
         className="bg-transparent"
       />
 
+      {/* 최대 선택 개수 도달 시 안내 메시지 추가 */}
+      {selectedCount >= maxSelections && (
+        <div className="mt-2 text-sm text-warning">
+          최대 {maxSelections}개까지 선택할 수 있습니다.
+        </div>
+      )}
+
       <div className="mt-4 flex justify-between">
         <Button
           type="button"
           variant="outline"
-          className="h-[40px] w-[140px] md:h-[46px]"
+          className="h-[40px] w-[80px] md:h-[46px] md:w-[180px]"
           onClick={onEditComplete}
         >
           취소
         </Button>
         <Button
           type="button"
-          className="h-[40px] w-[140px] select-none md:h-[46px]"
+          className="h-[40px] w-[130px] select-none md:h-[46px] md:w-[200px]"
           disabled={isUpdating}
           onClick={handleSave}
         >

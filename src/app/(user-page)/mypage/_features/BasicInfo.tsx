@@ -36,10 +36,13 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
   }
 
   return (
-    <div className="w-full rounded-[16px] border border-Cgray300 p-[16px] md:p-[32px]">
-      <div className="flex flex-col gap-[32px]">
+    <div className="w-full rounded-[16px] border border-Cgray300 p-[24px] md:p-[32px]">
+      <div className="flex flex-col gap-[24px] md:gap-[32px]">
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="name-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="name-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             이름
           </label>
           <input
@@ -47,11 +50,14 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.name}
             readOnly
-            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
+            className="typo-button1 h-[50px] cursor-default rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="intro-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="intro-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             소개글
           </label>
           <textarea
@@ -59,11 +65,14 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             rows={3}
             value={userData.intro}
             readOnly
-            className="h-[140px] resize-none rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
+            className="h-[140px] cursor-default resize-none rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="position-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="position-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             포지션
           </label>
           <input
@@ -71,11 +80,14 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.position}
             readOnly
-            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
+            className="typo-button1 h-[50px] cursor-default rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="gender-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="gender-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             성별
           </label>
           <input
@@ -83,11 +95,14 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.gender}
             readOnly
-            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
+            className="typo-button1 h-[50px] cursor-default rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="age-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="age-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             연령대
           </label>
           <input
@@ -95,11 +110,14 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.age}
             readOnly
-            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
+            className="typo-button1 h-[50px] cursor-default rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="area-input" className="typo-head3 text-Cgray700">
+          <label
+            htmlFor="area-input"
+            className="typo-head3 text-[20px] text-white"
+          >
             지역
           </label>
           <input
@@ -107,7 +125,7 @@ const BasicInfo = ({ onEnableEdit }: BasicInfoProps) => {
             type="text"
             value={userData.location}
             readOnly
-            className="typo-button1 h-[50px] rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
+            className="typo-button1 h-[50px] cursor-default rounded-[8px] border-b border-Cgray300 bg-transparent py-2 pl-[16px] text-Cgray700 focus:outline-none"
           />
         </div>
         <div className="flex justify-center md:justify-start">

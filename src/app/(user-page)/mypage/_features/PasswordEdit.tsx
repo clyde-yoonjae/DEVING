@@ -5,11 +5,7 @@ import { Input } from '@/components/ui/Input';
 import { useUpdatePasswordMutation } from '@/hooks/mutations/useMyPageMutation';
 import { useForm } from 'react-hook-form';
 
-interface PasswordFormData {
-  currentPassword: string;
-  newPassword: string;
-  passwordCheck: string;
-}
+import { IPasswordUpdateRequest } from '../../../../types/mypageTypes';
 
 interface PasswordEditProps {
   onEditComplete: () => void;
@@ -23,7 +19,7 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
     watch,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<PasswordFormData>({
+  } = useForm<IPasswordUpdateRequest>({
     defaultValues: {
       currentPassword: '',
       newPassword: '',
@@ -39,7 +35,7 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
     useUpdatePasswordMutation();
 
   // 폼 제출 처리
-  const onSubmit = (data: PasswordFormData) => {
+  const onSubmit = (data: IPasswordUpdateRequest) => {
     // 비밀번호 일치 여부 확인
     if (data.newPassword !== data.passwordCheck) {
       setError('passwordCheck', {
@@ -84,7 +80,10 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
     >
       <div className="flex flex-col gap-[32px]">
         <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="currentPassword" className="typo-head3 text-main">
+          <label
+            htmlFor="currentPassword"
+            className="typo-head3 text-[20px] text-main"
+          >
             기존 비밀번호
           </label>
           <Input
@@ -98,7 +97,10 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
         </div>
 
         <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="newPassword" className="typo-head3 text-main">
+          <label
+            htmlFor="newPassword"
+            className="typo-head3 text-[20px] text-main"
+          >
             새 비밀번호
           </label>
           <Input
@@ -109,14 +111,27 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
               required: '새 비밀번호를 입력해주세요',
               minLength: {
                 value: 8,
-                message: '비밀번호는 8자 이상이어야 합니다',
+                message: '비밀번호는 숫자, 영문 포함 8자리 이상이어야 합니다',
+              },
+              validate: (value) => {
+                const hasNumber = /[0-9]/.test(value);
+                const hasLetter = /[a-zA-Z]/.test(value);
+
+                if (!hasNumber || !hasLetter) {
+                  return '비밀번호는 숫자, 영문 포함 8자리 이상이어야 합니다';
+                }
+
+                return true;
               },
             })}
           />
         </div>
 
         <div className="flex w-full flex-col gap-[8px]">
-          <label htmlFor="passwordCheck" className="typo-head3 text-main">
+          <label
+            htmlFor="passwordCheck"
+            className="typo-head3 text-[20px] text-main"
+          >
             비밀번호 확인
           </label>
           <Input
@@ -135,17 +150,17 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
           <Button
             type="button"
             variant="outline"
-            className="h-[40px] w-[140px] md:h-[46px]"
+            className="h-[40px] w-[80px] md:h-[46px] md:w-[180px]"
             onClick={handleCancel}
           >
             취소
           </Button>
           <Button
             type="submit"
-            className="h-[40px] w-[140px] select-none md:h-[46px]"
+            className="h-[40px] w-[130px] select-none md:h-[46px] md:w-[200px]"
             disabled={isSubmitting || isUpdating}
           >
-            {isUpdating ? '변경 중...' : '비밀번호 변경'}
+            {isUpdating ? '저장 중...' : '변경사항 저장'}
           </Button>
         </div>
       </div>
