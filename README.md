@@ -1,8 +1,30 @@
 ![alt text](image.png)
 
+</br>
+
+# 목차
+
+## 1. [프로젝트 소개](#-프로젝트-소개)
+## 2. [팀원 소개](#-팀원-소개)
+## 3. [프로젝트 기획](#-프로젝트-기획)
+## 4. [기간 및 협업관리](#️-기간-및-협업관리)
+## 5. [기술스택](#-기술스택)
+## 6. [주요 기능](#-주요-기능)
+
+</br>
+
 # 📚 프로젝트 소개
 
 DEVING은 개발자와 디자이너를 위한 전문 모임 플랫폼입니다. 사이드 프로젝트, 모각코, 스터디, 취미 등 개발자 및 디자이너 직군들이 자주 이용하는 주제로 모임을 생성하고 참여할 수 있습니다. 함께 성장하고 네트워킹할 수 있는 커뮤니티를 제공합니다.
+
+</br>
+
+# 🧑‍💻 팀원 소개
+
+| 강윤지 | 이윤재 | 이한나 | 이동석 |
+|:-----:|:-----:|:-----:|:-----:|
+| ![강윤지](https://github.com/dbswl701.png) | ![이윤재](https://github.com/clyde-yoonjae.png) | ![이한나](https://github.com/lee1nna.png) | ![이동석](https://github.com/Lee-Dong-Seok.png) |
+| [:octocat: GitHub](https://github.com/dbswl701) | [:octocat: GitHub](https://github.com/clyde-yoonjae) | [:octocat: GitHub](https://github.com/lee1nna) | [:octocat: GitHub](https://github.com/Lee-Dong-Seok) |
 
 </br>
 
@@ -72,38 +94,61 @@ DEVING은 개발자와 디자이너를 위한 전문 모임 플랫폼입니다. 
 ![MUI](https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
+
+### <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" width="20" height="20"/> Next.js (App Router)
+
+Next.js의 App Router를 활용하여 서버 컴포넌트 기반의 아키텍처를 구현했습니다. 이를 통해 다음과 같은 이점을 얻을 수 있었습니다:
+
+- **서버 사이드 렌더링(SSR)**: 초기 로딩 속도 향상 및 SEO 최적화
+- **서버 컴포넌트**: 클라이언트에 JavaScript 번들을 전송하지 않고 서버에서 렌더링하여 성능 개선
+- **데이터 프리페칭**: 페이지 렌더링 전에 필요한 데이터를 미리 로드하여 사용자 경험 개선
+- **서버 상태 기반 인증**: 보안성이 향상된 사용자 인증 시스템 구현
+
+
+### <img src="https://cdn.jsdelivr.net/gh/TanStack/query/media/emblem-light.svg" width="20" height="20"/> TanStack Query
+
+서버 상태 관리를 위해 TanStack Query(React Query)를 사용했습니다:
+- **효율적인 데이터 페칭**: 자동 캐싱, 백그라운드 업데이트, 재시도 로직 구현
+- **서버 상태와 클라이언트 상태 분리**: 상태 관리 로직 단순화
+- **데이터 동기화**: 최신 데이터를 항상 유지하면서도 불필요한 네트워크 요청 최소화
+- **쿼리키 팩토리패턴**: 프로젝트 내 전략적인 쿼리키 관리
+- **무한 스크롤**: 대용량 데이터 효율적 처리
+
+
+### <img src="https://ui.shadcn.com/favicon.ico" width="20" height="20"/> shadcn/ui & <img src="https://mui.com/favicon.ico" width="20" height="20"/> MUI
+
+디자인 시안 확정 전 신속한 개발 환경 구축을 위해 두 UI 라이브러리를 전략적으로 활용했습니다:
+- **프로토타이핑 가속화**: 고품질 컴포넌트로 빠른 MVP 개발
+- **일관된 디자인 시스템**: 프로젝트 초기 단계에서 디자인 일관성 유지
+- **사용자 경험 향상**: 검증된 UI 패턴 적용으로 직관적인 인터페이스 구현
+- **개발 효율성**: 컴포넌트 재사용으로 개발 시간 단축
+
 </br>
 
 # ✨ 주요 기능
 
-### 모임 찾기
 
-여러가지 필터를 통해 모임을 쉽고 빠르게 찾을 수 있습니다.
+| 모임 찾기 | 모임 상세보기 |
+|:---:|:---:|
+| 여러가지 필터를 통해 모임을 쉽고 빠르게 찾을 수 있습니다. | 모임에 대한 상세 정보를 한눈에 확인할 수 있습니다. |
+| <img src="./src/assets/readme-img/list.png" alt="모임 찾기" width="450"> | <img src="./src/assets/readme-img/detail.png" alt="모임 상세보기" width="450"> |
 
-<img src="./src/assets/readme-img/list.png" alt="모임 찾기" width="500" height="500">
+| 모임 신청 | 모임 관리 및 멤버관리 |
+|:---:|:---:|
+| 간편한 절차를 통해 모임에 참여 신청을 할 수 있습니다. | 주최모임과 참여자들을 관리 및 상태를 변경 할 수 있습니다. |
+| <img src="./src/assets/readme-img/join.png" alt="모임 신청" width="450"> | <img src="./src/assets/readme-img/member.png" alt="모임 관리" width="450"> |
 
-### 모임 상세보기
-
-모임에 대한 상세 정보를 한눈에 확인할 수 있습니다.
-
-<img src="./src/assets/readme-img/detail.png" alt="모임 상세보기" width="500" height="500">
-
-### 모임 신청
-
-간편한 절차를 통해 원하는 모임에 빠르게 참여 신청을 할 수 있습니다.
-
-<img src="./src/assets/readme-img/join.png" alt="모임 신청" width="500" height="500">
-
-### 모임 관리 및 멤버관리
-
-내가 생성한 모임 및 참여자들을 관리할 수 있습니다. 참여 신청 수락/거절, 멤버 정보 확인 등 모임 구성원 관리를 위한 기능을 제공합니다.
-
-<img src="./src/assets/readme-img/member.png" alt="모임 관리" width="500" height="500">
-
-### 내 정보 수정
-
-프로필 정보를 간편하게 수정할 수 있습니다.
-
-<img src="./src/assets/readme-img/mypage.png" alt="내정보" width="500" height="500">
-
+| 내 정보 수정 | |
+|:---:|:---:|
+| 프로필 정보를 간편하게 수정할 수 있습니다. | |
+| <img src="./src/assets/readme-img/mypage.png" alt="내정보" width="450"> | |
 </br>
+
+
+## 🎈 프로젝트 산출물
+
+| 문서 종류 | 링크 |
+|:---|:---|
+| 📝 **와이어 프레임** | [DEVING - 와이어 프레임](https://www.figma.com/files/team/1239829768059524989/recents-and-sharing?fuid=1239829763104263861) |
+| 🎨 **디자인 시안** | [DEVING - 디자인 시안](https://www.figma.com/design/whAR7r8MPfWo9Cl93zhKlL/DEVING-%EC%8B%9C%EC%95%88?node-id=0-1&p=f&t=hQ9Sr369FbrTyGqY-0) |
+| 📘 **API 문서** | [DEVING - 스웨거](https://deving.shop/swagger-ui/index.html#/auth-controller) |
