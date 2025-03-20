@@ -19,9 +19,9 @@ DEVING은 개발자와 디자이너를 위한 전문 모임 플랫폼입니다. 
 
 </br>
 
-# 🧑‍💻 팀원 소개
+# 🧑‍💻 FE 팀원 소개
 
-| 강윤지 | 이윤재 | 이한나 | 이동석 |
+| 강윤지- Leader | 이윤재 | 이한나 | 이동석 |
 |:-----:|:-----:|:-----:|:-----:|
 | ![강윤지](https://github.com/dbswl701.png) | ![이윤재](https://github.com/clyde-yoonjae.png) | ![이한나](https://github.com/lee1nna.png) | ![이동석](https://github.com/Lee-Dong-Seok.png) |
 | [:octocat: GitHub](https://github.com/dbswl701) | [:octocat: GitHub](https://github.com/clyde-yoonjae) | [:octocat: GitHub](https://github.com/lee1nna) | [:octocat: GitHub](https://github.com/Lee-Dong-Seok) |
