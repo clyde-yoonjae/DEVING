@@ -158,7 +158,10 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
       <div className="flex flex-col gap-[16px] md:gap-[32px]">
         {/* 이름 입력 필드 */}
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="name-input" className="typo-head3 text-main">
+          <label
+            htmlFor="name-input"
+            className="typo-head3 text-[20px] text-main"
+          >
             사용자 이름
           </label>
           <input
@@ -203,7 +206,10 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
         {/* 자기소개 텍스트 영역 */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="intro-input" className="typo-head3 text-main">
+            <label
+              htmlFor="intro-input"
+              className="typo-head3 text-[20px] text-main"
+            >
               자기소개
             </label>
           </div>
@@ -230,7 +236,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
         {/* 포지션 버튼 */}
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
-          <div className="typo-head3 text-main">포지션</div>
+          <div className="typo-head3 text-[20px] text-main">포지션</div>
           <div className="flex w-full flex-wrap gap-2">
             <div className="rounded-4 typo-head3 flex w-full gap-[12px]">
               {POSITION_OPTIONS.map((option) => (
@@ -262,7 +268,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
         {/* 성별 토글 버튼 */}
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
-          <div className="typo-head3 text-main">성별</div>
+          <div className="typo-head3 text-[20px] text-main">성별</div>
           <div className="typo-head3 flex w-full gap-[16px] rounded-md">
             {GENDER_OPTIONS.map((option) => (
               <button
@@ -292,7 +298,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
         {/* 연령대 드롭다운 */}
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
-          <div className="typo-head3 text-main">연령대</div>
+          <div className="typo-head3 text-[20px] text-main">연령대</div>
           <Controller
             name="age"
             control={control}
@@ -312,7 +318,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
 
         {/* 지역 드롭다운 */}
         <div className="flex flex-col gap-[16px] border-b border-Cgray300 pb-[16px] md:pb-[32px]">
-          <div className="typo-head3 text-main">지역</div>
+          <div className="typo-head3 text-[20px] text-main">지역</div>
           <Controller
             name="location"
             control={control}
@@ -335,14 +341,14 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
           <Button
             type="button"
             variant="outline"
-            className="h-[40px] w-[140px] md:h-[46px]"
+            className="h-[40px] w-[80px] md:h-[46px] md:w-[180px]"
             onClick={handleCancel}
           >
             취소
           </Button>
           <Button
             type="submit"
-            className="h-[40px] w-[140px] select-none md:h-[46px]"
+            className="h-[40px] w-[130px] select-none md:h-[46px] md:w-[200px]"
             disabled={
               isSubmitting || isUpdating || introLength > MAX_INTRO_LENGTH
             }

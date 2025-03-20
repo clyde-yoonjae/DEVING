@@ -80,7 +80,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
     >
       <div className="flex flex-col gap-[32px]">
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="phone" className="typo-head3 text-main">
+          <label htmlFor="phone" className="typo-head3 text-[20px] text-main">
             전화번호
           </label>
           <Input
@@ -99,7 +99,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
         </div>
 
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="kakao" className="typo-head3 text-main">
+          <label htmlFor="kakao" className="typo-head3 text-[20px] text-main">
             카카오톡 ID
           </label>
           <Input
@@ -117,7 +117,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
         </div>
 
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="github" className="typo-head3 text-main">
+          <label htmlFor="github" className="typo-head3 text-[20px] text-main">
             깃허브
           </label>
           <Input
@@ -151,7 +151,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
         </div>
 
         <div className="flex flex-col gap-[8px]">
-          <label htmlFor="blog" className="typo-head3 text-main">
+          <label htmlFor="blog" className="typo-head3 text-[20px] text-main">
             블로그
           </label>
           <Input
@@ -205,14 +205,14 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
           <Button
             type="button"
             variant="outline"
-            className="h-[40px] w-[140px] md:h-[46px]"
+            className="h-[40px] w-[80px] md:h-[46px] md:w-[180px]"
             onClick={handleCancel}
           >
             취소
           </Button>
           <Button
             type="submit"
-            className="h-[40px] w-[140px] select-none md:h-[46px]"
+            className="h-[40px] w-[130px] select-none md:h-[46px] md:w-[200px]"
             disabled={isSubmitting || isUpdating}
           >
             {isUpdating ? '저장 중...' : '변경사항 저장'}
