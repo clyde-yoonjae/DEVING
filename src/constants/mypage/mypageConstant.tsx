@@ -1,5 +1,6 @@
 import { Code, Compass, Mars, Paintbrush, Venus, X } from 'lucide-react';
 
+import { UserPosition } from '../../../type-clyde/auth/acount';
 import { IIconProps } from '../../types/mypageTypes';
 
 // 탭 타입 상수
@@ -45,8 +46,14 @@ export const GENDER_OPTIONS = [
   },
 ];
 
+interface PositionOption {
+  value: UserPosition;
+  label: UserPosition;
+  icon: (props: IIconProps) => JSX.Element;
+}
+
 // 포지션 옵션
-export const POSITION_OPTIONS = [
+export const POSITION_OPTIONS: PositionOption[] = [
   {
     value: '프론트엔드',
     label: '프론트엔드',
