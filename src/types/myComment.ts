@@ -1,4 +1,4 @@
-import type { Comment } from '../service/api/comment';
+import { Comment } from 'type-clyde/meeting/comment';
 
 interface MyComment extends Comment {
   meetingTitle: string;

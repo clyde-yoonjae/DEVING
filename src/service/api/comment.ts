@@ -5,9 +5,7 @@ import { Paginated } from 'types/meeting';
 
 import { commentURL } from './endpoints';
 
-const getCommentsCount = async (
-  meetingId: number,
-): ApiResponse<ICommentsCount> => {
+const getCommentsCount = async (meetingId: number): Promise<ICommentsCount> => {
   const res = await axiosInstance.get(commentURL.count(meetingId));
   return res.data.data;
 };
