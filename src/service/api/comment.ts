@@ -1,26 +1,14 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
+import { ApiResponse } from 'type-clyde/common/api';
+import { ICommentsCount } from 'type-clyde/meeting/comment';
 import { Paginated } from 'types/meeting';
 
-export interface ICommentsCount {
-  fives: number;
-  fours: number;
-  threes: number;
-  twos: number;
-  ones: number;
-}
+import { commentURL } from './endpoints';
 
-export interface Comment {
-  commentId: number;
-  score: number;
-  content: string;
-  createdAt: string;
-  meetingId: number;
-  userName?: string;
-  profilePic?: string;
-}
-
-const getCommentsCount = async (meetingId: number): Promise<ICommentsCount> => {
-  const res = await axiosInstance.get(`/api/v1/comments/count/${meetingId}`);
+const getCommentsCount = async (
+  meetingId: number,
+): ApiResponse<ICommentsCount> => {
+  const res = await axiosInstance.get(commentURL.count(meetingId));
   return res.data.data;
 };
 
@@ -38,7 +26,7 @@ const postComment = async (
   meetingId: number,
   req: { score: number; content: string },
 ) => {
-  const res = await axiosInstance.post(`/api/v1/comments/${meetingId}`, req);
+  const res = await axiosInstance.post(commentURL.create(meetingId), req);
   return res.data.data;
 };
 
