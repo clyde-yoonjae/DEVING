@@ -1,6 +1,6 @@
 import { DatePicker } from '@/components/ui/form/DatePicker';
 import { useFormContext } from 'react-hook-form';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload } from 'type-clyde/meeting';
 
 import { startDateValidation } from '../validation';
 

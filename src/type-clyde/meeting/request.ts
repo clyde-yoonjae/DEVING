@@ -1,3 +1,5 @@
+import { ApiResponse } from 'type-clyde/common/api';
+
 export interface CreateMeetingPayload {
   meetingTitle: string;
   categoryTitle: string;
@@ -17,3 +19,9 @@ export interface UpdateMeetingPayload
   imageName: string | null;
   imageEncodedBase64: string | null;
 }
+
+export interface MeetingResponseData {
+  meetingId: number;
+}
+
+export type CreateMeetingResponse = ApiResponse<MeetingResponseData>;

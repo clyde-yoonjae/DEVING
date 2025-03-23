@@ -23,7 +23,7 @@ import { MEETING_TYPES } from 'constants/category/category';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { CreateMeetingPayload, UpdateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload, UpdateMeetingPayload } from 'type-clyde/meeting';
 
 interface MeetingFormProps {
   mode: 'create' | 'edit';

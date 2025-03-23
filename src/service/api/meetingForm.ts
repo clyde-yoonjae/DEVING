@@ -3,7 +3,7 @@ import {
   CreateMeetingPayload,
   CreateMeetingResponse,
   UpdateMeetingPayload,
-} from 'types/meetingForm';
+} from 'type-clyde/meeting';
 
 import { meetingURL } from './endpoints';
 

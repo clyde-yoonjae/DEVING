@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { MeetingDetail } from 'service/api/meeting';
 import { getMeetingDetail } from 'service/api/meeting';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload } from 'type-clyde/meeting';
 
 import MeetingForm from '../../_features/form/MeetingForm';
 

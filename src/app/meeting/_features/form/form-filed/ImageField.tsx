@@ -7,7 +7,7 @@ import { Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload } from 'type-clyde/meeting';
 
 import { imageValidationMessages } from '../validation';
 

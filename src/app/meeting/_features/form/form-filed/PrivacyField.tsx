@@ -2,7 +2,7 @@ import { cn } from '@/util/cn';
 import { PRIVACY_OPTIONS } from 'constants/meeting-form/meetingConstants';
 import { Check } from 'lucide-react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload } from 'type-clyde/meeting';
 
 const PrivacyField = () => {
   const {
