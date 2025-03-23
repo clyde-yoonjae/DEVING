@@ -1,4 +1,3 @@
-import NotYet from '@/components/common/NotYet';
 import { myMeetingKeys } from '@/hooks/queries/useMyMeetingQueries';
 import { QUERY_KEYS } from '@/hooks/queries/useMyPageQueries';
 import {
@@ -13,7 +12,7 @@ import {
   getMyMeetingPending,
 } from 'service/api/mymeeting';
 import { getBanner } from 'service/api/mypageProfile';
-import { Paginated } from 'types/meeting';
+import { Paginated } from 'type-clyde/common/pagination';
 import {
   IMyMeetingManage,
   IMyMeetingParticipated,

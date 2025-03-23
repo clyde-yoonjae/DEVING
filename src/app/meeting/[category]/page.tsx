@@ -9,7 +9,8 @@ import {
 import { MEETING_TYPES } from 'constants/meeting-form/meetingConstants';
 import { notFound } from 'next/navigation';
 import { getMeetings, getTopMeetings } from 'service/api/meeting';
-import { Paginated, SearchMeeting } from 'types/meeting';
+import { Paginated } from 'type-clyde/common/pagination';
+import { SearchMeeting } from 'types/meeting';
 
 import MeetingList from '../_features/MeetingList';
 import RecommendMeeting from '../_features/RecommendMeeting';

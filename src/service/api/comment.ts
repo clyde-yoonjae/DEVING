@@ -1,7 +1,7 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
 import { ApiResponse } from 'type-clyde/common/api';
+import { Paginated } from 'type-clyde/common/pagination';
 import { ICommentsCount } from 'type-clyde/meeting/comment';
-import { Paginated } from 'types/meeting';
 
 import { commentURL } from './endpoints';
 

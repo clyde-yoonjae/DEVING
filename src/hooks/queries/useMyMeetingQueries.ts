@@ -8,7 +8,7 @@ import {
   getMyMeetingLikes,
   getMyMeetingParticipated,
 } from 'service/api/mymeeting';
-import { Paginated } from 'types/meeting';
+import { Paginated } from 'type-clyde/common/pagination';
 import {
   IMyMeetingLikes,
   IMyMeetingManage,

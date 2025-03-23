@@ -1,8 +1,8 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
+import { Paginated } from 'type-clyde/common/pagination';
 import type {
   CategoryTitle,
   IMeetingSearchCondition,
-  Paginated,
   SearchMeeting,
   TopMeeting,
 } from 'types/meeting';

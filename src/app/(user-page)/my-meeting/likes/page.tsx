@@ -5,7 +5,7 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import { getMyMeetingLikes } from 'service/api/mymeeting';
-import { Paginated } from 'types/meeting';
+import { Paginated } from 'type-clyde/common/pagination';
 import { IMyMeetingLikes } from 'types/myMeeting';
 
 import Likes from '../_features/Likes';

@@ -48,18 +48,18 @@ interface SearchMeeting {
   isLike: boolean;
   likesCount: number;
 }
-interface Paginated<T> {
-  pageable: Pageable;
-  nextCursor: number;
-  size: number;
-  content: T[];
-  number: number;
-  sort: Sort;
-  numberOfElements: number;
-  first: boolean;
-  last: boolean;
-  empty: boolean;
-}
+// interface Paginated<T> {
+//   pageable: Pageable;
+//   nextCursor: number;
+//   size: number;
+//   content: T[];
+//   number: number;
+//   sort: Sort;
+//   numberOfElements: number;
+//   first: boolean;
+//   last: boolean;
+//   empty: boolean;
+// }
 
 interface ErrorData {
   data: { entityType: string; errorMessage: string; request: string };
@@ -72,6 +72,6 @@ export type {
   Pageable,
   SearchMeeting,
   IMeetingSearchCondition,
-  Paginated,
+  // Paginated,
   ErrorData,
 };

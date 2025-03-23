@@ -1,5 +1,5 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
-import { Paginated } from 'types/meeting';
+import { Paginated } from 'type-clyde/common/pagination';
 import type { IMemberProfile, IMyMeetingManage } from 'types/myMeeting';
 import {
   IMyMeetingLikes,

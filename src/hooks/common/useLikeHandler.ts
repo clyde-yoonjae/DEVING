@@ -10,10 +10,10 @@ import {
 import { InfiniteData, QueryKey, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useParams, usePathname } from 'next/navigation';
+import { Paginated } from 'type-clyde/common/pagination';
 import {
   ErrorData,
   IMeetingSearchCondition,
-  Paginated,
   SearchMeeting,
   TopMeeting,
 } from 'types/meeting';

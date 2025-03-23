@@ -6,7 +6,7 @@ import { useBannerQueries } from '@/hooks/queries/useMyPageQueries';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { getMyMeetingMemberProfile } from 'service/api/mymeeting';
-import { Paginated } from 'types/meeting';
+import { Paginated } from 'type-clyde/common/pagination';
 import { IMyMeetingManage, Member } from 'types/myMeeting';
 
 import ModalUserList from '../../../_features/ModalUserList';
