@@ -5,14 +5,14 @@ import useDebounce from '@/hooks/useDebounde';
 import { loginEmailValidation } from '@/util/validation';
 import { useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
-import { IInputProps, ILoginFormData } from 'types/auth';
+import { InputProps, LoginFormData } from 'type-clyde/auth/form';
 
 const EmailInput = ({
   control,
   register,
   errors,
   trigger,
-}: IInputProps<ILoginFormData>) => {
+}: InputProps<LoginFormData>) => {
   const email = useWatch({ control, name: 'email' });
 
   useDebounce({

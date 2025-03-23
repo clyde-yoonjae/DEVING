@@ -5,14 +5,14 @@ import useDebounce from '@/hooks/useDebounde';
 import { loginPasswordValidation } from '@/util/validation';
 import { useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
-import { IInputProps, ILoginFormData } from 'types/auth';
+import { InputProps, LoginFormData } from 'type-clyde/auth/form';
 
 const PasswordInput = ({
   control,
   register,
   errors,
   trigger,
-}: IInputProps<ILoginFormData>) => {
+}: InputProps<LoginFormData>) => {
   const password = useWatch({ control, name: 'password' });
 
   useDebounce({
