@@ -5,19 +5,7 @@ import useDebounce from '@/hooks/useDebounde';
 import { passwordValidation } from '@/util/validation';
 import { useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
-import { IInputProps, ISignupFormData } from 'types/auth';
-
-export interface IPasswordInputProps extends IInputProps<ISignupFormData> {
-  dirtyFields: Partial<
-    Readonly<{
-      name?: boolean | undefined;
-      email?: boolean | undefined;
-      position?: boolean | undefined;
-      password?: boolean | undefined;
-      passwordCheck?: boolean | undefined;
-    }>
-  >;
-}
+import { PasswordInputProps } from 'type-clyde/auth/form';
 
 const PasswordInput = ({
   register,
@@ -25,7 +13,7 @@ const PasswordInput = ({
   trigger,
   dirtyFields,
   errors,
-}: IPasswordInputProps) => {
+}: PasswordInputProps) => {
   const password = useWatch({ control, name: 'password' });
   useDebounce({
     value: password,

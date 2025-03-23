@@ -5,8 +5,7 @@ import useDebounce from '@/hooks/useDebounde';
 import { passwordCheckValidation } from '@/util/validation';
 import { useCallback } from 'react';
 import { useWatch } from 'react-hook-form';
-
-import { IPasswordInputProps } from './PasswordInput';
+import { PasswordInputProps } from 'type-clyde/auth/form';
 
 const PasswordCheckInput = ({
   register,
@@ -14,7 +13,7 @@ const PasswordCheckInput = ({
   errors,
   control,
   trigger,
-}: IPasswordInputProps) => {
+}: PasswordInputProps) => {
   const password = useWatch({ control, name: 'password' });
   const passwordCheck = useWatch({ control, name: 'passwordCheck' });
 

@@ -6,7 +6,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ISignupFormData } from 'types/auth';
+import { SignupFormData, UserPosition } from 'type-clyde/auth/form';
 
 const useSignUpForm = () => {
   const {
@@ -18,10 +18,10 @@ const useSignUpForm = () => {
     setValue,
     formState: { errors, dirtyFields },
     control,
-  } = useForm<ISignupFormData>({
+  } = useForm<SignupFormData>({
     mode: 'onBlur',
     defaultValues: {
-      position: '',
+      position: '선택 안함',
     },
   });
 
@@ -73,7 +73,7 @@ const useSignUpForm = () => {
     onSuccessCallback: () => router.push('/login'),
   });
 
-  const onSubmit = (data: ISignupFormData) => {
+  const onSubmit = (data: SignupFormData) => {
     if (!isNameCheck) {
       setError('name', {
         type: 'nameCheck',
@@ -99,7 +99,7 @@ const useSignUpForm = () => {
   };
 
   // 포지션 클릭
-  const handleClickPosition = (value: string) => {
+  const handleClickPosition = (value: UserPosition) => {
     setValue('position', value);
     trigger('position');
   };

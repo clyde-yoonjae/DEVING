@@ -4,15 +4,9 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import useDebounce from '@/hooks/useDebounde';
 import { nameValidation } from '@/util/validation';
-import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
-import { IInputProps, ISignupFormData } from 'types/auth';
-
-export interface INameInputProps extends IInputProps<ISignupFormData> {
-  isNameCheck: boolean;
-  handleNameCheck: () => void;
-  setIsNameCheck: Dispatch<SetStateAction<boolean>>;
-}
+import { NameInputProps } from 'type-clyde/auth/form';
 
 const NameInput = ({
   register,
@@ -22,7 +16,7 @@ const NameInput = ({
   setIsNameCheck,
   control,
   trigger,
-}: INameInputProps) => {
+}: NameInputProps) => {
   const name = useWatch({ control, name: 'name' });
 
   // 중복확인 로직 수행
