@@ -1,5 +1,6 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
 import { fileToBase64 } from '@/util/imageBase64';
+import { Banner } from 'type-clyde/meeting/banner';
 import {
   ContactInfo,
   ContactInfoUpdateResponse,
@@ -11,7 +12,6 @@ import {
   ProfileUpdateResponse,
   UserBaseInfo,
 } from 'type-clyde/user/profile';
-import { IBanner } from 'types/myMeeting';
 
 // 프로필 조회 API 함수 (통합된 엔드포인트)
 export const getProfile = async (): Promise<ProfileResponse> => {
@@ -107,7 +107,7 @@ export const updateSkills = async (
 };
 
 // 배너 정보 불러오기
-export const getBanner = async (): Promise<IBanner | null> => {
+export const getBanner = async (): Promise<Banner | null> => {
   try {
     const res = await axiosInstance.get('/api/v1/mypage/banner');
     return res.data.data;

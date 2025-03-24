@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { getMyMeetingLikes } from 'service/api/mymeeting';
 import { Paginated } from 'type-clyde/common/pagination';
-import { IMyMeetingLikes } from 'types/myMeeting';
+import { MyMeetingLikes } from 'type-clyde/meeting/myMeeting';
 
 import Likes from '../_features/Likes';
 
@@ -16,7 +16,7 @@ export default async function LikesPage() {
   await queryClient.prefetchInfiniteQuery({
     queryKey: myMeetingKeys.likes(),
     queryFn: ({ pageParam }) => getMyMeetingLikes(pageParam),
-    getNextPageParam: (lastPage: Paginated<IMyMeetingLikes>) =>
+    getNextPageParam: (lastPage: Paginated<MyMeetingLikes>) =>
       lastPage.nextCursor ?? false,
     initialPageParam: 0,
   });

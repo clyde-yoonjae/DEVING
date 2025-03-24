@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/Button';
 import { Tag } from '@/components/ui/Tag';
 import Image from 'next/image';
-import type { UserData } from 'types/myMeeting';
+import { UserData } from 'type-clyde/meeting';
 
 const UserItem = ({
   user,

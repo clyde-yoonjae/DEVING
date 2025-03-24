@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getMyMeetingMemberProfile } from 'service/api/mymeeting';
-import type { Member } from 'types/myMeeting';
+import { Member } from 'type-clyde/meeting';
 
 import PublicSelect from './PublicDropdown';
 

@@ -2,7 +2,8 @@ import { Tag } from '@/components/ui/Tag';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import type { IBanner, Member } from 'types/myMeeting';
+import { Member } from 'type-clyde/meeting';
+import { Banner } from 'type-clyde/meeting/banner';
 
 import { Button } from '../../../../components/ui/Button';
 
@@ -15,7 +16,7 @@ const ModalUserList = ({
   showPublicSelect = false,
 }: {
   memberList: Member[];
-  currentUser: IBanner;
+  currentUser: Banner;
   className?: string;
   handlePrefetchProfile: (member: Member) => Promise<void>;
   showPublicSelect?: boolean;

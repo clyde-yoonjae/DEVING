@@ -10,11 +10,11 @@ import {
 } from 'service/api/mymeeting';
 import { Paginated } from 'type-clyde/common/pagination';
 import {
-  IMyMeetingLikes,
-  IMyMeetingManage,
-  IMyMeetingParticipated,
-} from 'types/myMeeting';
-import { IMyMeetingPending } from 'types/myMeeting';
+  MyMeetingLikes,
+  MyMeetingManage,
+  MyMeetingParticipated,
+  MyMeetingPending,
+} from 'type-clyde/meeting/myMeeting';
 
 export const myMeetingKeys = {
   all: ['mymeeting'] as const,
@@ -35,7 +35,7 @@ export const useInfiniteMyMeetingManageQueries = () => {
     queryKey: myMeetingKeys.manage(),
     queryFn: ({ pageParam }) => getMyMeetingManage(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) => {
+    getNextPageParam: (lastPage: Paginated<MyMeetingManage>) => {
       return lastPage.nextCursor ?? null;
     },
   });
@@ -47,7 +47,7 @@ export const useInfiniteMyMeetingParticipatedQueries = () => {
     queryKey: myMeetingKeys.participated(),
     queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: Paginated<IMyMeetingParticipated>) => {
+    getNextPageParam: (lastPage: Paginated<MyMeetingParticipated>) => {
       return lastPage.nextCursor ?? null;
     },
   });
@@ -59,7 +59,7 @@ export const useInfiniteMyMeetingPendingQueries = () => {
     queryKey: myMeetingKeys.pending(),
     queryFn: ({ pageParam }) => getMyMeetingPending(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: Paginated<IMyMeetingPending>) => {
+    getNextPageParam: (lastPage: Paginated<MyMeetingPending>) => {
       return lastPage.nextCursor ?? null;
     },
     staleTime: 0,
@@ -73,7 +73,7 @@ export const useInfiniteMyMeetingLikesQueries = () => {
     queryKey: myMeetingKeys.likes(),
     queryFn: ({ pageParam }) => getMyMeetingLikes(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage: Paginated<IMyMeetingLikes>) => {
+    getNextPageParam: (lastPage: Paginated<MyMeetingLikes>) => {
       return lastPage.nextCursor ?? null;
     },
   });

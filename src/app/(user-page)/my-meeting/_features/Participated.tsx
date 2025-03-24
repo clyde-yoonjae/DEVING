@@ -6,7 +6,7 @@ import { useInfiniteMyMeetingParticipatedQueries } from '@/hooks/queries/useMyMe
 import { translateCategoryNameToEng } from '@/util/searchFilter';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { IMyMeetingParticipated } from 'types/myMeeting';
+import { MyMeetingParticipated } from 'type-clyde/meeting/myMeeting';
 
 import CardRightSection from './CardRightSection';
 import LeaveMeetingButton from './LeaveMeetingButton';
@@ -15,7 +15,7 @@ import PendingStatusChip from './PendingStatusChip';
 import MeetingListSkeleton from './skeletons/SkeletonMeetingList';
 
 interface IStatusOverlay {
-  meeting: IMyMeetingParticipated;
+  meeting: MyMeetingParticipated;
 }
 
 const Participated = () => {
@@ -44,16 +44,16 @@ const Participated = () => {
 
   // 클릭 불가능한 상태인지 확인하는 함수 (오버레이 표시 여부만 결정)
   const isDisabledStatus = (
-    status: IMyMeetingParticipated['myMemberStatus'],
+    status: MyMeetingParticipated['myMemberStatus'],
   ): boolean => {
     return status === 'REJECTED' || status === 'EXPEL';
   };
 
   // 모임 상세 페이지 URL 생성 함수
-  const getMeetingDetailUrl = (meeting: IMyMeetingParticipated) =>
+  const getMeetingDetailUrl = (meeting: MyMeetingParticipated) =>
     `/meeting/${translateCategoryNameToEng(meeting.categoryTitle)}/${meeting.meetingId}`;
 
-  const handleCardClick = (meeting: IMyMeetingParticipated) => {
+  const handleCardClick = (meeting: MyMeetingParticipated) => {
     router.push(getMeetingDetailUrl(meeting));
   };
 

@@ -14,10 +14,10 @@ import {
 import { getBanner } from 'service/api/mypageProfile';
 import { Paginated } from 'type-clyde/common/pagination';
 import {
-  IMyMeetingManage,
-  IMyMeetingParticipated,
-  IMyMeetingPending,
-} from 'types/myMeeting';
+  MyMeetingManage,
+  MyMeetingParticipated,
+  MyMeetingPending,
+} from 'type-clyde/meeting/myMeeting';
 
 import Created from '../_features/Created';
 import Participated from '../_features/Participated';
@@ -43,7 +43,7 @@ export default async function Page({
     await queryClient.prefetchInfiniteQuery({
       queryKey: myMeetingKeys.manage(),
       queryFn: ({ pageParam }) => getMyMeetingManage(pageParam),
-      getNextPageParam: (lastPage: Paginated<IMyMeetingManage>) =>
+      getNextPageParam: (lastPage: Paginated<MyMeetingManage>) =>
         lastPage.nextCursor ?? false,
       initialPageParam: 0,
     });
@@ -53,14 +53,14 @@ export default async function Page({
       queryClient.prefetchInfiniteQuery({
         queryKey: myMeetingKeys.participated(),
         queryFn: ({ pageParam }) => getMyMeetingParticipated(pageParam),
-        getNextPageParam: (lastPage: Paginated<IMyMeetingParticipated>) =>
+        getNextPageParam: (lastPage: Paginated<MyMeetingParticipated>) =>
           lastPage.nextCursor ?? false,
         initialPageParam: 0,
       }),
       queryClient.prefetchInfiniteQuery({
         queryKey: myMeetingKeys.pending(),
         queryFn: ({ pageParam }) => getMyMeetingPending(pageParam),
-        getNextPageParam: (lastPage: Paginated<IMyMeetingPending>) =>
+        getNextPageParam: (lastPage: Paginated<MyMeetingPending>) =>
           lastPage.nextCursor ?? false,
         initialPageParam: 0,
       }),
