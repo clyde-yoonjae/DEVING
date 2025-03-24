@@ -19,21 +19,6 @@ interface IMeetingSearchCondition {
   size: number;
 }
 
-// interface Sort {
-//   sorted: boolean;
-//   empty: boolean;
-//   unsorted: boolean;
-// }
-
-// interface Pageable {
-//   pageNumber: number;
-//   pageSize: number;
-//   paged: boolean;
-//   offset: number;
-//   sort: Sort;
-//   unpaged: boolean;
-// }
-
 interface SearchMeeting {
   meetingId: number;
   meetingTitle: string;
@@ -48,18 +33,6 @@ interface SearchMeeting {
   isLike: boolean;
   likesCount: number;
 }
-// interface Paginated<T> {
-//   pageable: Pageable;
-//   nextCursor: number;
-//   size: number;
-//   content: T[];
-//   number: number;
-//   sort: Sort;
-//   numberOfElements: number;
-//   first: boolean;
-//   last: boolean;
-//   empty: boolean;
-// }
 
 interface ErrorData {
   data: { entityType: string; errorMessage: string; request: string };
@@ -68,10 +41,7 @@ interface ErrorData {
 export type {
   CategoryTitle,
   TopMeeting,
-  // Sort,
-  // Pageable,
   SearchMeeting,
   IMeetingSearchCondition,
-  // Paginated,
   ErrorData,
 };
