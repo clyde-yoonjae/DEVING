@@ -2,7 +2,7 @@ import { useToast } from '@/components/common/ToastContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { postComment } from 'service/api/comment';
-import { ErrorResponse } from 'types/error';
+import { ErrorResponse } from 'type-clyde/common/error';
 
 import { commentKeys } from '../queries/useCommentQueries';
 

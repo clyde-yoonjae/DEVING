@@ -5,11 +5,7 @@ import {
   setAccessToken,
   setRefreshToken,
 } from '@/lib/serverActions';
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   deleteLogout,
   getEmailCheck,
@@ -17,7 +13,7 @@ import {
   postLogin,
   postSignup,
 } from 'service/api/user';
-import { ISignupFormData } from 'types/auth';
+import { SignupFormData } from 'type-clyde/auth/form';
 
 import { getBanner } from '../../service/api/mypageProfile';
 import { QUERY_KEYS } from '../queries/useMyPageQueries';
@@ -120,7 +116,7 @@ const useSignupMutation = ({
 }) => {
   const { showToast } = useToast();
   return useMutation({
-    mutationFn: (data: ISignupFormData) => postSignup(data),
+    mutationFn: (data: SignupFormData) => postSignup(data),
     onSuccess: () => {
       /**
        * TODO

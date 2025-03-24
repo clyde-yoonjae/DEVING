@@ -13,7 +13,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { IBanner } from 'types/myMeeting';
+import { Banner } from 'type-clyde/meeting/banner';
 
 import Dropdown from './Dropdown';
 
@@ -190,7 +190,7 @@ const NavLinks = ({ isMobile }: { isMobile?: boolean }) => {
   );
 };
 
-const Header = ({ userInfo: initialUserInfo }: { userInfo?: IBanner }) => {
+const Header = ({ userInfo: initialUserInfo }: { userInfo?: Banner }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // useBannerQueries 훅을 사용하여 배너 정보를 가져옵니다.

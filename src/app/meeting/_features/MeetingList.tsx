@@ -18,8 +18,10 @@ import { keepPreviousData } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
-import type { IMeetingSearchCondition, SearchMeeting } from 'types/meeting';
+import { SortFieldType } from 'type-clyde/common/pagination';
 
+import { MeetingSearchCondition } from '../../../type-clyde/meeting/search';
+import { SearchMeeting } from '../../../type-clyde/meeting/search';
 import MeetingExtraInfo from './MeetingExtraInfo';
 import NoResultsMeeting from './NoResultsMeeting';
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
@@ -28,7 +30,7 @@ const MeetingList = () => {
   const { category } = useParams();
   const categoryStr = Array.isArray(category) ? category[0] : category;
 
-  const [searchQuery, setSearchQuery] = useState<IMeetingSearchCondition>({
+  const [searchQuery, setSearchQuery] = useState<MeetingSearchCondition>({
     keyword: '',
     skillArray: [],
     sortField: 'CREATED',
@@ -64,7 +66,7 @@ const MeetingList = () => {
 
   // 필터 변경 핸들러
   const handleSearchOption = useCallback(
-    (newQuery: Partial<IMeetingSearchCondition>) => {
+    (newQuery: Partial<MeetingSearchCondition>) => {
       // 기존 키워드와 동일하다면 API 호출하지 않도록 처리
       setSearchQuery((prev) => {
         if (prev.keyword === newQuery.keyword) {
@@ -144,7 +146,9 @@ const MeetingList = () => {
         <Dropdown
           className="w-full md:w-[122px] lg:w-[122px]"
           options={filterOptions}
-          onChange={(value) => handleSearchOption({ sortField: value })}
+          onChange={(value) =>
+            handleSearchOption({ sortField: value as SortFieldType })
+          }
           trigger="생성순"
           variant="doubleArrow"
           sideOffset={8}

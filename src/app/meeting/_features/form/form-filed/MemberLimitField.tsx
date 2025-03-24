@@ -1,7 +1,7 @@
 import { Input } from '@/components/ui/Input';
 import { Users } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload } from 'type-clyde/meeting';
 
 import { memberLimitValidation } from '../validation';
 

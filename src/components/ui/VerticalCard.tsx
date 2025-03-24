@@ -4,7 +4,7 @@ import { translateCategoryNameToEng } from '@/util/searchFilter';
 import { Heart, Map } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { IMeetingSearchCondition } from 'types/meeting';
+import { MeetingSearchCondition } from 'type-clyde/meeting';
 
 import { Button } from './Button';
 import CardImage from './CardImage';
@@ -25,7 +25,7 @@ interface VerticalCardProps {
   onClick?: (id: number) => void;
   isLike?: boolean;
   showLikeButton?: boolean;
-  searchQuery?: IMeetingSearchCondition;
+  searchQuery?: MeetingSearchCondition;
   value: number;
   total: number;
   likesCount?: number;

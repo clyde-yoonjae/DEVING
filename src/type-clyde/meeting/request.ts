@@ -1,3 +1,5 @@
+import { ApiResponse } from 'type-clyde/common/api';
+
 export interface CreateMeetingPayload {
   meetingTitle: string;
   categoryTitle: string;
@@ -12,17 +14,14 @@ export interface CreateMeetingPayload {
   skillArray: string[];
 }
 
-// 수정용 타입
 export interface UpdateMeetingPayload
   extends Omit<CreateMeetingPayload, 'imageName' | 'imageEncodedBase64'> {
   imageName: string | null;
   imageEncodedBase64: string | null;
 }
 
-export interface CreateMeetingResponse {
-  statusCode: number;
-  data: {
-    meetingId: number;
-  };
-  timestamp: string;
+export interface MeetingResponseData {
+  meetingId: number;
 }
+
+export type CreateMeetingResponse = ApiResponse<MeetingResponseData>;

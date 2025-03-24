@@ -6,6 +6,7 @@ import { useUpdateProfileMutation } from '@/hooks/mutations/useMyPageMutation';
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
+import { UserBaseInfo } from 'type-clyde/user/profile';
 
 import {
   AGE_OPTIONS,
@@ -16,7 +17,6 @@ import {
   MAX_INTRO_LENGTH,
   POSITION_OPTIONS,
 } from '../../../../constants/mypage/mypageConstant';
-import { IFormData } from '../../../../types/mypageTypes';
 
 interface BasicEditProps {
   onEditComplete: () => void;
@@ -45,7 +45,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
     setValue,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<IFormData>({
+  } = useForm<UserBaseInfo>({
     defaultValues: {
       name: '',
       intro: '',
@@ -107,7 +107,7 @@ const BasicEdit = ({ onEditComplete }: BasicEditProps) => {
   }, [profileData, reset]);
 
   // 폼 제출 처리
-  const onSubmit = (data: IFormData) => {
+  const onSubmit = (data: UserBaseInfo) => {
     // 글자 수 검사 추가
     if (data.intro && data.intro.length > MAX_INTRO_LENGTH) {
       return;

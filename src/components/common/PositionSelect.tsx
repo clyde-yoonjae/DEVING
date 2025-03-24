@@ -1,35 +1,31 @@
 import Chip from '@/components/ui/Chip';
+import { POSITION_OPTIONS } from 'constants/mypage/mypageConstant';
+import { UserPosition } from 'type-clyde/auth/form';
 
 export const PositionSelect = ({
   position,
   setPosition,
 }: {
-  position: string;
-  setPosition: (value: string) => void;
+  position: UserPosition;
+  setPosition: (value: UserPosition) => void;
 }) => {
+  // '선택 안함' 옵션 제외하고 직무 옵션만 필터링 (필요한 경우)
+  const positionOptions = POSITION_OPTIONS.filter(
+    (option) => option.value !== '선택 안함',
+  );
+
   return (
     <div className="flex w-full gap-[8px]">
-      <Chip
-        className={`flex-1 hover:cursor-pointer`}
-        isActive={position === '프론트엔드'}
-        onClick={() => setPosition('프론트엔드')}
-      >
-        프론트엔드
-      </Chip>
-      <Chip
-        className={`flex-1 hover:cursor-pointer`}
-        isActive={position === '백엔드'}
-        onClick={() => setPosition('백엔드')}
-      >
-        백엔드
-      </Chip>
-      <Chip
-        className={`flex-1 hover:cursor-pointer`}
-        isActive={position === '디자이너'}
-        onClick={() => setPosition('디자이너')}
-      >
-        디자이너
-      </Chip>
+      {positionOptions.map((option) => (
+        <Chip
+          key={option.value}
+          className="flex-1 hover:cursor-pointer"
+          isActive={position === option.value}
+          onClick={() => setPosition(option.value)}
+        >
+          {option.label}
+        </Chip>
+      ))}
     </div>
   );
 };

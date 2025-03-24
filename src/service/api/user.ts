@@ -1,14 +1,11 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
-import { ISignupFormData } from 'types/auth';
+import { SignupFormData } from 'type-clyde/auth/form';
+import { LoginFormData } from 'type-clyde/auth/form';
 
-const postLogin = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
-  const res = await axiosInstance.post('/api/v1/auths/login', {
+import { authURL } from './endpoints';
+
+const postLogin = async ({ email, password }: LoginFormData) => {
+  const res = await axiosInstance.post(`${authURL.login}`, {
     email,
     password,
   });
@@ -17,24 +14,23 @@ const postLogin = async ({
 };
 
 const getNameCheck = async (name: string) => {
-  const res = await axiosInstance.get(`/api/v1/auths/signup/name?name=${name}`);
+  const res = await axiosInstance.get(`${authURL.checkName}${name}}`);
+
   return res;
 };
 
 const getEmailCheck = async (email: string) => {
-  const res = await axiosInstance.get(
-    `/api/v1/auths/signup/email?email=${email}`,
-  );
+  const res = await axiosInstance.get(`${authURL.checkEmail}${email}}`);
   return res;
 };
 
-const postSignup = async (data: ISignupFormData) => {
-  const res = await axiosInstance.post('/api/v1/auths/signup', data);
+const postSignup = async (data: SignupFormData) => {
+  const res = await axiosInstance.post(`${authURL.signup}`, data);
   return res;
 };
 
 const deleteLogout = async () => {
-  const res = await axiosInstance.delete('/api/v1/auths/logout');
+  const res = await axiosInstance.delete(`${authURL.logout}`);
   return res;
 };
 

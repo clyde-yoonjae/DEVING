@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { ILoginFormData } from 'types/auth';
+import { LoginFormData } from 'type-clyde/auth/form';
 
 import { useLoginMutation } from './mutations/useUserMutation';
 
@@ -11,7 +11,7 @@ const useLoginForm = () => {
     control,
     trigger,
     formState: { errors },
-  } = useForm<ILoginFormData>({
+  } = useForm<LoginFormData>({
     mode: 'onBlur',
   });
 
@@ -21,7 +21,7 @@ const useLoginForm = () => {
     onSuccessCallback: () => router.push('/'),
   });
 
-  const onSubmit = async (data: ILoginFormData) => {
+  const onSubmit = async (data: LoginFormData) => {
     mutate(data);
   };
 

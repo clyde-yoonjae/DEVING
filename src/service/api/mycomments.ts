@@ -1,6 +1,6 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
-import { Paginated } from 'types/meeting';
-import { MyComment } from 'types/myComment';
+import { Paginated } from 'type-clyde/common/pagination';
+import { MyComment } from 'type-clyde/meeting/comment';
 
 import { mypageURL } from './endpoints';
 

@@ -1,6 +1,6 @@
 import TechSelector from '@/components/ui/tech-stack/TechSelector';
 import { Controller, useFormContext } from 'react-hook-form';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload } from 'type-clyde/meeting';
 
 import { TECH_STACK_CONFIG, techStackValidation } from '../validation';
 

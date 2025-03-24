@@ -4,8 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useUpdatePasswordMutation } from '@/hooks/mutations/useMyPageMutation';
 import { useForm } from 'react-hook-form';
-
-import { IPasswordUpdateRequest } from '../../../../types/mypageTypes';
+import { PasswordUpdateRequest } from 'type-clyde/user/profile';
 
 interface PasswordEditProps {
   onEditComplete: () => void;
@@ -19,7 +18,7 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
     watch,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<IPasswordUpdateRequest>({
+  } = useForm<PasswordUpdateRequest>({
     defaultValues: {
       currentPassword: '',
       newPassword: '',
@@ -35,7 +34,7 @@ const PasswordEdit = ({ onEditComplete }: PasswordEditProps) => {
     useUpdatePasswordMutation();
 
   // 폼 제출 처리
-  const onSubmit = (data: IPasswordUpdateRequest) => {
+  const onSubmit = (data: PasswordUpdateRequest) => {
     // 비밀번호 일치 여부 확인
     if (data.newPassword !== data.passwordCheck) {
       setError('passwordCheck', {

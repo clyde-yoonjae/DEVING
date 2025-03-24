@@ -77,8 +77,9 @@ export const likesURL = {
 export const authURL = {
   signup: `${CURRENT_API_VERSION}/auths/signup`,
   login: `${CURRENT_API_VERSION}/auths/login`,
-  checkName: `${CURRENT_API_VERSION}/auths/signup/name`,
-  checkEmail: `${CURRENT_API_VERSION}/auths/signup/email`,
+  logout: `${CURRENT_API_VERSION}/auths/logout`,
+  checkName: `${CURRENT_API_VERSION}/auths/signup/name?name=`,
+  checkEmail: `${CURRENT_API_VERSION}/auths/signup/email?email=`,
 };
 
 export const URLs = {

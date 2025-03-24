@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/Input';
 import { useFormContext } from 'react-hook-form';
-import { CreateMeetingPayload } from 'types/meetingForm';
+import { CreateMeetingPayload } from 'type-clyde/meeting';
 
 import { meetingTitleValidation } from '../validation';
 

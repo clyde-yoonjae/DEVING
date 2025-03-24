@@ -6,9 +6,9 @@ import useDebounce from '@/hooks/useDebounde';
 import { emailValidation } from '@/util/validation';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
-import { IInputProps, ISignupFormData } from 'types/auth';
+import { InputProps, SignupFormData } from 'type-clyde/auth/form';
 
-export interface IEmailInputProps extends IInputProps<ISignupFormData> {
+export interface IEmailInputProps extends InputProps<SignupFormData> {
   isEmailCheck: boolean;
   handleEmailCheck: () => void;
   setIsEmailCheck: Dispatch<SetStateAction<boolean>>;

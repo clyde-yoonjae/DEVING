@@ -7,13 +7,10 @@ import {
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query';
-import {
-  Comment,
-  getCommentsCount,
-  getCommentsMeeting,
-} from 'service/api/comment';
+import { getCommentsCount, getCommentsMeeting } from 'service/api/comment';
 import { getMeetingDetail, getMeetingDetailManager } from 'service/api/meeting';
-import { Paginated } from 'types/meeting';
+import { Paginated } from 'type-clyde/common/pagination';
+import { Comment } from 'type-clyde/meeting/comment';
 
 import CardWrapper from '../../_features/CardWrapper';
 import ContentLabel from '../../_features/ContextLabel';

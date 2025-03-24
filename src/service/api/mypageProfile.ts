@@ -1,21 +1,20 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
 import { fileToBase64 } from '@/util/imageBase64';
-import { IBanner } from 'types/myMeeting';
-
+import { Banner } from 'type-clyde/meeting/banner';
 import {
-  IContactInfoUpdateRequest,
-  IContactInfoUpdateResponse,
-  IPasswordUpdateRequest,
-  IPasswordUpdateResponse,
-  IProfileImageUpdateRequest,
-  IProfileImageUpdateResponse,
-  IProfileResponse,
-  IProfileUpdateRequest,
-  IProfileUpdateResponse,
-} from '../../types/mypageTypes';
+  ContactInfo,
+  ContactInfoUpdateResponse,
+  PasswordUpdateRequest,
+  PasswordUpdateResponse,
+  ProfileImageUpdateRequest,
+  ProfileImageUpdateResponse,
+  ProfileResponse,
+  ProfileUpdateResponse,
+  UserBaseInfo,
+} from 'type-clyde/user/profile';
 
 // 프로필 조회 API 함수 (통합된 엔드포인트)
-export const getProfile = async (): Promise<IProfileResponse> => {
+export const getProfile = async (): Promise<ProfileResponse> => {
   try {
     const response = await axiosInstance.get('/api/v1/mypage/profile');
     return response.data;
@@ -26,8 +25,8 @@ export const getProfile = async (): Promise<IProfileResponse> => {
 
 // 프로필 업데이트 API 함수
 export const updateProfile = async (
-  profileData: IProfileUpdateRequest,
-): Promise<IProfileUpdateResponse> => {
+  profileData: UserBaseInfo,
+): Promise<ProfileUpdateResponse> => {
   try {
     const response = await axiosInstance.put(
       '/api/v1/mypage/profile',
@@ -41,8 +40,8 @@ export const updateProfile = async (
 
 // 연락 수단 정보 업데이트 API 함수
 export const updateContactInfo = async (
-  contactData: IContactInfoUpdateRequest,
-): Promise<IContactInfoUpdateResponse> => {
+  contactData: ContactInfo,
+): Promise<ContactInfoUpdateResponse> => {
   try {
     const response = await axiosInstance.put(
       '/api/v1/mypage/contact',
@@ -57,13 +56,13 @@ export const updateContactInfo = async (
 // 프로필 이미지 업데이트 API 함수
 export const updateProfileImage = async (
   file: File,
-): Promise<IProfileImageUpdateResponse> => {
+): Promise<ProfileImageUpdateResponse> => {
   try {
     // 파일을 Base64로 변환
     const base64 = await fileToBase64(file);
 
     // 요청 데이터 구성
-    const requestData: IProfileImageUpdateRequest = {
+    const requestData: ProfileImageUpdateRequest = {
       profilePicBase64: base64,
       profilePicName: file.name,
     };
@@ -80,8 +79,8 @@ export const updateProfileImage = async (
 
 // 비밀번호 업데이트 API 함수
 export const updatePassword = async (
-  passwordData: IPasswordUpdateRequest,
-): Promise<IPasswordUpdateResponse> => {
+  passwordData: PasswordUpdateRequest,
+): Promise<PasswordUpdateResponse> => {
   try {
     const response = await axiosInstance.put(
       '/api/v1/mypage/password',
@@ -96,7 +95,7 @@ export const updatePassword = async (
 // 기술 스택 업데이트 API 함수
 export const updateSkills = async (
   skillArray: string[],
-): Promise<IProfileUpdateResponse> => {
+): Promise<ProfileUpdateResponse> => {
   try {
     const response = await axiosInstance.post('/api/v1/mypage/skills', {
       skillArray,
@@ -108,7 +107,7 @@ export const updateSkills = async (
 };
 
 // 배너 정보 불러오기
-export const getBanner = async (): Promise<IBanner | null> => {
+export const getBanner = async (): Promise<Banner | null> => {
   try {
     const res = await axiosInstance.get('/api/v1/mypage/banner');
     return res.data.data;

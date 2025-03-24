@@ -4,7 +4,7 @@ import { translateCategoryNameToEng } from '@/util/searchFilter';
 import { ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { IMyMeetingPending } from 'types/myMeeting';
+import { MyMeetingPending } from 'type-clyde/meeting/myMeeting';
 
 import PendingStatusChip from './PendingStatusChip';
 import MeetingListSkeleton from './skeletons/SkeletonMeetingList';
@@ -21,10 +21,10 @@ const PendingSection = () => {
     isLoading,
   } = useInfiniteMyMeetingPendingQueries();
 
-  const getMeetingDetailUrl = (meeting: IMyMeetingPending) =>
+  const getMeetingDetailUrl = (meeting: MyMeetingPending) =>
     `/meeting/${translateCategoryNameToEng(meeting.categoryTitle)}/${meeting.meetingId}`;
 
-  const handleCardClick = (meeting: IMyMeetingPending) => {
+  const handleCardClick = (meeting: MyMeetingPending) => {
     router.push(getMeetingDetailUrl(meeting));
   };
 

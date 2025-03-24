@@ -3,9 +3,9 @@ import TechButton from '@/components/ui/tech-stack/tech-stack-components/TechBut
 import { getIconComponent } from '@/util/getIconDetail';
 import Image from 'next/image';
 import React from 'react';
-import { IMemberProfile } from 'types/myMeeting';
+import { MemberProfile } from 'type-clyde/meeting';
 
-const ModalProfile = ({ user }: { user: IMemberProfile }) => {
+const ModalProfile = ({ user }: { user: MemberProfile }) => {
   return (
     <div className="p-4">
       <div className="mb-4 flex gap-4">

@@ -1,6 +1,8 @@
-import { CategoryTitle } from 'types/meeting';
+import { CategoryTitle } from 'type-clyde/meeting';
 
-export const filterOptions = [
+import { SortFieldType } from '../type-clyde/common/pagination';
+
+export const filterOptions: Array<{ value: SortFieldType; label: string }> = [
   {
     value: 'CREATED',
     label: '생성순',

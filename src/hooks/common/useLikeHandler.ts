@@ -10,20 +10,18 @@ import {
 import { InfiniteData, QueryKey, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useParams, usePathname } from 'next/navigation';
-import {
-  ErrorData,
-  IMeetingSearchCondition,
-  Paginated,
-  SearchMeeting,
-  TopMeeting,
-} from 'types/meeting';
+import { ErrorResponse } from 'type-clyde/common/error';
+import { Paginated } from 'type-clyde/common/pagination';
+import { MeetingSearchCondition } from 'type-clyde/meeting';
+import { SearchMeeting } from 'type-clyde/meeting';
+import { TopMeeting } from 'type-clyde/meeting/response';
 
 import { myMeetingKeys } from '../queries/useMyMeetingQueries';
 
 interface UseLikeHandlerProps {
   meetingId: number;
   category: string;
-  searchQuery?: IMeetingSearchCondition;
+  searchQuery?: MeetingSearchCondition;
   onAuthRequired?: () => void;
 }
 
@@ -134,7 +132,7 @@ const useLikeHandler = ({
     onSuccess: () => {
       showToast('찜한 모임에 추가되었습니다!', 'success', { duration: 2000 });
     },
-    onError: (err: AxiosError<ErrorData>) => {
+    onError: (err: AxiosError<ErrorResponse>) => {
       // 에러 상태에 따른 예외처리
       if (
         err.status === 403 &&
@@ -223,7 +221,7 @@ const useLikeHandler = ({
     onSuccess: () => {
       showToast('찜한 모임에서 삭제되었습니다!', 'success', { duration: 2000 });
     },
-    onError: (err: AxiosError<ErrorData>) => {
+    onError: (err: AxiosError<ErrorResponse>) => {
       console.log(err);
       // 에러 상태에 따른 예외처리
       if (
