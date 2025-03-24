@@ -1,7 +1,6 @@
 import { Code, Compass, Mars, Paintbrush, Venus, X } from 'lucide-react';
-
-import { UserPosition } from '../../type-clyde/auth/acount';
-import { IIconProps } from '../../types/mypageTypes';
+import { UserPosition } from 'type-clyde/auth/form';
+import { IIconProps } from 'type-clyde/user/profile';
 
 // 탭 타입 상수
 export const TAB_TYPES = {

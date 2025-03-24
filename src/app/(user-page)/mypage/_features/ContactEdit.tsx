@@ -6,8 +6,7 @@ import { useUpdateContactInfoMutation } from '@/hooks/mutations/useMyPageMutatio
 import { useProfileQuery } from '@/hooks/queries/useMyPageQueries';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-
-import { IContactInfoUpdateRequest } from '../../../../types/mypageTypes';
+import { ContactInfo } from 'type-clyde/user/profile';
 
 interface ContactEditProps {
   onEditComplete: () => void;
@@ -20,7 +19,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<IContactInfoUpdateRequest>({
+  } = useForm<ContactInfo>({
     defaultValues: {
       phone: '',
       kakao: '',
@@ -55,7 +54,7 @@ const ContactEdit = ({ onEditComplete }: ContactEditProps) => {
   }, [profileData, reset]);
 
   // 폼 제출 처리
-  const onSubmit = (data: IContactInfoUpdateRequest) => {
+  const onSubmit = (data: ContactInfo) => {
     updateContact(data, {
       onSuccess: () => {
         onEditComplete();

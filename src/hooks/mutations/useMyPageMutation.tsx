@@ -1,6 +1,8 @@
 import { useToast } from '@/components/common/ToastContext';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { ErrorResponse } from 'type-clyde/common/error';
+import { ProfileResponse } from 'type-clyde/user/profile';
 
 import {
   getBanner,
@@ -10,7 +12,6 @@ import {
   updateProfileImage,
   updateSkills,
 } from '../../service/api/mypageProfile';
-import { ErrorResponse, IProfileResponse } from '../../types/mypageTypes';
 import { QUERY_KEYS } from '../queries/useMyPageQueries';
 
 // 프로필 정보 업데이트 커스텀 훅
@@ -28,7 +29,7 @@ export const useUpdateProfileMutation = () => {
       await queryClient.cancelQueries({ queryKey: QUERY_KEYS.banner() });
 
       // 현재 캐시 저장
-      const previousData = queryClient.getQueryData<IProfileResponse>(
+      const previousData = queryClient.getQueryData<ProfileResponse>(
         QUERY_KEYS.profile(),
       );
 
@@ -37,7 +38,7 @@ export const useUpdateProfileMutation = () => {
 
       if (previousData) {
         // 캐시 업데이트
-        queryClient.setQueryData<IProfileResponse>(QUERY_KEYS.profile(), {
+        queryClient.setQueryData<ProfileResponse>(QUERY_KEYS.profile(), {
           ...previousData,
           data: {
             ...previousData.data,
@@ -111,12 +112,12 @@ export const useUpdateContactInfoMutation = () => {
     onMutate: async (newContactData) => {
       await queryClient.cancelQueries({ queryKey: QUERY_KEYS.profile() });
 
-      const previousData = queryClient.getQueryData<IProfileResponse>(
+      const previousData = queryClient.getQueryData<ProfileResponse>(
         QUERY_KEYS.profile(),
       );
 
       if (previousData) {
-        queryClient.setQueryData<IProfileResponse>(QUERY_KEYS.profile(), {
+        queryClient.setQueryData<ProfileResponse>(QUERY_KEYS.profile(), {
           ...previousData,
           data: {
             ...previousData.data,
@@ -168,7 +169,7 @@ export const useUpdateProfileImageMutation = () => {
       await queryClient.cancelQueries({ queryKey: QUERY_KEYS.profile() });
       await queryClient.cancelQueries({ queryKey: QUERY_KEYS.banner() });
 
-      const previousData = queryClient.getQueryData<IProfileResponse>(
+      const previousData = queryClient.getQueryData<ProfileResponse>(
         QUERY_KEYS.profile(),
       );
 
@@ -179,7 +180,7 @@ export const useUpdateProfileImageMutation = () => {
       const tempUrl = URL.createObjectURL(file);
 
       if (previousData) {
-        queryClient.setQueryData<IProfileResponse>(QUERY_KEYS.profile(), {
+        queryClient.setQueryData<ProfileResponse>(QUERY_KEYS.profile(), {
           ...previousData,
           data: {
             ...previousData.data,
@@ -258,9 +259,9 @@ export const useUpdatePasswordMutation = () => {
       const errorData = error.response?.data;
 
       const isPasswordMismatch =
-        errorData?.message?.includes('password') ||
-        errorData?.code === 'INVALID_PASSWORD' ||
-        errorData?.message?.includes('비밀번호');
+        errorData?.data?.errorMessage === 'BAD REQUEST' &&
+        (errorData?.data?.request === 'Password does not match' ||
+          errorData?.data?.request === 'Current password does not match');
 
       if (isPasswordMismatch) {
         // 기타 오류에 대한 일반적인 메시지
@@ -285,12 +286,12 @@ export const useUpdateSkillsMutation = () => {
     onMutate: async (newSkills) => {
       await queryClient.cancelQueries({ queryKey: QUERY_KEYS.profile() });
 
-      const previousData = queryClient.getQueryData<IProfileResponse>(
+      const previousData = queryClient.getQueryData<ProfileResponse>(
         QUERY_KEYS.profile(),
       );
 
       if (previousData) {
-        queryClient.setQueryData<IProfileResponse>(QUERY_KEYS.profile(), {
+        queryClient.setQueryData<ProfileResponse>(QUERY_KEYS.profile(), {
           ...previousData,
           data: {
             ...previousData.data,

@@ -18,6 +18,7 @@ import { keepPreviousData } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
+import { SortFieldType } from 'type-clyde/common/pagination';
 import type { SearchMeeting } from 'types/meeting';
 
 import { IMeetingSearchCondition } from '../../../type-clyde/meeting/search';
@@ -145,7 +146,9 @@ const MeetingList = () => {
         <Dropdown
           className="w-full md:w-[122px] lg:w-[122px]"
           options={filterOptions}
-          onChange={(value) => handleSearchOption({ sortField: value })}
+          onChange={(value) =>
+            handleSearchOption({ sortField: value as SortFieldType })
+          }
           trigger="생성순"
           variant="doubleArrow"
           sideOffset={8}

@@ -1,7 +1,7 @@
 import RatingStars from '@/components/common/review/RatingStars';
 import { getRelativeTime } from '@/util/date';
 import Image from 'next/image';
-import { Comment } from 'service/api/comment';
+import { Comment } from 'type-clyde/meeting/comment';
 
 interface ReviewItemProps {
   className?: string;

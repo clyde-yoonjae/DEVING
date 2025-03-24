@@ -1,5 +1,6 @@
+import { ContactInfo } from 'type-clyde/user/profile';
+
 import { CategoryTitle } from './meeting';
-import { IContactResponse } from './mypageTypes';
 
 interface Member {
   userId: number;
@@ -81,7 +82,7 @@ interface IUserProfile {
   age: string;
   location: string;
   skillArray: string[];
-  contactResponse: IContactResponse;
+  contactResponse: ContactInfo;
 }
 
 interface IMemberProfile extends IUserProfile {
