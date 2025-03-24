@@ -5,12 +5,13 @@ import {
   getMeetings,
   getTopMeetings,
 } from 'service/api/meeting';
-import type { CategoryTitle, IMeetingSearchCondition } from 'types/meeting';
+import { MeetingSearchCondition } from 'type-clyde/meeting';
+import { CategoryTitle } from 'type-clyde/meeting';
 
 // 검색 쿼리 객체 기술 스킬 정렬
 const getSortedSearchQuery = (
-  searchQueryObj: IMeetingSearchCondition,
-): IMeetingSearchCondition => ({
+  searchQueryObj: MeetingSearchCondition,
+): MeetingSearchCondition => ({
   ...searchQueryObj,
   skillArray: [...searchQueryObj.skillArray].sort(),
 });
@@ -18,14 +19,14 @@ const getSortedSearchQuery = (
 // 모임 쿼리키
 const MEETING_QUERY_KEYS = {
   topMeetings: (category: string) => ['topMeetings', category] as const,
-  meetings: (category: string, searchQueryObj: IMeetingSearchCondition) => {
+  meetings: (category: string, searchQueryObj: MeetingSearchCondition) => {
     const sortedSearchQueryObj = getSortedSearchQuery(searchQueryObj);
     return ['meetings', category, sortedSearchQueryObj] as const;
   },
   meetingId: (
     id: string,
     category: string,
-    searchQueryObj: IMeetingSearchCondition,
+    searchQueryObj: MeetingSearchCondition,
   ) =>
     [
       ...MEETING_QUERY_KEYS.meetings(
@@ -48,7 +49,7 @@ const useTopMeetings = (category: CategoryTitle, options = {}) => {
 // 모임 리스트
 const useInfiniteSearchMeetings = (
   category: CategoryTitle,
-  searchQueryObj: IMeetingSearchCondition,
+  searchQueryObj: MeetingSearchCondition,
   option = {},
 ) => {
   return useInfiniteQuery({

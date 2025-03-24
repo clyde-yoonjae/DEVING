@@ -4,7 +4,7 @@ import { translateCategoryNameToEng } from '@/util/searchFilter';
 import { Heart, Map } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { IMeetingSearchCondition } from 'types/meeting';
+import { MeetingSearchCondition } from 'type-clyde/meeting';
 
 import { Button } from './Button';
 import CardImage from './CardImage';
@@ -25,7 +25,7 @@ interface HorizonCardProps {
   thumbnailWidth?: number;
   thumbnailHeight?: number;
   onClick?: (id: number) => void;
-  searchQuery?: IMeetingSearchCondition;
+  searchQuery?: MeetingSearchCondition;
   showLikeButton?: boolean;
   isLike?: boolean;
   likesCount?: number;

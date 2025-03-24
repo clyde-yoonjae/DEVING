@@ -9,7 +9,7 @@ import {
 } from '@/util/searchFilter';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import type { TopMeeting } from 'types/meeting';
+import { TopMeeting } from 'type-clyde/meeting/response';
 
 import RecommendMeetingSkeleton from './skeleton/RecommentMeetingSkeleton';
 

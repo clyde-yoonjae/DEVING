@@ -5,16 +5,6 @@ export interface TopMeeting extends MeetingBase {
   likesCount: number;
 }
 
-export interface SearchMeeting extends MeetingBase {
-  meetingTitle: string;
-  startDate: string;
-  meetingSkillArray: string[];
-  name: string;
-  profilePic: string;
-  isLike: boolean;
-  likesCount: number;
-}
-
 export interface CreateMeetingResponse {
   meetingId: number;
 }

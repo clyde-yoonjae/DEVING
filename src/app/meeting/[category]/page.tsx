@@ -10,7 +10,8 @@ import { MEETING_TYPES } from 'constants/meeting-form/meetingConstants';
 import { notFound } from 'next/navigation';
 import { getMeetings, getTopMeetings } from 'service/api/meeting';
 import { Paginated } from 'type-clyde/common/pagination';
-import { SearchMeeting } from 'types/meeting';
+import { SortFieldType } from 'type-clyde/common/pagination';
+import { SearchMeeting } from 'type-clyde/meeting';
 
 import MeetingList from '../_features/MeetingList';
 import RecommendMeeting from '../_features/RecommendMeeting';
@@ -23,7 +24,7 @@ async function MeetingListPage({ params }: { params: { category: string } }) {
   const initialSearchQueryObj = {
     keyword: '',
     skillArray: [],
-    sortField: 'CREATED',
+    sortField: 'CREATED' as SortFieldType,
     lastMeetingId: 0,
     size: 4,
   };

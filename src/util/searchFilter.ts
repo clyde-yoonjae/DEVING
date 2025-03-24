@@ -1,4 +1,4 @@
-import { CategoryTitle } from 'types/meeting';
+import { CategoryTitle } from 'type-clyde/meeting';
 
 import { SortFieldType } from '../type-clyde/common/pagination';
 

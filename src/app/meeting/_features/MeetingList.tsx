@@ -19,9 +19,9 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
 import { SortFieldType } from 'type-clyde/common/pagination';
-import type { SearchMeeting } from 'types/meeting';
 
-import { IMeetingSearchCondition } from '../../../type-clyde/meeting/search';
+import { MeetingSearchCondition } from '../../../type-clyde/meeting/search';
+import { SearchMeeting } from '../../../type-clyde/meeting/search';
 import MeetingExtraInfo from './MeetingExtraInfo';
 import NoResultsMeeting from './NoResultsMeeting';
 import MeetingListSkeleton from './skeleton/MeetingListSkeleton';
@@ -30,7 +30,7 @@ const MeetingList = () => {
   const { category } = useParams();
   const categoryStr = Array.isArray(category) ? category[0] : category;
 
-  const [searchQuery, setSearchQuery] = useState<IMeetingSearchCondition>({
+  const [searchQuery, setSearchQuery] = useState<MeetingSearchCondition>({
     keyword: '',
     skillArray: [],
     sortField: 'CREATED',
@@ -66,7 +66,7 @@ const MeetingList = () => {
 
   // 필터 변경 핸들러
   const handleSearchOption = useCallback(
-    (newQuery: Partial<IMeetingSearchCondition>) => {
+    (newQuery: Partial<MeetingSearchCondition>) => {
       // 기존 키워드와 동일하다면 API 호출하지 않도록 처리
       setSearchQuery((prev) => {
         if (prev.keyword === newQuery.keyword) {

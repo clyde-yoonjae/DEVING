@@ -1,11 +1,9 @@
 import axiosInstance from '@/lib/axios/axiosInstance';
 import { Paginated } from 'type-clyde/common/pagination';
-import type {
-  CategoryTitle,
-  IMeetingSearchCondition,
-  SearchMeeting,
-  TopMeeting,
-} from 'types/meeting';
+import { MeetingSearchCondition } from 'type-clyde/meeting';
+import { SearchMeeting } from 'type-clyde/meeting';
+import { CategoryTitle } from 'type-clyde/meeting';
+import { TopMeeting } from 'type-clyde/meeting/response';
 
 import { likesURL, meetingURL, memberURL, myMeetingURL } from './endpoints';
 
@@ -22,7 +20,7 @@ const getTopMeetings = async (
 const getMeetings = async (
   pageParams: number,
   category: CategoryTitle,
-  searchQueryObj: IMeetingSearchCondition,
+  searchQueryObj: MeetingSearchCondition,
 ): Promise<Paginated<SearchMeeting>> => {
   const newSearchQueryObj = { ...searchQueryObj, lastMeetingId: pageParams };
   const res = await axiosInstance.post(
