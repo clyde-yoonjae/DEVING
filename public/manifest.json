@@ -1,0 +1,31 @@
+{
+  "name": "Deving-together",
+  "short_name": "Deving",
+  "description": "개발자들과 디자이너들의 교류를 위한 공간입니다",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/icons/logo_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/logo_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/logo_384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/logo_256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}

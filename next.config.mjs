@@ -1,3 +1,12 @@
+import NextPWA from 'next-pwa';
+
+const withPWA = NextPWA({
+  dest: 'public',
+  disable: false, // 개발 환경에서도 PWA 사용 가능하도록 설정
+  register: true,
+  skipWaiting: true,
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -41,8 +50,8 @@ const nextConfig = {
 
     return config;
   },
-  reactStrictMode: false, // 추가
-  transpilePackages: ['@fullpage/react-fullpage'], // 추가
+  reactStrictMode: false,
+  transpilePackages: ['@fullpage/react-fullpage'],
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);
