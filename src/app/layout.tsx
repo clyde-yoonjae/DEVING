@@ -4,7 +4,7 @@ import { ToastProvider } from '@/components/common/ToastContext';
 import ReactQueryProviders from '@/hooks/useReactQuery';
 import axiosInstance from '@/lib/axios/axiosInstance';
 import { AxiosError } from 'axios';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 
 import '../styles/globals.css';
@@ -15,6 +15,21 @@ export const metadata: Metadata = {
   icons: {
     icon: '/logo.svg',
   },
+  manifest: '/manifest.json',
+  applicationName: 'Deving-together',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Deving',
+  },
+};
+
+// 새로운 viewport 설정 추가
+export const viewport: Viewport = {
+  themeColor: '#000000',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 const pretendard = localFont({
@@ -47,6 +62,10 @@ export default async function RootLayout({
 
   return (
     <html lang="ko" className={pretendard.variable}>
+      <head>
+        {/* Apple 기기를 위한 추가 메타 태그 */}
+        <link rel="apple-touch-icon" href="/icons/logo_192.png" />
+      </head>
       <body className="bg-BG">
         <ReactQueryProviders>
           <ToastProvider>
