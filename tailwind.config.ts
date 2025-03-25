@@ -128,6 +128,25 @@ export default {
         '80%': { transform: 'scale(0.95)' },
         '100%': { transform: 'scale(1)' },
       },
+      // PWA 설치 UI를 위한 추가 애니메이션
+      slideUpInstall: {
+        '0%': { transform: 'translateY(100%)', opacity: '0' },
+        '100%': { transform: 'translateY(0)', opacity: '1' },
+      },
+      pulse: {
+        '0%, 100%': { opacity: '1' },
+        '50%': { opacity: '0.5' },
+      },
+      bounce: {
+        '0%, 100%': {
+          transform: 'translateY(-25%)',
+          animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+        },
+        '50%': {
+          transform: 'translateY(0)',
+          animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+        },
+      },
     },
     animation: {
       fadeIn: 'fadeIn 0.5s ease-out forwards',
@@ -135,6 +154,10 @@ export default {
       slideUp: 'slideUp 0.5s ease-out forwards',
       slideDown: 'slideDown 0.5s ease-out forwards',
       heartbeat: 'heartbeat 0.5s ease-out',
+      // PWA 설치 UI를 위한 추가 애니메이션
+      slideUpInstall: 'slideUpInstall 0.3s ease-out forwards',
+      pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      bounce: 'bounce 1s infinite',
     },
   },
   plugins: [
