@@ -234,7 +234,7 @@ const Header = ({ userInfo: initialUserInfo }: { userInfo?: Banner }) => {
       <div
         className={`fixed right-0 z-50 h-screen w-screen transform cursor-default overflow-x-hidden bg-BG px-[24px] transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
-        } md:hidden`}
+        } top-20 md:hidden`}
         role="button"
         tabIndex={0}
         onClick={() => setIsOpen(false)}
