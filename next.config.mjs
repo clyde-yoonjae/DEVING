@@ -2,7 +2,7 @@ import NextPWA from 'next-pwa';
 
 const withPWA = NextPWA({
   dest: 'public',
-  disable: false, // 개발 환경에서도 PWA 사용 가능하도록 설정
+  disable: process.env.NODE_ENV === 'development', // 개발 환경에서는 비활성화
   register: true,
   skipWaiting: true,
 });
