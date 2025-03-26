@@ -14,13 +14,13 @@ const postLogin = async ({ email, password }: LoginFormData) => {
 };
 
 const getNameCheck = async (name: string) => {
-  const res = await axiosInstance.get(`${authURL.checkName}${name}}`);
+  const res = await axiosInstance.get(`${authURL.checkName}${name}`);
 
   return res;
 };
 
 const getEmailCheck = async (email: string) => {
-  const res = await axiosInstance.get(`${authURL.checkEmail}${email}}`);
+  const res = await axiosInstance.get(`${authURL.checkEmail}${email}`);
   return res;
 };
 
